@@ -1,0 +1,19 @@
+*.class
+
+*.pdf
+*.pdf.tmp
+
+.DS_Store
+
+# Package Files #
+*.jar
+*.war
+*.ear
+tmp/
+target/
+cucumber-contrib.iml
+.classpath
+.project
+.settings/
+.idea/
+*.iml
