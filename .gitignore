@@ -17,3 +17,4 @@ cucumber-contrib.iml
 .settings/
 .idea/
 *.iml
+.sass-cache/
