@@ -35,7 +35,7 @@ public class JsonEmitterReport extends ExecutionReport {
                 outFile.getParentFile().mkdirs();
                 writer = new FileWriter(outFile);
                 log.info("Generating json at {}", outFile.getAbsolutePath());
-                writer.append("[");
+                writer.append("{\"features\": [\n");
             } catch (IOException ioe) {
                 throw new ReportException(ioe);
             }
@@ -63,7 +63,7 @@ public class JsonEmitterReport extends ExecutionReport {
     @Override
     public void close() {
         try {
-            writer.append("]");
+            writer.append("]\n}");
             log.info("Json generated at {}", outFile.getAbsolutePath());
             writer.close();
         } catch (IOException e) {

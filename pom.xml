@@ -16,6 +16,8 @@
 
     <modules>
         <module>tzatziki-core</module>
+        <module>tzatziki-xls</module>
+        <module>tzatziki-pdf</module>
     </modules>
 
     <licenses>

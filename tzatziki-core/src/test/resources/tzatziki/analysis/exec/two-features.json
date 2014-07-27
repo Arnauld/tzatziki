@@ -1,0 +1,137 @@
+{"features": [
+    {
+        "uri": "tzatziki/features/sample/countries.feature",
+        "keyword": "Feature",
+        "name": "Countries and provinces",
+        "backgroundExec": {
+            "keyword": "Background",
+            "name": "",
+            "steps": [
+                {
+                    "keyword": "Given ",
+                    "name": "I am logged in as administrator",
+                    "comments": [],
+                    "embeddedList": []
+                },
+                {
+                    "keyword": "And ",
+                    "name": "there are following countries:",
+                    "resultExec": {
+                        "status": "undefined"
+                    },
+                    "matchExec": {
+                        "arguments": []
+                    },
+                    "comments": [],
+                    "embeddedList": []
+                }
+            ],
+            "tags": [],
+            "comments": [],
+            "description": "",
+            "embeddedList": []
+        },
+        "stepContainerList": [
+            {
+                "keyword": "Scenario",
+                "name": "Seeing index of all countries",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "I am on the dashboard page",
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I follow \"Countries\"",
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "I should be on the country index page",
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "And ",
+                        "name": "I should see 3 countries in the list",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            }
+        ],
+        "tags": [
+            "@addressing",
+            "@select"
+        ],
+        "comments": [],
+        "description": "  In order to create tax and shipping zones\n  As a store owner\n  I want to be able to manage countries and their provinces"
+    },
+    {
+        "uri": "tzatziki/features/sample/game-of-life.feature",
+        "keyword": "Feature",
+        "name": "The game of life should...",
+        "stepContainerList": [
+            {
+                "keyword": "Scenario",
+                "name": "Cell has no neighbors",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "Cell is alive",
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "And ",
+                        "name": "Cell has \"0\" neighbors",
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I go to the next generation",
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "Cell should be dead",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@underpopulation"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            }
+        ],
+        "tags": [
+            "@noui"
+        ],
+        "comments": [],
+        "description": "1. Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.\n2. Any live cell with more than three live neighbours dies, as if by overcrowding.\n3. Any live cell with two or three live neighbours lives on to the next generation.\n4. Any dead cell with exactly three live neighbours becomes a live cell."
+    }]
+}
