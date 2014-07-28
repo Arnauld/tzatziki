@@ -13,7 +13,7 @@
                         "name": "I order a \"Tea\" with 1 sugar",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 286514000
+                            "duration": 182182000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -30,7 +30,7 @@
                         "name": "the instruction generated should be \"T:1:0\"",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 6842000
+                            "duration": 7340000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -78,7 +78,8 @@
                     "#----"
                 ],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario",
@@ -89,7 +90,7 @@
                         "name": "I order a \"Chocolate\" with 0 sugar",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 565000
+                            "duration": 467000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -106,7 +107,7 @@
                         "name": "the instruction generated should be \"H::\"",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 220000
+                            "duration": 173000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -123,7 +124,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario",
@@ -134,7 +136,7 @@
                         "name": "I order a \"Coffee\" with 2 sugar",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 478000
+                            "duration": 1897000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -151,7 +153,7 @@
                         "name": "the instruction generated should be \"C:2:0\"",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 205000
+                            "duration": 217000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -168,7 +170,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario Outline",
@@ -179,7 +182,7 @@
                         "name": "the message \"Hello\" is sent",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 517000
+                            "duration": 295000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_message_is_sent(String)",
@@ -195,7 +198,7 @@
                         "name": "the instruction generated should be \"M:Hello\"",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 243000
+                            "duration": 123000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -212,7 +215,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario Outline",
@@ -224,7 +228,7 @@
                         "resultExec": {
                             "status": "failed",
                             "errorMessage": "java.lang.IllegalArgumentException\n\tat samples.coffeemachine.Gateway.publish(Gateway.java:38)\n\tat samples.coffeemachine.TakeOrderSteps.the_message_is_sent(TakeOrderSteps.java:46)\n\tat ✽.When the message \"Not enough money\" is sent(samples/coffeemachine/01-making-drinks.feature:53)\n",
-                            "duration": 921000
+                            "duration": 597000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_message_is_sent(String)",
@@ -256,7 +260,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             }
         ],
         "tags": [],
@@ -333,7 +338,8 @@
                     "#"
                 ],
                 "description": "\nThe drink maker should make the drinks only if the correct amount of money is given",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario",
@@ -388,7 +394,8 @@
                 ],
                 "comments": [],
                 "description": "\nIf not enough money is provided, we want to send a message to the drink maker.\nThe message should contains at least the amount of money missing.",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario",
@@ -399,7 +406,7 @@
                         "name": "I\u0027ve inserted 2€ in the machine",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 1475000
+                            "duration": 990000
                         },
                         "matchExec": {
                             "location": "MoneySteps.I_ve_inserted_€_in_the_machine(BigDecimal)",
@@ -415,7 +422,7 @@
                         "name": "I order a \"Coffee\" with 0 sugar",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 545000
+                            "duration": 660000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -432,7 +439,7 @@
                         "name": "the instruction generated should be \"C::\"",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 233000
+                            "duration": 190000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -449,7 +456,8 @@
                 ],
                 "comments": [],
                 "description": "\nIf too much money is given, the drink maker will still make the drink according\nto the instructions. The machine will handle the return of the correct change.",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario Outline",
@@ -504,7 +512,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario Outline",
@@ -559,7 +568,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario Outline",
@@ -614,7 +624,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             }
         ],
         "tags": [],
@@ -636,7 +647,7 @@
                         "resultExec": {
                             "status": "failed",
                             "errorMessage": "java.lang.AssertionError: Extra hot is forbidden in summer!\n\tat samples.coffeemachine.TakeOrderSteps.I_order_an_extra_hot_with_sugar(TakeOrderSteps.java:41)\n\tat ✽.When I order an extra hot \"Tea\" with 1 sugar(samples/coffeemachine/03-extra-hot.feature:12)\n",
-                            "duration": 6306000
+                            "duration": 5824000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_an_extra_hot_with_sugar(String,int)",
@@ -675,7 +686,8 @@
                     "#  **I want to** be able to make orange juice and to deliver extra hot drinks"
                 ],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario",
@@ -686,7 +698,7 @@
                         "name": "I order an \"Orange Juice\"",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 474000
+                            "duration": 399000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_an(String)",
@@ -702,7 +714,7 @@
                         "name": "the instruction generated should be \"O::\"",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 367000
+                            "duration": 248000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -719,7 +731,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario",
@@ -730,7 +743,7 @@
                         "name": "I order an \"Orange Juice\" with 1 sugar",
                         "resultExec": {
                             "status": "passed",
-                            "duration": 481000
+                            "duration": 722000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -748,7 +761,7 @@
                         "resultExec": {
                             "status": "failed",
                             "errorMessage": "Argument(s) are different! Wanted:\ndrinkMaker.executeCommand(\"O::\");\n-\u003e at samples.coffeemachine.TakeOrderSteps.the_instruction_generated_should_be(TakeOrderSteps.java:51)\nActual invocation has different arguments:\ndrinkMaker.executeCommand(\"O:1:0\");\n-\u003e at samples.coffeemachine.Gateway.order(Gateway.java:33)\n\n\tat sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\n\tat sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)\n\tat sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\n\tat java.lang.reflect.Constructor.newInstance(Constructor.java:408)\n\tat samples.coffeemachine.TakeOrderSteps.the_instruction_generated_should_be(TakeOrderSteps.java:51)\n\tat ✽.Then the instruction generated should be \"O::\"(samples/coffeemachine/03-extra-hot.feature:26)\n",
-                            "duration": 10235000
+                            "duration": 5345000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -766,7 +779,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario",
@@ -778,7 +792,7 @@
                         "resultExec": {
                             "status": "failed",
                             "errorMessage": "java.lang.AssertionError: Extra hot is forbidden in summer!\n\tat samples.coffeemachine.TakeOrderSteps.I_order_an_extra_hot_with_sugar(TakeOrderSteps.java:41)\n\tat ✽.When I order an extra hot \"Orange Juice\" with 1 sugar(samples/coffeemachine/03-extra-hot.feature:31)\n",
-                            "duration": 661000
+                            "duration": 475000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_an_extra_hot_with_sugar(String,int)",
@@ -811,7 +825,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             }
         ],
         "tags": [],
@@ -833,7 +848,7 @@
                         "resultExec": {
                             "status": "pending",
                             "errorMessage": "cucumber.api.PendingException: TODO: implement me\n\tat samples.coffeemachine.TakeOrderSteps.the_following_orders(TakeOrderSteps.java:26)\n\tat ✽.Given the following orders:(samples/coffeemachine/04-making-money.feature:29)\n",
-                            "duration": 4446000
+                            "duration": 4003000
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_following_orders(DataTable)",
@@ -896,7 +911,8 @@
                     "#"
                 ],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario",
@@ -949,7 +965,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             }
         ],
         "tags": [],
@@ -1023,7 +1040,8 @@
                     "#  to inform the user that there is a shortage"
                 ],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario Outline",
@@ -1074,7 +1092,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario Outline",
@@ -1125,7 +1144,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario Outline",
@@ -1176,7 +1196,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             },
             {
                 "keyword": "Scenario",
@@ -1225,11 +1246,12 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             }
         ],
         "tags": [],
         "comments": [],
         "description": ""
-    }
-]}
+    }]
+}

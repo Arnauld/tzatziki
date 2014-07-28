@@ -1,9 +1,9 @@
-package tzatziki.analysis.exec;
+package tzatziki.analysis.exec.gson;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tzatziki.analysis.exec.ExecutionReport;
 import tzatziki.analysis.exec.model.FeatureExec;
 
 import java.io.File;
@@ -26,7 +26,7 @@ public class JsonEmitterReport extends ExecutionReport {
 
     public JsonEmitterReport(File reportDir, String filename) {
         outFile = new File(reportDir, filename);
-        gson = new GsonBuilder().setPrettyPrinting().create();
+        gson = new JsonIO().createGson();
     }
 
     protected Appendable out() {

@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        format = "tzatziki.analysis.exec.JsonEmitterReport:target/samples/coffeemachine"
+        format = "tzatziki.analysis.exec.gson.JsonEmitterReport:target/samples/coffeemachine"
 )
 public class CoffeeMachineFeatureTest {
 }

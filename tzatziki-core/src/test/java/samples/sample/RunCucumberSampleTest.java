@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        format = "tzatziki.analysis.exec.JsonEmitterReport:target/report/sample"
+        format = "tzatziki.analysis.exec.gson.JsonEmitterReport:target/report/sample"
 )
 public class RunCucumberSampleTest {
 }

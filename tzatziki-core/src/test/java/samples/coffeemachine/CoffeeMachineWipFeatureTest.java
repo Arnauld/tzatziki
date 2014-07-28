@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         tags = {"@wip"},
-        format = "tzatziki.analysis.exec.JsonEmitterReport:target/samples/coffeemachine/wip"
+        format = "tzatziki.analysis.exec.gson.JsonEmitterReport:target/samples/coffeemachine/wip"
 )
 public class CoffeeMachineWipFeatureTest {
 }
