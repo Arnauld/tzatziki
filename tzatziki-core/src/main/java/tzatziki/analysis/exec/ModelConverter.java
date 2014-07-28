@@ -31,11 +31,16 @@ public class ModelConverter {
 
     public ScenarioExec convertScenario(Scenario scenario) {
         ScenarioExec scenarioExec = new ScenarioExec(scenario.getKeyword(), scenario.getName());
+        scenarioExec.declareLineRange(convertLineRange(scenario.getLineRange()));
         scenarioExec.declareTags(convertTags(scenario.getTags()));
         scenarioExec.declareComments(convertComments(scenario.getComments()));
         scenarioExec.declareDescription(scenario.getDescription());
 
         return scenarioExec;
+    }
+
+    private LineRange convertLineRange(Range lineRange) {
+        return new LineRange(lineRange.getFirst(), lineRange.getLast());
     }
 
     public ScenarioOutlineExec convertScenarioOutline(ScenarioOutline scenarioOutline) {

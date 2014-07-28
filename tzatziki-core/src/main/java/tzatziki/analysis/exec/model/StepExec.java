@@ -1,23 +1,31 @@
 package tzatziki.analysis.exec.model;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
 
 import java.util.List;
+
+import static tzatziki.analysis.exec.model.ResultExec.*;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
 public class StepExec extends EmbeddingAndWriteContainer {
 
-    public static Predicate<StepExec> statusSucess() {
-        return new Predicate<StepExec>() {
-            @Override
-            public boolean apply(StepExec input) {
-                return false;
-            }
-        };
-    }
+    public static Function<StepExec, ResultExec> stepResultLens = new Function<StepExec, ResultExec>() {
+        @Override
+        public ResultExec apply(StepExec step) {
+            return step.resultExec;
+        }
+    };
+
+    public static Predicate<StepExec> statusPassed = Predicates.compose(resultPassed, stepResultLens);
+    public static Predicate<StepExec> statusPending = Predicates.compose(resultPending, stepResultLens);
+    public static Predicate<StepExec> statusFailed = Predicates.compose(resultFailed, stepResultLens);
+    public static Predicate<StepExec> statusSkipped = Predicates.compose(resultSkipped, stepResultLens);
+    public static Predicate<StepExec> statusUndefined = Predicates.compose(resultUndefined, stepResultLens);
 
     private final String keyword;
     private final String name;

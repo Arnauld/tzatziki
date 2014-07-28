@@ -30,25 +30,25 @@ Feature: Making Drinks
 #
 #----
 
-  @ProtocolOrder @wip
+  @takeOrder @wip @tea @sugar @protocol
   Scenario: A tea with 1 sugar and a stick
 
     When I order a "Tea" with 1 sugar
     Then the instruction generated should be "T:1:0"
 
-  @ProtocolOrder
+  @takeOrder @chocolate @noSugar @protocol
   Scenario: A chocolate with no sugar - and therefore no stick
 
     When I order a "Chocolate" with 0 sugar
     Then the instruction generated should be "H::"
 
-  @ProtocolOrder
+  @takeOrder @coffee @sugar @protocol
   Scenario: A tea with 1 sugar and a stick
 
     When I order a "Coffee" with 2 sugar
     Then the instruction generated should be "C:2:0"
 
-  @ProtocolMessage
+  @message @protocol
   Scenario Outline: any message received is forwarded for the customer to see
     When the message "<message>" is sent
     Then the instruction generated should be "<expected>"

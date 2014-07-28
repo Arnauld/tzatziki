@@ -1,5 +1,6 @@
 package tzatziki.analysis.exec.model;
 
+import com.google.common.base.Predicate;
 import tzatziki.util.ExceptionUtils;
 
 import java.util.Arrays;
@@ -16,6 +17,12 @@ public class ResultExec {
     private static final String PENDING = "pending";
     private static final List<String> KNOWNS = Arrays.asList(PASSED, SKIPPED, UNDEFINED, FAILED, PENDING);
 
+    public static Predicate<ResultExec> resultPassed = statusEquals(PASSED);
+    public static Predicate<ResultExec> resultSkipped = statusEquals(SKIPPED);
+    public static Predicate<ResultExec> resultUndefined = statusEquals(UNDEFINED);
+    public static Predicate<ResultExec> resultFailed = statusEquals(FAILED);
+    public static Predicate<ResultExec> resultPending = statusEquals(PENDING);
+
     private final String status;
     private final String error;
     private final String errorMessage;
@@ -28,10 +35,6 @@ public class ResultExec {
         this.duration = duration;
     }
 
-    public boolean isPassed() {
-        return PASSED.equalsIgnoreCase(status);
-    }
-
     private static String ensureStatusIsValid(String status) {
         String lowerCase = status.toLowerCase();
         if (KNOWNS.contains(lowerCase))
@@ -39,4 +42,14 @@ public class ResultExec {
         else
             throw new IllegalArgumentException("Unknown status <" + status + "> not in: " + KNOWNS);
     }
+
+    private static Predicate<ResultExec> statusEquals(final String expectedStatus) {
+        return new Predicate<ResultExec>() {
+            @Override
+            public boolean apply(ResultExec input) {
+                return expectedStatus.equals(input.status);
+            }
+        };
+    }
+
 }

@@ -12,13 +12,15 @@ Feature: Running Out
 #  Your product owner wants to you to take advantage of the machine capabilities
 #  to inform the user that there is a shortage
 
-  @Notification
+  @notification @runningOut
+  @coffee @sugar @takeOrder
   Scenario: Last Coffee
     Given no more "Coffee" remaining in the machine
     When I order a "Coffee" with 1 sugar
     Then a mail should have been sent indicating "Coffee" is running out
 
-  @Notification
+  @notification @runningOut
+  @orangeJuice @tea @chocolate @takeOrder
   Scenario Outline: Last beverage
     Given no more "<drink>" remaining in the machine
     When I order a "<drink>"

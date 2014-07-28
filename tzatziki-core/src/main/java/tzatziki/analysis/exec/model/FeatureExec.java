@@ -24,6 +24,14 @@ public class FeatureExec {
         this.name = name;
     }
 
+    public String uri() {
+        return uri;
+    }
+
+    public String name() {
+        return name;
+    }
+
     public void background(BackgroundExec backgroundExec) {
         this.backgroundExec = backgroundExec;
     }

@@ -14,6 +14,7 @@ public class StepContainer extends EmbeddingAndWriteContainer {
     private List<String> tags = Lists.newArrayList();
     private List<String> comments = Lists.newArrayList();
     private String description;
+    private LineRange lineRange;
 
     public void declareStep(StepExec stepExec) {
         steps.add(stepExec);
@@ -37,5 +38,13 @@ public class StepContainer extends EmbeddingAndWriteContainer {
 
     public FluentIterable<StepExec> steps() {
         return FluentIterable.from(steps);
+    }
+
+    public void declareLineRange(LineRange lineRange) {
+        this.lineRange = lineRange;
+    }
+
+    public LineRange lineRange() {
+        return lineRange;
     }
 }

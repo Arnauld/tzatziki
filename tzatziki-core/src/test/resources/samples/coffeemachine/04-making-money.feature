@@ -22,8 +22,7 @@ Feature: Making Money
 #
 #
 
-  @math
-  @Reporting
+  @reporting @tea @coffee @chocolate
   Scenario: Statistics collect basic usage
 
     Given the following orders:
@@ -44,7 +43,7 @@ Feature: Making Money
     Total: 3.00€
     """
 
-  @Reporting
+  @reporting
   Scenario: Statistics collect no usage
 
     # [asciidiag]
