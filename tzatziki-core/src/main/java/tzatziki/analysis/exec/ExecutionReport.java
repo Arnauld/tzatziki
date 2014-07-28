@@ -11,7 +11,9 @@ import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.analysis.exec.model.ScenarioOutlineExec;
 import tzatziki.analysis.exec.model.StepContainer;
 import tzatziki.analysis.exec.model.StepExec;
+import tzatziki.util.MemoizableIterator;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,6 +29,8 @@ public abstract class ExecutionReport implements Formatter, Reporter {
     private FeatureExec currentFeature;
     private StepContainer currentStepContainer;
     private StepExec currentStep;
+    //
+    private MemoizableIterator<StepExec> stepIterator;
 
     public ExecutionReport() {
         this(new ModelConverter());
@@ -48,6 +52,7 @@ public abstract class ExecutionReport implements Formatter, Reporter {
 
         currentStep = null;
         currentStepContainer = null;
+        stepIterator = null;
 
         flushCurrentFeature();
         this.currentFeature = converter.convertFeature(currentUri, feature);
@@ -66,6 +71,7 @@ public abstract class ExecutionReport implements Formatter, Reporter {
     public void background(Background background) {
         log.debug("background: {}", background.getName());
         currentStep = null;
+        stepIterator = null;
 
         BackgroundExec backgroundExec = converter.convertBackground(background);
         currentFeature.background(backgroundExec);
@@ -76,6 +82,7 @@ public abstract class ExecutionReport implements Formatter, Reporter {
     public void scenario(Scenario scenario) {
         log.debug("scenario: {}", scenario.getName());
         currentStep = null;
+        stepIterator = null;
 
         ScenarioExec scenarioExec = converter.convertScenario(scenario);
         currentFeature.declareScenario(scenarioExec);
@@ -86,6 +93,7 @@ public abstract class ExecutionReport implements Formatter, Reporter {
     public void scenarioOutline(ScenarioOutline scenarioOutline) {
         log.debug("scenarioOutline: {}", scenarioOutline.getName());
         currentStep = null;
+        stepIterator = null;
 
         ScenarioOutlineExec scenarioOutlineExec = converter.convertScenarioOutline(scenarioOutline);
         currentFeature.declareScenarioOutline(scenarioOutlineExec);
@@ -112,13 +120,20 @@ public abstract class ExecutionReport implements Formatter, Reporter {
     @Override
     public void result(Result result) {
         log.debug("result: {}", result);
-        currentStep.declareResult(converter.convertResult(result));
+        stepIterator.current().declareResult(converter.convertResult(result));
     }
 
     @Override
     public void match(Match match) {
         log.debug("match: {}", match);
-        currentStep.declareMatch(converter.convertMatch(match));
+
+        // unfortunately match does not apply to the current step,
+        // there are invoked once all scenario's steps are defined
+        if(stepIterator == null)
+            stepIterator = MemoizableIterator.wrap(currentStepContainer.steps().iterator());
+
+        StepExec stepExec = stepIterator.next();
+        stepExec.declareMatch(converter.convertMatch(match));
     }
 
 

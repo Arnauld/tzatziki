@@ -1,0 +1,1235 @@
+{"features": [
+    {
+        "uri": "samples/coffeemachine/01-making-drinks.feature",
+        "keyword": "Feature",
+        "name": "Making Drinks",
+        "stepContainerList": [
+            {
+                "keyword": "Scenario",
+                "name": "A tea with 1 sugar and a stick",
+                "steps": [
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Tea\" with 1 sugar",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 286514000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
+                            "arguments": [
+                                "Tea",
+                                "1"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"T:1:0\"",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 6842000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "T:1:0"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@ProtocolOrder",
+                    "@wip"
+                ],
+                "comments": [
+                    "#",
+                    "#  **In order** to send commands to the drink maker",
+                    "#",
+                    "#  **As a** developer",
+                    "#",
+                    "#  **I want to** implement the logic that translates orders",
+                    "#  from customers of the coffee machine to the drink maker",
+                    "#",
+                    "#  \u003cp style\u003d\"text-align: right;\"\u003e",
+                    "#   \u003cimg src\u003d\"/coffee-cup.jpeg\" width\u003d\"66px\" height\u003d\"100px\"/\u003e",
+                    "#  \u003c/p\u003e",
+                    "#",
+                    "#The code will use the drink maker protocol (see below) to send commands to the drink maker.",
+                    "#",
+                    "#The coffee machine can serves 3 type of drinks:",
+                    "#",
+                    "#  * tea,",
+                    "#  * coffee,",
+                    "#  * chocolate.",
+                    "#",
+                    "#",
+                    "#[ asciidiag ]",
+                    "#----",
+                    "#",
+                    "#  /---------+     +------------+",
+                    "#  |  Order  |----\u003e|  Protocol  |",
+                    "#  +---------/     +------------+",
+                    "#",
+                    "#----"
+                ],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario",
+                "name": "A chocolate with no sugar - and therefore no stick",
+                "steps": [
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Chocolate\" with 0 sugar",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 565000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
+                            "arguments": [
+                                "Chocolate",
+                                "0"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"H::\"",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 220000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "H::"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@ProtocolOrder"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario",
+                "name": "A tea with 1 sugar and a stick",
+                "steps": [
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Coffee\" with 2 sugar",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 478000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
+                            "arguments": [
+                                "Coffee",
+                                "2"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"C:2:0\"",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 205000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "C:2:0"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@ProtocolOrder"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario Outline",
+                "name": "any message received is forwarded for the customer to see",
+                "steps": [
+                    {
+                        "keyword": "When ",
+                        "name": "the message \"Hello\" is sent",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 517000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_message_is_sent(String)",
+                            "arguments": [
+                                "Hello"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"M:Hello\"",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 243000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "M:Hello"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@ProtocolMessage"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario Outline",
+                "name": "any message received is forwarded for the customer to see",
+                "steps": [
+                    {
+                        "keyword": "When ",
+                        "name": "the message \"Not enough money\" is sent",
+                        "resultExec": {
+                            "status": "failed",
+                            "errorMessage": "java.lang.IllegalArgumentException\n\tat samples.coffeemachine.Gateway.publish(Gateway.java:38)\n\tat samples.coffeemachine.TakeOrderSteps.the_message_is_sent(TakeOrderSteps.java:46)\n\tat ✽.When the message \"Not enough money\" is sent(samples/coffeemachine/01-making-drinks.feature:53)\n",
+                            "duration": 921000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_message_is_sent(String)",
+                            "arguments": [
+                                "Not enough money"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"M:Not enough money\"",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "M:Not enough money"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@ProtocolMessage"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            }
+        ],
+        "tags": [],
+        "comments": [],
+        "description": ""
+    },
+    {
+        "uri": "samples/coffeemachine/02-going-into-business.feature",
+        "keyword": "Feature",
+        "name": "Going into business",
+        "stepContainerList": [
+            {
+                "keyword": "Scenario",
+                "name": "A tea with just enough money",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "I\u0027ve inserted 0.40€ in the machine",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Tea\" with 1 sugar",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
+                            "arguments": [
+                                "Tea",
+                                "1"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"T:1:0\"",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "T:1:0"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@Payment"
+                ],
+                "comments": [
+                    "#",
+                    "#  **In order to** goes into Business",
+                    "#",
+                    "#  **As a** shopkeeper",
+                    "#",
+                    "#  **I want to** ensure The coffee machine is not free anymore!",
+                    "#",
+                    "# \u003cp style\u003d\"text-align: right;\"\u003e",
+                    "#   \u003cimg src\u003d\"/coins.jpeg\" width\u003d\"66px\"/\u003e",
+                    "# \u003c/p\u003e",
+                    "#"
+                ],
+                "description": "\nThe drink maker should make the drinks only if the correct amount of money is given",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario",
+                "name": "A tea with not enough money",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "I\u0027ve inserted 0.30€ in the machine",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Tea\" with 1 sugar",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
+                            "arguments": [
+                                "Tea",
+                                "1"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"M:Not enough money 0.10 missing\"",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "M:Not enough money 0.10 missing"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@Payment"
+                ],
+                "comments": [],
+                "description": "\nIf not enough money is provided, we want to send a message to the drink maker.\nThe message should contains at least the amount of money missing.",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario",
+                "name": "A coffee with more than required money",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "I\u0027ve inserted 2€ in the machine",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 1475000
+                        },
+                        "matchExec": {
+                            "location": "MoneySteps.I_ve_inserted_€_in_the_machine(BigDecimal)",
+                            "arguments": [
+                                "2"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Coffee\" with 0 sugar",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 545000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
+                            "arguments": [
+                                "Coffee",
+                                "0"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"C::\"",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 233000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "C::"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@Payment"
+                ],
+                "comments": [],
+                "description": "\nIf too much money is given, the drink maker will still make the drink according\nto the instructions. The machine will handle the return of the correct change.",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario Outline",
+                "name": "Check missing money",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "I\u0027ve inserted 0.25€ in the machine",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Coffee\" with 0 sugar",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
+                            "arguments": [
+                                "Coffee",
+                                "0"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"M:Not enough money 0.25 missing\"",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "M:Not enough money 0.25 missing"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@Payment"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario Outline",
+                "name": "Check missing money",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "I\u0027ve inserted 0.55€ in the machine",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Chocolate\" with 0 sugar",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
+                            "arguments": [
+                                "Chocolate",
+                                "0"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"M:Not enough money 0.05 missing\"",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "M:Not enough money 0.05 missing"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@Payment"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario Outline",
+                "name": "Check missing money",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "I\u0027ve inserted 0.05€ in the machine",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Tea\" with 1 sugar",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
+                            "arguments": [
+                                "Tea",
+                                "1"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"M:Not enough money 0.35 missing\"",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "M:Not enough money 0.35 missing"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@Payment"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            }
+        ],
+        "tags": [],
+        "comments": [],
+        "description": ""
+    },
+    {
+        "uri": "samples/coffeemachine/03-extra-hot.feature",
+        "keyword": "Feature",
+        "name": "Extra Hot and Orange Juice",
+        "stepContainerList": [
+            {
+                "keyword": "Scenario",
+                "name": "An extra hot tea with 1 sugar",
+                "steps": [
+                    {
+                        "keyword": "When ",
+                        "name": "I order an extra hot \"Tea\" with 1 sugar",
+                        "resultExec": {
+                            "status": "failed",
+                            "errorMessage": "java.lang.AssertionError: Extra hot is forbidden in summer!\n\tat samples.coffeemachine.TakeOrderSteps.I_order_an_extra_hot_with_sugar(TakeOrderSteps.java:41)\n\tat ✽.When I order an extra hot \"Tea\" with 1 sugar(samples/coffeemachine/03-extra-hot.feature:12)\n",
+                            "duration": 6306000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_an_extra_hot_with_sugar(String,int)",
+                            "arguments": [
+                                "Tea",
+                                "1"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"Th:1:0\"",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "Th:1:0"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@ProtocolOrder"
+                ],
+                "comments": [
+                    "#  **In order to** provide more choice and to attract more customer",
+                    "#",
+                    "#  **As a** shopkeeper",
+                    "#",
+                    "#  **I want to** be able to make orange juice and to deliver extra hot drinks"
+                ],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario",
+                "name": "An Orange juice",
+                "steps": [
+                    {
+                        "keyword": "When ",
+                        "name": "I order an \"Orange Juice\"",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 474000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_an(String)",
+                            "arguments": [
+                                "Orange Juice"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"O::\"",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 367000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "O::"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@ProtocolOrder"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario",
+                "name": "Extra sugar with Orange Juice is ignored",
+                "steps": [
+                    {
+                        "keyword": "When ",
+                        "name": "I order an \"Orange Juice\" with 1 sugar",
+                        "resultExec": {
+                            "status": "passed",
+                            "duration": 481000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
+                            "arguments": [
+                                "Orange Juice",
+                                "1"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"O::\"",
+                        "resultExec": {
+                            "status": "failed",
+                            "errorMessage": "Argument(s) are different! Wanted:\ndrinkMaker.executeCommand(\"O::\");\n-\u003e at samples.coffeemachine.TakeOrderSteps.the_instruction_generated_should_be(TakeOrderSteps.java:51)\nActual invocation has different arguments:\ndrinkMaker.executeCommand(\"O:1:0\");\n-\u003e at samples.coffeemachine.Gateway.order(Gateway.java:33)\n\n\tat sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\n\tat sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)\n\tat sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\n\tat java.lang.reflect.Constructor.newInstance(Constructor.java:408)\n\tat samples.coffeemachine.TakeOrderSteps.the_instruction_generated_should_be(TakeOrderSteps.java:51)\n\tat ✽.Then the instruction generated should be \"O::\"(samples/coffeemachine/03-extra-hot.feature:26)\n",
+                            "duration": 10235000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "O::"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@ProtocolOrder",
+                    "@wip"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario",
+                "name": "Extra hot with Orange Juice is ignored",
+                "steps": [
+                    {
+                        "keyword": "When ",
+                        "name": "I order an extra hot \"Orange Juice\" with 1 sugar",
+                        "resultExec": {
+                            "status": "failed",
+                            "errorMessage": "java.lang.AssertionError: Extra hot is forbidden in summer!\n\tat samples.coffeemachine.TakeOrderSteps.I_order_an_extra_hot_with_sugar(TakeOrderSteps.java:41)\n\tat ✽.When I order an extra hot \"Orange Juice\" with 1 sugar(samples/coffeemachine/03-extra-hot.feature:31)\n",
+                            "duration": 661000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_an_extra_hot_with_sugar(String,int)",
+                            "arguments": [
+                                "Orange Juice",
+                                "1"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the instruction generated should be \"O::\"",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
+                            "arguments": [
+                                "O::"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@ProtocolOrder"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            }
+        ],
+        "tags": [],
+        "comments": [],
+        "description": ""
+    },
+    {
+        "uri": "samples/coffeemachine/04-making-money.feature",
+        "keyword": "Feature",
+        "name": "Making Money",
+        "stepContainerList": [
+            {
+                "keyword": "Scenario",
+                "name": "Statistics collect basic usage",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "the following orders:",
+                        "resultExec": {
+                            "status": "pending",
+                            "errorMessage": "cucumber.api.PendingException: TODO: implement me\n\tat samples.coffeemachine.TakeOrderSteps.the_following_orders(TakeOrderSteps.java:26)\n\tat ✽.Given the following orders:(samples/coffeemachine/04-making-money.feature:29)\n",
+                            "duration": 4446000
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.the_following_orders(DataTable)",
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I query for a report",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the report output should be",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "docString": "chocolate: 1\ncoffee: 4\ntea: 1\n---\nTotal: 3.00€",
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@math",
+                    "@Reporting"
+                ],
+                "comments": [
+                    "#",
+                    "#  **In order to** have daily reports of what is sold and when",
+                    "#",
+                    "# **As a** shop keeper",
+                    "#",
+                    "# **I want to** track statistics of machine usage",
+                    "#",
+                    "# [formula]",
+                    "#  ----",
+                    "#    {\\eta \\leq C(\\delta(\\eta) +\\Lambda_M(0,\\delta))",
+                    "#  ----",
+                    "#",
+                    "# {% formula %}",
+                    "#",
+                    "#    \\Re{z} \u003d\\frac{n\\pi \\dfrac{\\theta +\\psi}{2}}{",
+                    "#            \\left(\\dfrac{\\theta +\\psi}{2}\\right)^2 + \\left( \\dfrac{1}{2}",
+                    "#            \\log \\left\\vert\\dfrac{B}{A}\\right\\vert\\right)^2}.",
+                    "#",
+                    "# {% formula %}",
+                    "#",
+                    "#"
+                ],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario",
+                "name": "Statistics collect no usage",
+                "steps": [
+                    {
+                        "keyword": "When ",
+                        "name": "I query for a report",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [
+                            "# [asciidiag]",
+                            "# ----",
+                            "#   /---------------+-------------\\",
+                            "#   |cRED Chocolate |cBLU 1       |-----\\",
+                            "#   +---------------+-------------+     :",
+                            "#   |cGRE Coffee    |cPNK 4       |     |",
+                            "#   +---------------+-------------+     |",
+                            "#   |cAAA               Total     |\u003c----/",
+                            "#   +-----------------------------+         /-------\\",
+                            "#   |cCCC               3.00€     |---+----\u003e| DB    |",
+                            "#   |               +-------------+         |    {s}|",
+                            "#   |               |cYEL YEL     |         \\-------/",
+                            "#   \\---------------+-------------/",
+                            "# ----",
+                            "#"
+                        ],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the report output should be",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "docString": "---\nTotal: 0.00€",
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@Reporting"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            }
+        ],
+        "tags": [],
+        "comments": [],
+        "description": ""
+    },
+    {
+        "uri": "samples/coffeemachine/05-running-out.feature",
+        "keyword": "Feature",
+        "name": "Running Out",
+        "stepContainerList": [
+            {
+                "keyword": "Scenario",
+                "name": "Last Coffee",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "no more \"Coffee\" remaining in the machine",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Coffee\" with 1 sugar",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
+                            "arguments": [
+                                "Coffee",
+                                "1"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "a mail should have been sent indicating \"Coffee\" is running out",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@Notification"
+                ],
+                "comments": [
+                    "#  **In order to** never run out beverage",
+                    "#",
+                    "# **As a** shop keeper",
+                    "#",
+                    "# **I want to** be informed that there is a shortage and to send a email notification",
+                    "#  to the company so that they can come and refill the machine.",
+                    "#",
+                    "#  The users of the coffee machine are complaining that there is often shortages",
+                    "#  of water and/or milk. It takes weeks before the machine is refilled.",
+                    "#  Your product owner wants to you to take advantage of the machine capabilities",
+                    "#  to inform the user that there is a shortage"
+                ],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario Outline",
+                "name": "Last beverage",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "no more \"Orange juice\" remaining in the machine",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Orange juice\"",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_an(String)",
+                            "arguments": [
+                                "Orange juice"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "a mail should have been sent indicating \"Orange juice\" is running out",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@Notification"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario Outline",
+                "name": "Last beverage",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "no more \"Tea\" remaining in the machine",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Tea\"",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_an(String)",
+                            "arguments": [
+                                "Tea"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "a mail should have been sent indicating \"Tea\" is running out",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@Notification"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario Outline",
+                "name": "Last beverage",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "no more \"Chocolate\" remaining in the machine",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I order a \"Chocolate\"",
+                        "resultExec": {
+                            "status": "skipped"
+                        },
+                        "matchExec": {
+                            "location": "TakeOrderSteps.I_order_an(String)",
+                            "arguments": [
+                                "Chocolate"
+                            ]
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "a mail should have been sent indicating \"Chocolate\" is running out",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@Notification"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            },
+            {
+                "keyword": "Scenario",
+                "name": "Manually send an email",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "an empty machine",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I click on the \"Send Test Email\" button",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "a test mail should have been sent",
+                        "resultExec": {
+                            "status": "undefined"
+                        },
+                        "matchExec": {
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [
+                    "@manual",
+                    "@Notification"
+                ],
+                "comments": [],
+                "description": "",
+                "embeddedList": []
+            }
+        ],
+        "tags": [],
+        "comments": [],
+        "description": ""
+    }
+]}

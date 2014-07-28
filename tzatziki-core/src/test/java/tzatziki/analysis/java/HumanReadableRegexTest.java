@@ -2,7 +2,7 @@ package tzatziki.analysis.java;
 
 import org.junit.Test;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>

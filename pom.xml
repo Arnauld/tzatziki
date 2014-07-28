@@ -132,9 +132,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.easytesting</groupId>
-                <artifactId>fest-assert</artifactId>
-                <version>1.4</version>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>1.6.1</version>
             </dependency>
 
         </dependencies>
@@ -181,7 +181,7 @@
                 <configuration>
                     <excludes>
                         <!-- Sample can fail to illustrate some reporting behavior-->
-                        <exclude>sample/**/*.java</exclude>
+                        <exclude>samples/**/*.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>

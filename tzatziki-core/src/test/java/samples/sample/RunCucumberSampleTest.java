@@ -1,4 +1,4 @@
-package tzatziki.features;
+package samples.sample;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
@@ -9,8 +9,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        format = "tzatziki.analysis.exec.JsonEmitterReport:target/report/all",
-        tags = "@select"
+        format = "tzatziki.analysis.exec.JsonEmitterReport:target/report/sample"
 )
-public class RunAllCucumberTest {
+public class RunCucumberSampleTest {
 }

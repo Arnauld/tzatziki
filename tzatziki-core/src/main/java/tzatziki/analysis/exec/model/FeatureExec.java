@@ -1,5 +1,6 @@
 package tzatziki.analysis.exec.model;
 
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -27,6 +28,10 @@ public class FeatureExec {
         this.backgroundExec = backgroundExec;
     }
 
+    public BackgroundExec background() {
+        return backgroundExec;
+    }
+
     public void declareScenario(ScenarioExec scenarioExec) {
         stepContainerList.add(scenarioExec);
     }
@@ -45,5 +50,13 @@ public class FeatureExec {
 
     public void declareDescription(String description) {
         this.description = description;
+    }
+
+    public FluentIterable<String> tags() {
+        return FluentIterable.from(tags);
+    }
+
+    public FluentIterable<ScenarioExec> scenario() {
+        return FluentIterable.from(stepContainerList).filter(ScenarioExec.class);
     }
 }

@@ -1,6 +1,8 @@
 package tzatziki.analysis.java;
 
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,9 +17,9 @@ public class MethodEntry extends Describable {
     private final String methodName;
     private final List<String> args;
 
-    private final List<String> patterns = new ArrayList<String>();
-    private final List<Parameter> parameters = new ArrayList<Parameter>();
-    private final Set<UsedBy> usedBySet = new HashSet<UsedBy>();
+    private final List<String> patterns = Lists.newArrayList();
+    private final List<Parameter> parameters = Lists.newArrayList();
+    private final Set<UsedBy> usedBySet = Sets.newHashSet();
 
     public MethodEntry(String methodName, List<String> args) {
         this.methodName = methodName;
