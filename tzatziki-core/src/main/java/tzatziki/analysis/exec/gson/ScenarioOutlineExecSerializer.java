@@ -20,7 +20,6 @@ public class ScenarioOutlineExecSerializer implements JsonSerializer<ScenarioOut
     private final Gson delegate;
 
     public ScenarioOutlineExecSerializer(Gson delegate) {
-
         this.delegate = delegate;
     }
 

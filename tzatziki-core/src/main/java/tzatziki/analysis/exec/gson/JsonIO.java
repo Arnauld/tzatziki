@@ -29,7 +29,11 @@ public class JsonIO {
     }
 
     public List<FeatureExec> load(InputStream in) throws UnsupportedEncodingException {
-        Features features = createGson().fromJson(new InputStreamReader(in, "UTF8"), Features.class);
+        return load(in, "UTF8");
+    }
+
+    public List<FeatureExec> load(InputStream in, String charset) throws UnsupportedEncodingException {
+        Features features = createGson().fromJson(new InputStreamReader(in, charset), Features.class);
         return features.features;
     }
 
