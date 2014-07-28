@@ -70,7 +70,8 @@
                 "tags": [],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             }
         ],
         "tags": [
@@ -125,7 +126,8 @@
                 ],
                 "comments": [],
                 "description": "",
-                "embeddedList": []
+                "embeddedList": [],
+                "type": "scenario"
             }
         ],
         "tags": [

@@ -1,7 +1,6 @@
 package tzatziki.analysis.exec.gson;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.apache.commons.io.IOUtils;
@@ -28,19 +27,10 @@ public class JsonIOTest {
     }
 
     @Test
-    public void usecase() throws Exception {
-        InputStream in = getClass().getResourceAsStream("/tzatziki/analysis/exec/two-features.json");
-
-
-        List<FeatureExec> featureExecs = new JsonIO().load(in);
-        assertThat(featureExecs).hasSize(2);
-        System.out.println("JsonLoaderTest.usecase(" +
-                new GsonBuilder().setPrettyPrinting().create().toJson(featureExecs));
-    }
-
-    @Test
-    @Parameters({"/samples/coffeemachine/results/exec-all.json"})
-    public void readAndBack(String resource) throws Exception {
+    @Parameters({
+            "/tzatziki/analysis/exec/two-features.json",
+            "/samples/coffeemachine/results/exec-all.json"})
+    public void readAndWrite_should_lead_to_identity(String resource) throws Exception {
         InputStream in = getClass().getResourceAsStream(resource);
         String origin = IOUtils.toString(in, "UTF8");
 
@@ -53,8 +43,8 @@ public class JsonIOTest {
 
     private static String trimLines(String json) {
         StringBuilder b = new StringBuilder();
-        for(String str : json.split("\n\r?"))
-            b.append(str.trim());
+        for (String str : json.split("\n\r?"))
+            b.append(str.trim()).append("\n");
         return b.toString();
     }
 
