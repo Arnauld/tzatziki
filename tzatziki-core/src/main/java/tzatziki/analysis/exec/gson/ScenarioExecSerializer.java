@@ -8,6 +8,9 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 
+import static tzatziki.analysis.exec.gson.StepContainerDeserializer.SCENARIO;
+import static tzatziki.analysis.exec.gson.StepContainerDeserializer.TYPE;
+
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
@@ -22,7 +25,7 @@ public class ScenarioExecSerializer implements JsonSerializer {
     @Override
     public JsonElement serialize(Object src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject serialized = delegate.toJsonTree(src, typeOfSrc).getAsJsonObject();
-        serialized.addProperty("type", "scenario");
+        serialized.addProperty(TYPE, SCENARIO);
         return serialized;
     }
 }

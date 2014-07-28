@@ -16,6 +16,10 @@ import java.lang.reflect.Type;
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
 public class StepContainerDeserializer implements JsonDeserializer<StepContainer> {
+    public static final String TYPE = "type";
+    public static final String SCENARIO = "scenario";
+    public static final String SCENARIO_OUTLINE = "scenario-outline";
+
     private final Gson delegate;
 
     public StepContainerDeserializer(Gson delegate) {
@@ -24,15 +28,15 @@ public class StepContainerDeserializer implements JsonDeserializer<StepContainer
 
     @Override
     public StepContainer deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        JsonPrimitive typeAsJson = json.getAsJsonObject().getAsJsonPrimitive("type");
+        JsonPrimitive typeAsJson = json.getAsJsonObject().getAsJsonPrimitive(TYPE);
         if (typeAsJson != null) {
             String type = typeAsJson.getAsString();
-            if (type.equals("scenario"))
+            if (type.equals(SCENARIO))
                 return delegate.fromJson(json, ScenarioExec.class);
-            else if (type.equals("scenario-outline"))
+            else if (type.equals(SCENARIO_OUTLINE))
                 return delegate.fromJson(json, ScenarioOutlineExec.class);
         }
-        
+
         // fallback?
         return delegate.fromJson(json, ScenarioExec.class);
     }
