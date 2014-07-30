@@ -1,5 +1,6 @@
 package tzatziki.analysis.step;
 
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -18,8 +19,17 @@ public class Features {
     }
 
     public void traverse(FeatureVisitor visitor) {
-        for(Feature feature : featureList) {
+        for (Feature feature : featureList) {
             feature.traverse(visitor);
         }
+    }
+
+    public FluentIterable<Feature> features() {
+        return FluentIterable.from(featureList);
+    }
+
+    @Override
+    public String toString() {
+        return "Features{" + featureList + '}';
     }
 }

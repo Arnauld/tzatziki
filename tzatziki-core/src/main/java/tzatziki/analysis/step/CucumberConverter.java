@@ -2,6 +2,7 @@ package tzatziki.analysis.step;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
+import cucumber.runtime.model.CucumberBackground;
 import cucumber.runtime.model.CucumberExamples;
 import cucumber.runtime.model.CucumberFeature;
 import cucumber.runtime.model.CucumberScenario;
@@ -17,13 +18,20 @@ import java.util.List;
 public class CucumberConverter {
 
     public Feature convert(CucumberFeature cucumberFeature) {
-        Feature feature = new Feature(cucumberFeature.getUri());
+        Feature feature = new Feature(cucumberFeature.getUri(), cucumberFeature.getGherkinFeature().getName());
         feature.addTags(convertTags(cucumberFeature.getGherkinFeature().getTags()));
         for (CucumberTagStatement featureElement : cucumberFeature.getFeatureElements()) {
             if (featureElement instanceof CucumberScenario) {
-                feature.add(convertScenario((CucumberScenario) featureElement));
+                CucumberScenario scenario = (CucumberScenario) featureElement;
+                feature.add(convertScenario(scenario));
+
+                // Workaround... no way to retrieve the background
+                CucumberBackground cucumberBackground = scenario.getCucumberBackground();
+                if (cucumberBackground != null)
+                    feature.background(convertBackground(cucumberBackground));
             } else if (featureElement instanceof CucumberScenarioOutline) {
-                feature.add(convertOutline((CucumberScenarioOutline) featureElement));
+                CucumberScenarioOutline scenarioOutline = (CucumberScenarioOutline) featureElement;
+                feature.add(convertOutline(scenarioOutline));
             }
         }
         return feature;
@@ -60,6 +68,13 @@ public class CucumberConverter {
         for (gherkin.formatter.model.Step step : cucumberScenario.getSteps())
             scenario.add(convertStep(step));
         return scenario;
+    }
+
+    private Background convertBackground(CucumberBackground cucumberBackground) {
+        Background background = new Background();
+        for (gherkin.formatter.model.Step step : cucumberBackground.getSteps())
+            background.add(convertStep(step));
+        return background;
     }
 
     private Step convertStep(gherkin.formatter.model.Step cucumberStep) {

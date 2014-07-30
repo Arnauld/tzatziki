@@ -27,9 +27,13 @@ public class TagDictionary {
         Enumeration<?> propertyNames = properties.propertyNames();
         while (propertyNames.hasMoreElements()) {
             String tagKey = (String) propertyNames.nextElement();
-            Tag tag = getOrInitTag(tagKey);
-            tag.declareDescription(properties.getProperty(tagKey));
+            declareTag(tagKey, properties.getProperty(tagKey));
         }
+        return this;
+    }
+
+    public TagDictionary declareTag(String tagKey, String description) {
+        getOrInitTag(tagKey).declareDescription(description);
         return this;
     }
 
@@ -49,5 +53,17 @@ public class TagDictionary {
             return PREFIX + formatted;
         else
             return formatted;
+    }
+
+    public void declareTags(TagDictionary dictionary) {
+        tags.putAll(dictionary.tags);
+    }
+
+    public boolean containsTag(String tag) {
+        return tags.containsKey(format(tag));
+    }
+
+    public TagDictionary declareTag(String tag) {
+        return declareTag(tag, "");
     }
 }
