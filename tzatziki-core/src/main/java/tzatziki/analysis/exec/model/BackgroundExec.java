@@ -12,4 +12,11 @@ public class BackgroundExec extends StepContainer {
         this.keyword = keyword;
         this.name = name;
     }
+
+    public BackgroundExec recursiveCopy() {
+        BackgroundExec copy = new BackgroundExec(keyword, name);
+        recursiveCopy(copy);
+        return copy;
+    }
+
 }

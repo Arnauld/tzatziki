@@ -7,12 +7,11 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.skyscreamer.jsonassert.JSONAssert;
 import tzatziki.analysis.exec.model.FeatureExec;
 
 import java.io.InputStream;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(JUnitParamsRunner.class)
 public class JsonIOTest {
@@ -37,15 +36,8 @@ public class JsonIOTest {
         in = getClass().getResourceAsStream(resource);
         List<FeatureExec> featureExecs = jsonIO.load(in);
 
-        StringBuilder json = toJson(gson, featureExecs);
-        assertThat(trimLines(json.toString())).isEqualTo(trimLines(origin));
-    }
-
-    private static String trimLines(String json) {
-        StringBuilder b = new StringBuilder();
-        for (String str : json.split("\n\r?"))
-            b.append(str.trim()).append("\n");
-        return b.toString();
+        String json = toJson(gson, featureExecs).toString();
+        JSONAssert.assertEquals(origin, json, false);
     }
 
     private static StringBuilder toJson(Gson gson, List<FeatureExec> featureExecs) {

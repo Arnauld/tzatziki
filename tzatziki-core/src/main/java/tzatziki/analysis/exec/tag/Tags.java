@@ -1,9 +1,12 @@
 package tzatziki.analysis.exec.tag;
 
+import com.google.common.collect.Sets;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -29,4 +32,10 @@ public class Tags {
         return new ArrayList<String>(tags);
     }
 
+    public Tags completeWith(Collection<String> tags) {
+        Set<String> merged = Sets.newHashSet();
+        merged.addAll(this.tags);
+        merged.addAll(tags);
+        return Tags.from(merged);
+    }
 }

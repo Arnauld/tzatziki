@@ -18,6 +18,10 @@ public class EmbeddingAndWriteContainer {
         embeddedList.add(new Embedded(text));
     }
 
+    protected void recursiveCopy(EmbeddingAndWriteContainer copy) {
+        copy.embeddedList.addAll(embeddedList);
+    }
+
 
     public static class Embedded {
         private final String mimeType;

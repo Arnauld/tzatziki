@@ -20,15 +20,25 @@ public class ExamplesExec {
         this.name = name;
     }
 
-    public void declareTags(List<String> tags) {
+    public ExamplesExec declareTags(List<String> tags) {
         this.tags.addAll(tags);
+        return this;
     }
 
-    public void declareComments(List<String> comments) {
+    public ExamplesExec declareComments(List<String> comments) {
         this.comments.addAll(comments);
+        return this;
     }
 
-    public void declareDescription(String description) {
+    public ExamplesExec declareDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public ExamplesExec recursiveCopy() {
+        return new ExamplesExec(keyword, name)
+                .declareTags(tags)
+                .declareComments(comments)
+                .declareDescription(description);
     }
 }

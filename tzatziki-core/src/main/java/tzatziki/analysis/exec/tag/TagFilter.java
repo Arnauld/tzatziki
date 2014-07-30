@@ -1,38 +1,53 @@
 package tzatziki.analysis.exec.tag;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
-import gherkin.TagExpression;
-import gherkin.formatter.model.Tag;
+import com.google.common.base.Predicates;
+import com.google.common.collect.FluentIterable;
 
-import java.util.Collection;
-import java.util.List;
+import static java.util.Arrays.asList;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
 public class TagFilter implements Predicate<Tags> {
 
-    public TagFilter compile(String... tagExprs) {
-        return new TagFilter(Tags.from(tagExprs));
+    public static TagFilter AcceptAll = new TagFilter(Predicates.<Tags>alwaysTrue());
+
+    public static TagFilter from(String... tagExprs) {
+        return new TagFilter(new TagExpressionPredicate(asList(tagExprs)));
     }
 
-    private TagExpression tagExpression;
+    private final Predicate<Tags> delegate;
 
-    public TagFilter(Tags tags) {
-        this.tagExpression = new TagExpression(tags.toList());
+    private TagFilter(Predicate<Tags> delegate) {
+        this.delegate = delegate;
     }
 
     @Override
-    public boolean apply(Tags input) {
-        return tagExpression.evaluate(toGherkinTags(input.toList()));
+    public boolean apply(Tags tags) {
+        return delegate.apply(tags);
     }
 
-    private Collection<Tag> toGherkinTags(List<String> strings) {
-        List<Tag> tags = Lists.newArrayList();
-        for (String str : strings) {
-            tags.add(new Tag(str, -1));
-        }
-        return tags;
+    public TagFilter and(TagFilter... tagFilters) {
+        Iterable<Predicate<Tags>> ands = extractPredicates(tagFilters);
+        return new TagFilter(Predicates.and(ands));
     }
+
+    public TagFilter or(TagFilter... tagFilters) {
+        Iterable<Predicate<Tags>> ors = extractPredicates(tagFilters);
+        return new TagFilter(Predicates.or(ors));
+    }
+
+    private static FluentIterable<Predicate<Tags>> extractPredicates(TagFilter[] tagFilters) {
+        return FluentIterable.from(asList(tagFilters)).transform(tagFilterPredicateLens);
+    }
+
+    private static final Function<TagFilter, Predicate<Tags>> tagFilterPredicateLens = new Function<TagFilter, Predicate<Tags>>() {
+        @Override
+        public Predicate<Tags> apply(TagFilter filter) {
+            return filter.delegate;
+        }
+    };
+
 }

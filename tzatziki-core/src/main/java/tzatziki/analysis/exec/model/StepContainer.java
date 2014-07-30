@@ -16,6 +16,15 @@ public class StepContainer extends EmbeddingAndWriteContainer {
     private String description;
     private LineRange lineRange;
 
+    protected void recursiveCopy(StepContainer copy) {
+        copy.declareTags(tags);
+        copy.declareComments(comments);
+        copy.declareDescription(description);
+        copy.declareLineRange(lineRange);
+        super.recursiveCopy(copy);
+    }
+
+
     public void declareStep(StepExec stepExec) {
         steps.add(stepExec);
     }

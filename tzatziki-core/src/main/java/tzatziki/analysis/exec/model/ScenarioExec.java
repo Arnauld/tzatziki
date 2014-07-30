@@ -21,4 +21,10 @@ public class ScenarioExec extends StepContainer {
     public boolean isSucess() {
         return steps().allMatch(statusPassed);
     }
+
+    public ScenarioExec recursiveCopy() {
+        ScenarioExec copy = new ScenarioExec(keyword, name);
+        recursiveCopy(copy);
+        return copy;
+    }
 }

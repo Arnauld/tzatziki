@@ -16,7 +16,7 @@ public class TagViewTest {
     public void usecase() throws Exception {
         List<FeatureExec> features = loadSample();
 
-        TagView tagView = new TagView("Non wip about tea", new TagFilter(Tags.from("~@wip", "@tea")));
+        TagView tagView = new TagView("Non wip about tea", TagFilter.from("~@wip", "@tea"));
         for (FeatureExec featureExec : features) {
             tagView.consolidateView(featureExec);
         }
