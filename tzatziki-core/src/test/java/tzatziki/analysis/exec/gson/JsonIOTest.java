@@ -28,7 +28,7 @@ public class JsonIOTest {
     @Test
     @Parameters({
             "/tzatziki/analysis/exec/two-features.json",
-            "/samples/coffeemachine/results/exec-all.json"})
+            "/tzatziki/analysis/exec/tag/coffeemachine-exec.json"})
     public void readAndWrite_should_lead_to_identity(String resource) throws Exception {
         InputStream in = getClass().getResourceAsStream(resource);
         String origin = IOUtils.toString(in, "UTF8");

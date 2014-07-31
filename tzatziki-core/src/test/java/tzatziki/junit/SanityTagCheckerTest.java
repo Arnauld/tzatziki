@@ -1,11 +1,9 @@
 package tzatziki.junit;
 
 import org.junit.Test;
-import org.junit.runner.Description;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
-import org.junit.runner.notification.RunListener;
 import tzatziki.TestSettings;
 import tzatziki.analysis.step.Features;
 import tzatziki.analysis.tag.TagDictionary;
@@ -128,8 +126,7 @@ public class SanityTagCheckerTest {
 
         @SanityTagChecker.FeaturesProvider
         public static Features features() {
-            String basedir = new TestSettings().getBaseDir();
-            return SanityTagChecker.loadFeaturesFromSourceDirectory(new File(basedir, "src/test/resources/samples/coffeemachine"));
+            return coffeeMachineFeatures();
         }
     }
 
@@ -167,8 +164,14 @@ public class SanityTagCheckerTest {
 
         @SanityTagChecker.FeaturesProvider
         public static Features features() {
-            String basedir = new TestSettings().getBaseDir();
-            return SanityTagChecker.loadFeaturesFromSourceDirectory(new File(basedir, "src/test/resources/samples/coffeemachine"));
+            return coffeeMachineFeatures();
         }
     }
+
+    private static Features coffeeMachineFeatures() {
+        String basedir = new TestSettings().getBaseDir();
+        return SanityTagChecker.loadFeaturesFromSourceDirectory(new File(basedir, "src/test/resources/tzatziki/junit/coffeemachine"));
+    }
+
+
 }
