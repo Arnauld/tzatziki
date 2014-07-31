@@ -112,28 +112,15 @@ public class SanityTagCheckerTest {
     }
 
     @Test
-    public void usecase() {
+    public void should_fail_when_using_undeclared_tag() {
         JUnitCore unitCore = new JUnitCore();
-        unitCore.addListener(new RunListener() {
-            @Override
-            public void testRunStarted(Description description) throws Exception {
-                Thread.dumpStack();
-                System.out.println("SanityTagCheckerTest.testRunStarted::" + description.getTestClass());
-                System.out.println("SanityTagCheckerTest.testRunStarted::" + description.getMethodName());
-            }
-
-            @Override
-            public void testStarted(Description description) throws Exception {
-                System.out.println("SanityTagCheckerTest.testStarted::" + description.getClassName());
-            }
-        });
-        Result result = unitCore.run(AllTagsAreDefined.class);
-        assertThat(result.getFailures()).isEmpty();
-        assertThat(result.wasSuccessful()).isTrue();
+        Result result = unitCore.run(MissingTags.class);
+        assertThat(result.getFailures()).isNotEmpty();
+        assertThat(result.wasSuccessful()).isFalse();
     }
 
     @RunWith(SanityTagChecker.class)
-    public static class AllTagsAreDefined {
+    public static class MissingTags {
         @SanityTagChecker.TagDictionaryProvider
         public static TagDictionary tagDictionary() {
             return new TagDictionary().declareTag("@wip", "").declareTag("@option", "");
@@ -142,7 +129,46 @@ public class SanityTagCheckerTest {
         @SanityTagChecker.FeaturesProvider
         public static Features features() {
             String basedir = new TestSettings().getBaseDir();
-            return SanityTagChecker.loadFeaturesFromSourceDirectory(new File(basedir, "src/test/java/samples/coffeemachine"));
+            return SanityTagChecker.loadFeaturesFromSourceDirectory(new File(basedir, "src/test/resources/samples/coffeemachine"));
+        }
+    }
+
+    @Test
+    public void should_not_fail_when_using_only_declared_tag() {
+        JUnitCore unitCore = new JUnitCore();
+        Result result = unitCore.run(AllTagsDeclared.class);
+        assertThat(result.getFailures()).isEmpty();
+        assertThat(result.wasSuccessful()).isTrue();
+    }
+
+    @RunWith(SanityTagChecker.class)
+    public static class AllTagsDeclared {
+        @SanityTagChecker.TagDictionaryProvider
+        public static TagDictionary tagDictionary() {
+            return new TagDictionary().declareTag("@wip")
+                    .declareTag("@protocol")
+                    .declareTag("@notification")
+                    .declareTag("@message")
+                    .declareTag("@runningOut")
+                    .declareTag("@coffee")
+                    .declareTag("@tea")
+                    .declareTag("@chocolate")
+                    .declareTag("@orangeJuice")
+                    .declareTag("@sugar")
+                    .declareTag("@noSugar")
+                    .declareTag("@extraHot")
+                    .declareTag("@takeOrder")
+                    .declareTag("@payment")
+                    .declareTag("@reporting")
+                    .declareTag("@manual")
+                    .declareTag("@tooMuchMoney")
+                    .declareTag("@notEnoughMoney");
+        }
+
+        @SanityTagChecker.FeaturesProvider
+        public static Features features() {
+            String basedir = new TestSettings().getBaseDir();
+            return SanityTagChecker.loadFeaturesFromSourceDirectory(new File(basedir, "src/test/resources/samples/coffeemachine"));
         }
     }
 }

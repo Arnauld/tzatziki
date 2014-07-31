@@ -36,6 +36,7 @@ public class FeatureParserTest {
                 "  \"featureList\": [\n" +
                 "    {\n" +
                 "      \"uri\": \"going-into-business.feature\",\n" +
+                "      \"name\": \"Going into business\",\n" +
                 "      \"tags\": [],\n" +
                 "      \"scenarios\": [\n" +
                 "        {\n" +
@@ -190,6 +191,7 @@ public class FeatureParserTest {
                 "    },\n" +
                 "    {\n" +
                 "      \"uri\": \"subdomain/extra-hot.feature\",\n" +
+                "      \"name\": \"Extra Hot and Orange Juice\",\n" +
                 "      \"tags\": [],\n" +
                 "      \"scenarios\": [\n" +
                 "        {\n" +
@@ -270,6 +272,7 @@ public class FeatureParserTest {
                 "    },\n" +
                 "    {\n" +
                 "      \"uri\": \"subdomain/running-out.feature\",\n" +
+                "      \"name\": \"Running Out\",\n" +
                 "      \"tags\": [],\n" +
                 "      \"scenarios\": [\n" +
                 "        {\n" +

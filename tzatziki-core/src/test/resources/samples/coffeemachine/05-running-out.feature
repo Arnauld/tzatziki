@@ -33,7 +33,7 @@ Feature: Running Out
     | Chocolate    |
 
   @manual
-  @Notification
+  @notification
   Scenario: Manually send an email
     Given an empty machine
     When I click on the "Send Test Email" button

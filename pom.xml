@@ -9,7 +9,7 @@
         <version>7</version>
     </parent>
 
-    <groupId>org.technbolts</groupId>
+    <groupId>org.technbolts.tzatziki</groupId>
     <artifactId>tzatziki</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -18,6 +18,7 @@
         <module>tzatziki-core</module>
         <module>tzatziki-xls</module>
         <module>tzatziki-pdf</module>
+        <module>tzatziki-samples</module>
     </modules>
 
     <licenses>
