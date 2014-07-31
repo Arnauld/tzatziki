@@ -2,6 +2,7 @@ package tzatziki.junit;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.io.IOUtils;
+import org.junit.Assert;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
@@ -41,7 +42,6 @@ public class SanityTagChecker extends ParentRunner<FeatureTagRunner> {
         super(klazz);
         tagDictionary = new TagDictionary();
         children = initChildren();
-        System.out.println("SanityTagChecker.SanityTagChecker<init>::"+children);
     }
 
     private List<FeatureTagRunner> initChildren() throws InitializationError {
@@ -67,7 +67,6 @@ public class SanityTagChecker extends ParentRunner<FeatureTagRunner> {
         for (FrameworkMethod method : featuresMethods) {
             try {
                 Features features = (Features) method.invokeExplosively(null);
-                System.out.println("SanityTagChecker.initChildren(" + features);
                 for (Feature feature : features.features()) {
                     FeatureTagRunner runner = new FeatureTagRunner(testClass, feature, tagDictionary);
                     children.add(runner);
@@ -121,7 +120,6 @@ public class SanityTagChecker extends ParentRunner<FeatureTagRunner> {
 
     @Override
     protected void runChild(FeatureTagRunner child, RunNotifier notifier) {
-        System.out.println("SanityTagChecker.runChild");
         child.run(notifier);
     }
 
@@ -140,7 +138,9 @@ public class SanityTagChecker extends ParentRunner<FeatureTagRunner> {
         FeatureParser parser = new FeatureParser();
         for (File sourceDir : sourceDirectories)
             parser.usingSourceDirectory(sourceDir);
-        return parser.process();
+        Features features = parser.process();
+        Assert.assertTrue("No features found", !features.features().isEmpty());
+        return features;
     }
 
     public static TagDictionary loadTagsFromUTF8PropertiesResources(String resourcePath) throws IOException {
@@ -159,15 +159,12 @@ public class SanityTagChecker extends ParentRunner<FeatureTagRunner> {
         }
     }
 
-    private class InvalidReturnTypeException extends IllegalArgumentException {
+    private static class InvalidReturnTypeException extends IllegalArgumentException {
         public InvalidReturnTypeException(String message) {
             super(message);
         }
     }
 
-    /**
-     * @author <a href="http://twitter.com/aloyer">@aloyer</a>
-     */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
     @Documented

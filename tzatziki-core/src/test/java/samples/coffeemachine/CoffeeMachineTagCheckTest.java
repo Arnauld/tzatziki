@@ -18,7 +18,22 @@ public class CoffeeMachineTagCheckTest {
 
     @SanityTagChecker.TagDictionaryProvider
     public static TagDictionary tagDictionary() {
-        return new TagDictionary().declareTag("@wip").declareTag("@option");
+        return new TagDictionary()
+                        .declareTag("@wip")
+                        .declareTag("@protocol")
+                        .declareTag("@notification")
+                        .declareTag("@message")
+                        .declareTag("@runningOut")
+                        .declareTag("@coffee")
+                        .declareTag("@tea")
+                        .declareTag("@chocolate")
+                        .declareTag("@sugar")
+                        .declareTag("@noSugar")
+                        .declareTag("@takeOrder")
+                        .declareTag("@payment")
+                        .declareTag("@reporting")
+                        .declareTag("@manual")
+                ;
     }
 
     @SanityTagChecker.FeaturesProvider

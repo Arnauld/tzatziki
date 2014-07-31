@@ -94,7 +94,6 @@ public class FeatureTagRunner extends ParentRunner<FeatureTagRunner.TagCheck> {
                 if (!dictionary.containsTag(tag))
                     unknown.add(tag);
             }
-            System.out.println("TagCheck.evaluate(" + tags + ") ");
             if (!unknown.isEmpty())
                 Assert.fail("Unknown tag(s): " + unknown);
         }
