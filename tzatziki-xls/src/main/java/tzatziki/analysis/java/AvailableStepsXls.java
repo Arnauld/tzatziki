@@ -24,6 +24,7 @@ public class AvailableStepsXls {
 
     public AvailableStepsXls(File fileDst) {
         this.fileDst = fileDst;
+        ensureParentFolderExists(fileDst);
 
         //Blank workbook
         workbook = new XSSFWorkbook();
@@ -32,7 +33,13 @@ public class AvailableStepsXls {
         grammarSheet = workbook.createSheet("grammar");
     }
 
+    private static void ensureParentFolderExists(File fileDst) {
+        if(!fileDst.getParentFile().exists())
+            fileDst.getParentFile().mkdirs();
+    }
+
     public void emit(Grammar grammar) {
+        grammar.classes().forEach(emitClassSummary(null));
         grammar.packages().forEach(emitPackageSummary());
     }
 
@@ -56,8 +63,9 @@ public class AvailableStepsXls {
             log.debug("Emitting pattern {}", pattern);
 
             Row row = grammarSheet.createRow(grammarSheetRowNum++);
+
             int cellnum = 0;
-            createCell(row, cellnum++, packageEntry.name());
+            createCell(row, cellnum++, classEntry.packageName());
             createCell(row, cellnum++, classEntry.name());
             createCell(row, cellnum++, methodEntry.signature());
             createCell(row, cellnum++, pattern);

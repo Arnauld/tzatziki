@@ -2,6 +2,7 @@ package tzatziki.analysis.java;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
+import tzatziki.util.PackagePath;
 
 import java.util.List;
 
@@ -23,12 +24,50 @@ public class PackageEntry extends Describable {
         return name;
     }
 
+
+    private PackageEntry recursivelyFoundOrCreate(String packageName) {
+        if (PackagePath.areSamePackage(name, packageName))
+            return this;
+
+        String directSubPkg = PackagePath.directSubPackageOf(name, packageName);
+        String qualifiedSub;
+        if(name.length() > 0)
+            qualifiedSub = name + "." + directSubPkg;
+        else
+            qualifiedSub = directSubPkg;
+
+        for (PackageEntry pkg : subPkgEntries) {
+            if (pkg.name().equals(qualifiedSub)) {
+                return pkg.recursivelyFoundOrCreate(packageName);
+            }
+        }
+
+        PackageEntry pkg = new PackageEntry(qualifiedSub);
+        subPkgEntries.add(pkg);
+        return pkg.recursivelyFoundOrCreate(packageName);
+    }
+
     public void declareClass(ClassEntry classEntry) {
-        classEntries.add(classEntry);
+        recursivelyFoundOrCreate(classEntry.packageName()).mergeClass(classEntry);
+    }
+
+    private void mergeClass(ClassEntry classEntry) {
+        for(ClassEntry entry : classEntries) {
+            if(entry.name().equals(classEntry.name())) {
+                entry.mergeClass(classEntry);
+                return;
+            }
+        }
+        this.classEntries.add(classEntry);
     }
 
     public void declareSubPackage(PackageEntry subPkgEntry) {
-        subPkgEntries.add(subPkgEntry);
+        recursivelyFoundOrCreate(subPkgEntry.name()).mergePackage(subPkgEntry);
+    }
+
+    private void mergePackage(PackageEntry subPkgEntry) {
+        this.classEntries.addAll(subPkgEntry.classEntries);
+        this.subPkgEntries.addAll(subPkgEntry.subPkgEntries);
     }
 
     public boolean hasEntries() {
@@ -62,5 +101,4 @@ public class PackageEntry extends Describable {
         }
         return FluentIterable.from(matches);
     }
-
 }

@@ -4,8 +4,11 @@ import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +18,8 @@ import java.util.regex.Pattern;
  */
 public class GrammarParser {
     public static Pattern STEP_KEYWORD_QUALIFIED_NAME = Pattern.compile("cucumber\\.api\\.java\\.[^.]+\\.(.+)");
+
+    private Logger log = LoggerFactory.getLogger(GrammarParser.class);
     //
     private GrammarParserListener listener = new GrammarParserListenerAdapter();
     private JavaProjectBuilder builder = new JavaProjectBuilder();
@@ -31,10 +36,21 @@ public class GrammarParser {
 
     public Grammar process() {
         Grammar grammar = new Grammar();
-        for (JavaPackage pkg : builder.getPackages()) {
+
+        Collection<JavaPackage> packages = builder.getPackages();
+        listener.aboutToParsePackages(packages);
+        for (JavaPackage pkg : packages) {
             PackageEntry pkgEntry = analyzePackage(pkg);
             if (pkgEntry.hasEntries())
                 grammar.declarePackage(pkgEntry);
+        }
+
+        Collection<JavaClass> classes = builder.getClasses();
+        listener.aboutToParseClasses(classes);
+        for (JavaClass klazz : classes) {
+            ClassEntry klazzEntry = analyzeClass(klazz);
+            if (klazzEntry.hasEntries())
+                grammar.declareClass(klazzEntry);
         }
         return grammar;
     }

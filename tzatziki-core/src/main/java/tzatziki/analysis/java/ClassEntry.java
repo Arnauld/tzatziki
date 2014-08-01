@@ -24,8 +24,17 @@ public class ClassEntry extends Describable {
         return name;
     }
 
+    public String packageName() {
+        return packageName;
+    }
+
     public String qualifiedName() {
-        return packageName + '.' + name();
+        return packageName() + '.' + name();
+    }
+
+
+    public void mergeClass(ClassEntry other) {
+        this.describeWith(other.comment());
     }
 
     public void declareEntry(MethodEntry methodEntry) {

@@ -1,38 +1,39 @@
 package tzatziki.analysis.java;
 
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Lists;
-
-import java.util.List;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
 public class Grammar {
 
-    private final List<PackageEntry> pkgEntries;
+    private final PackageEntry root;
 
     public Grammar() {
-        this.pkgEntries = Lists.newArrayList();
+        this.root = new PackageEntry("");
     }
 
     public void declarePackage(PackageEntry subPkgEntry) {
-        pkgEntries.add(subPkgEntry);
+        root.declareSubPackage(subPkgEntry);
+    }
+
+    public void declareClass(ClassEntry classEntry) {
+        root.declareClass(classEntry);
     }
 
     public boolean hasEntries() {
-        return !pkgEntries.isEmpty();
+        return !root.hasEntries();
     }
 
     public FluentIterable<PackageEntry> packages() {
-        return FluentIterable.from(pkgEntries);
+        return root.subPackages();
+    }
+
+    public FluentIterable<ClassEntry> classes() {
+        return root.classes();
     }
 
     public FluentIterable<MethodEntry> matchingEntries(String text) {
-        List<MethodEntry> matches = Lists.newArrayList();
-        for (PackageEntry subGroup : pkgEntries) {
-            subGroup.matchingEntries(text).copyInto(matches);
-        }
-        return FluentIterable.from(matches);
+        return root.matchingEntries(text);
     }
 }
