@@ -1,8 +1,12 @@
 package tzatziki.analysis.java;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +25,8 @@ public class AvailableStepsXls {
     private XSSFWorkbook workbook;
     private Sheet grammarSheet;
     private int grammarSheetRowNum;
+    private CellStyle headerCellStyle;
+    private CellStyle entryCellStyle;
 
     public AvailableStepsXls(File fileDst) {
         this.fileDst = fileDst;
@@ -29,12 +35,42 @@ public class AvailableStepsXls {
         //Blank workbook
         workbook = new XSSFWorkbook();
 
+        //
+        initStyles();
+
         //Create a blank sheet
         grammarSheet = workbook.createSheet("grammar");
+
+        emitHeaderRow();
+    }
+
+    private void initStyles() {
+        Font titleFont = workbook.createFont();
+        titleFont.setFontHeightInPoints((short) 16);
+        titleFont.setColor(IndexedColors.DARK_BLUE.getIndex());
+
+        CellStyle style = workbook.createCellStyle();
+        style.setAlignment(CellStyle.ALIGN_CENTER);
+        style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+        style.setFont(titleFont);
+
+        headerCellStyle = style;
+        entryCellStyle = null; // default
+    }
+
+    private void emitHeaderRow() {
+
+        Row row = grammarSheet.createRow(grammarSheetRowNum++);
+
+        int cellnum = 0;
+        createCell(row, cellnum++, headerCellStyle, "package");
+        createCell(row, cellnum++, headerCellStyle, "class");
+        createCell(row, cellnum++, headerCellStyle, "method");
+        createCell(row, cellnum++, headerCellStyle, "pattern");
     }
 
     private static void ensureParentFolderExists(File fileDst) {
-        if(!fileDst.getParentFile().exists())
+        if (!fileDst.getParentFile().exists())
             fileDst.getParentFile().mkdirs();
     }
 
@@ -65,16 +101,18 @@ public class AvailableStepsXls {
             Row row = grammarSheet.createRow(grammarSheetRowNum++);
 
             int cellnum = 0;
-            createCell(row, cellnum++, classEntry.packageName());
-            createCell(row, cellnum++, classEntry.name());
-            createCell(row, cellnum++, methodEntry.signature());
-            createCell(row, cellnum++, pattern);
+            createCell(row, cellnum++, entryCellStyle, classEntry.packageName());
+            createCell(row, cellnum++, entryCellStyle, classEntry.name());
+            createCell(row, cellnum++, entryCellStyle, methodEntry.signature());
+            createCell(row, cellnum++, entryCellStyle, pattern);
         }
     }
 
-    private void createCell(Row row, int column, String value) {
+    private void createCell(Row row, int column, CellStyle style, String value) {
         Cell cell = row.createCell(column);
         cell.setCellValue(value);
+        if(style != null)
+            cell.setCellStyle(style);
     }
 
     private Consumer<? super MethodEntry> emitMethodSummary(final PackageEntry packageEntry, final ClassEntry classEntry) {

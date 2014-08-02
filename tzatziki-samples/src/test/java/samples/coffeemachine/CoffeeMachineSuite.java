@@ -60,8 +60,7 @@ public class CoffeeMachineSuite {
 
     @AfterClass
     public static void generateExecutionReport() throws FileNotFoundException {
-        FileInputStream execResult = new FileInputStream(executionResultFile());
-
+        new FileInputStream(executionResultFile());
     }
 
     public static File executionResultFile() {

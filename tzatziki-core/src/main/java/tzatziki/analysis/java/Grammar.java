@@ -22,7 +22,7 @@ public class Grammar {
     }
 
     public boolean hasEntries() {
-        return !root.hasEntries();
+        return root.hasEntries();
     }
 
     public FluentIterable<PackageEntry> packages() {
