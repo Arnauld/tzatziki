@@ -1,19 +1,18 @@
 package tzatziki.analysis.java;
 
+import com.google.common.base.Predicate;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.function.Consumer;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -67,6 +66,7 @@ public class AvailableStepsXls {
         createCell(row, cellnum++, headerCellStyle, "class");
         createCell(row, cellnum++, headerCellStyle, "method");
         createCell(row, cellnum++, headerCellStyle, "pattern");
+        createCell(row, cellnum++, headerCellStyle, "documentation");
     }
 
     private static void ensureParentFolderExists(File fileDst) {
@@ -75,21 +75,21 @@ public class AvailableStepsXls {
     }
 
     public void emit(Grammar grammar) {
-        grammar.classes().forEach(emitClassSummary(null));
-        grammar.packages().forEach(emitPackageSummary());
+        grammar.classes().allMatch(emitClassSummary(null));
+        grammar.packages().allMatch(emitPackageSummary());
     }
 
     private void emitPackageSummary(PackageEntry packageEntry) {
         log.debug("Emitting summary for package {}", packageEntry.name());
 
-        packageEntry.subPackages().forEach(emitPackageSummary());
-        packageEntry.classes().forEach(emitClassSummary(packageEntry));
+        packageEntry.subPackages().allMatch(emitPackageSummary());
+        packageEntry.classes().allMatch(emitClassSummary(packageEntry));
     }
 
     private void emitClassSummary(PackageEntry packageEntry, ClassEntry classEntry) {
         log.debug("Emitting summary for class {}", classEntry.name());
 
-        classEntry.methods().forEach(emitMethodSummary(packageEntry, classEntry));
+        classEntry.methods().allMatch(emitMethodSummary(packageEntry, classEntry));
     }
 
     private void emitMethodSummary(PackageEntry packageEntry, ClassEntry classEntry, MethodEntry methodEntry) {
@@ -105,39 +105,47 @@ public class AvailableStepsXls {
             createCell(row, cellnum++, entryCellStyle, classEntry.name());
             createCell(row, cellnum++, entryCellStyle, methodEntry.signature());
             createCell(row, cellnum++, entryCellStyle, pattern);
+            createCell(row, cellnum++, entryCellStyle, notNull(methodEntry.comment()));
         }
+    }
+
+    private static String notNull(String string) {
+        return string == null ? null : "";
     }
 
     private void createCell(Row row, int column, CellStyle style, String value) {
         Cell cell = row.createCell(column);
         cell.setCellValue(value);
-        if(style != null)
+        if (style != null)
             cell.setCellStyle(style);
     }
 
-    private Consumer<? super MethodEntry> emitMethodSummary(final PackageEntry packageEntry, final ClassEntry classEntry) {
-        return new Consumer<MethodEntry>() {
+    private Predicate<? super MethodEntry> emitMethodSummary(final PackageEntry packageEntry, final ClassEntry classEntry) {
+        return new Predicate<MethodEntry>() {
             @Override
-            public void accept(MethodEntry methodEntry) {
+            public boolean apply(MethodEntry methodEntry) {
                 emitMethodSummary(packageEntry, classEntry, methodEntry);
+                return true;
             }
         };
     }
 
-    private Consumer<? super ClassEntry> emitClassSummary(final PackageEntry packageEntry) {
-        return new Consumer<ClassEntry>() {
+    private Predicate<? super ClassEntry> emitClassSummary(final PackageEntry packageEntry) {
+        return new Predicate<ClassEntry>() {
             @Override
-            public void accept(ClassEntry classEntry) {
+            public boolean apply(ClassEntry classEntry) {
                 emitClassSummary(packageEntry, classEntry);
+                return true;
             }
         };
     }
 
-    private Consumer<? super PackageEntry> emitPackageSummary() {
-        return new Consumer<PackageEntry>() {
+    private Predicate<? super PackageEntry> emitPackageSummary() {
+        return new Predicate<PackageEntry>() {
             @Override
-            public void accept(PackageEntry packageEntry) {
+            public boolean apply(PackageEntry packageEntry) {
                 emitPackageSummary(packageEntry);
+                return true;
             }
         };
     }
