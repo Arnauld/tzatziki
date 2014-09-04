@@ -54,6 +54,10 @@ public class FeatureExec {
         return name;
     }
 
+    public String description() {
+        return description;
+    }
+
     public FeatureExec background(BackgroundExec backgroundExec) {
         this.backgroundExec = backgroundExec;
         return this;

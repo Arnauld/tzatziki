@@ -4,6 +4,11 @@ package tzatziki.pdf;
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
 public class Margin {
+
+    public static Margin create(float margin) {
+        return new Margin(margin);
+    }
+
     public final float marginLeft;
     public final float marginRight;
     public final float marginTop;
