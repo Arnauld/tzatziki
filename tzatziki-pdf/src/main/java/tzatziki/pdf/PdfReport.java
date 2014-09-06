@@ -26,7 +26,7 @@ public class PdfReport {
 
     public void startReport(File output) throws FileNotFoundException, DocumentException {
         iTextContext = new ITextContext().open(output);
-        sections = new Sections(configuration.sectionTitleFonts());
+        sections = new Sections(configuration.headerFonts());
         emitterContext = new EmitterContext(iTextContext, configuration, sections).registerDefaults();
     }
 

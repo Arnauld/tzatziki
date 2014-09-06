@@ -35,6 +35,10 @@ public class ResultExec {
         this.duration = duration;
     }
 
+    public String status() {
+        return status;
+    }
+
     private static String ensureStatusIsValid(String status) {
         String lowerCase = status.toLowerCase();
         if (KNOWNS.contains(lowerCase))
@@ -52,4 +56,23 @@ public class ResultExec {
         };
     }
 
+    public boolean isPassed() {
+        return PASSED.equalsIgnoreCase(status);
+    }
+
+    public boolean isSkipped() {
+        return SKIPPED.equalsIgnoreCase(status);
+    }
+
+    public boolean isUndefined() {
+        return UNDEFINED.equalsIgnoreCase(status);
+    }
+
+    public boolean isFailed() {
+        return SKIPPED.equalsIgnoreCase(status);
+    }
+
+    public boolean isPending() {
+        return PENDING.equalsIgnoreCase(status);
+    }
 }

@@ -51,34 +51,30 @@
                 ],
                 "comments": [
                     "#",
-                    "#  **In order** to send commands to the drink maker",
+                    "# **In order** to send commands to the drink maker",
                     "#",
-                    "#  **As a** developer",
+                    "# **As a** developer",
                     "#",
-                    "#  **I want to** implement the logic that translates orders",
-                    "#  from customers of the coffee machine to the drink maker",
+                    "# **I want to** implement the logic that translates orders",
+                    "# from customers of the coffee machine to the drink maker",
                     "#",
-                    "#  \u003cp style\u003d\"text-align: right;\"\u003e",
-                    "#   \u003cimg src\u003d\"/coffee-cup.jpeg\" width\u003d\"66px\" height\u003d\"100px\"/\u003e",
-                    "#  \u003c/p\u003e",
                     "#",
-                    "#The code will use the drink maker protocol (see below) to send commands to the drink maker.",
+                    "# The code will use the drink maker protocol (see below) to send commands to the drink maker.",
                     "#",
-                    "#The coffee machine can serves 3 type of drinks:",
+                    "# The coffee machine can serves 3 type of drinks:",
                     "#",
                     "#  * tea,",
                     "#  * coffee,",
                     "#  * chocolate.",
                     "#",
                     "#",
-                    "#[ asciidiag ]",
-                    "#----",
+                    "#```ditaa",
                     "#",
                     "#  /---------+     +------------+",
                     "#  |  Order  |----\u003e|  Protocol  |",
                     "#  +---------/     +------------+",
                     "#",
-                    "#----"
+                    "#```"
                 ],
                 "description": "",
                 "lineRange": {
@@ -1013,18 +1009,17 @@
                     "#",
                     "# **I want to** track statistics of machine usage",
                     "#",
-                    "# [formula]",
-                    "#  ----",
+                    "#```formula",
                     "#    {\\eta \\leq C(\\delta(\\eta) +\\Lambda_M(0,\\delta))",
-                    "#  ----",
+                    "#```",
                     "#",
-                    "# {% formula %}",
+                    "#```formula",
                     "#",
                     "#    \\Re{z} \u003d\\frac{n\\pi \\dfrac{\\theta +\\psi}{2}}{",
                     "#            \\left(\\dfrac{\\theta +\\psi}{2}\\right)^2 + \\left( \\dfrac{1}{2}",
                     "#            \\log \\left\\vert\\dfrac{B}{A}\\right\\vert\\right)^2}.",
                     "#",
-                    "# {% formula %}",
+                    "#```",
                     "#",
                     "#"
                 ],
@@ -1050,8 +1045,7 @@
                             "arguments": []
                         },
                         "comments": [
-                            "# [asciidiag]",
-                            "# ----",
+                            "#```ditaa",
                             "#   /---------------+-------------\\",
                             "#   |cRED Chocolate |cBLU 1       |-----\\",
                             "#   +---------------+-------------+     :",
@@ -1063,7 +1057,7 @@
                             "#   |               +-------------+         |    {s}|",
                             "#   |               |cYEL YEL     |         \\-------/",
                             "#   \\---------------+-------------/",
-                            "# ----",
+                            "#```",
                             "#"
                         ],
                         "embeddedList": []
@@ -1418,5 +1412,6 @@
         "tags": [],
         "comments": [],
         "description": ""
-    }]
+    }
+]
 }

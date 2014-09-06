@@ -3,6 +3,7 @@ package tzatziki.analysis.exec.model;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -39,6 +40,18 @@ public class StepExec extends EmbeddingAndWriteContainer {
         this.name = name;
     }
 
+    public String keyword() {
+        return keyword;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public ResultExec result() {
+        return resultExec;
+    }
+
     public void declareResult(ResultExec resultExec) {
         if (this.resultExec != null)
             throw new IllegalStateException("Result already assigned");
@@ -57,5 +70,9 @@ public class StepExec extends EmbeddingAndWriteContainer {
 
     public void declareDocString(String docString) {
         this.docString = docString;
+    }
+
+    public FluentIterable<String> comments() {
+        return FluentIterable.from(comments);
     }
 }

@@ -31,6 +31,10 @@ public class EmitterContext {
         this.sections = sections;
     }
 
+    public ITextContext iTextContext() {
+        return context;
+    }
+
     public Document getDocument() {
         return context.getDocument();
     }
@@ -47,6 +51,7 @@ public class EmitterContext {
     public EmitterContext registerDefaults() {
         registered.put(FeatureExec.class, new FeatureEmitter());
         registered.put(ScenarioExec.class, new ScenarioEmitter());
+        registered.put(Markdown.class, new MarkdownEmitter());
         return this;
     }
 

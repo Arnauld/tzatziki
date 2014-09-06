@@ -56,4 +56,12 @@ public class StepContainer extends EmbeddingAndWriteContainer {
     public LineRange lineRange() {
         return lineRange;
     }
+
+    public String description() {
+        return description;
+    }
+
+    public FluentIterable<String> comments() {
+        return FluentIterable.from(comments);
+    }
 }

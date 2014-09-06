@@ -1,11 +1,11 @@
 package tzatziki.pdf;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Rectangle;
+import com.google.common.base.Optional;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import gutenberg.itext.ITextUtils;
+
+import java.io.IOException;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -57,16 +57,21 @@ public class Configuration {
         return defaultFontName;
     }
 
+    public BaseFont defaultMonospaceBaseFont() {
+        try {
+            return ITextUtils.inconsolata();
+        } catch (IOException e) {
+            return FontFactory.getFont(FontFactory.COURIER).getBaseFont();
+        } catch (DocumentException e) {
+            return FontFactory.getFont(FontFactory.COURIER).getBaseFont();
+        }
+    }
+
     public BaseColor primaryColor() {
         if (primaryColor == null)
             primaryColor = Colors.DARK_RED;
         return primaryColor;
     }
-
-    public boolean shouldDisplayUri() {
-        return true;
-    }
-
 
     public BaseColor defaultColor() {
         return BaseColor.BLACK;
@@ -103,11 +108,25 @@ public class Configuration {
         return FontFactory.getFont(defaultFontName(), 8, Font.NORMAL, primaryColor());
     }
 
-    public Font[] sectionTitleFonts() {
+    public Font[] headerFonts() {
         return new Font[]{
                 FontFactory.getFont(FontFactory.HELVETICA, 18.0f, Font.BOLD, BaseColor.BLACK),
                 FontFactory.getFont(FontFactory.HELVETICA, 16.0f, Font.BOLD, BaseColor.DARK_GRAY),
                 FontFactory.getFont(FontFactory.HELVETICA, 14.0f, Font.BOLD, BaseColor.DARK_GRAY)
         };
+    }
+
+    //
+
+    public Optional<Boolean> getBoolean(String propertyKey) {
+        return Optional.of(true);
+    }
+
+    public boolean getBoolean(String propertyKey, boolean defaultValue) {
+        return getBoolean(propertyKey).or(defaultValue);
+    }
+
+    public Optional<Font> getFont(String fontKey) {
+        return Optional.absent();
     }
 }
