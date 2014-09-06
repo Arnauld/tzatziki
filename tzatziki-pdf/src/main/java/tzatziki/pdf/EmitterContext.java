@@ -52,6 +52,8 @@ public class EmitterContext {
         registered.put(FeatureExec.class, new FeatureEmitter());
         registered.put(ScenarioExec.class, new ScenarioEmitter());
         registered.put(Markdown.class, new MarkdownEmitter());
+        registered.put(Steps.class, new StepsEmitter());
+        registered.put(Tags.class, new TagsEmitter());
         return this;
     }
 

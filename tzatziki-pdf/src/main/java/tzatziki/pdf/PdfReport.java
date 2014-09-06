@@ -4,12 +4,16 @@ import com.itextpdf.text.DocumentException;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.Sections;
 import tzatziki.analysis.exec.model.FeatureExec;
+import tzatziki.analysis.exec.model.ResultExec;
+import tzatziki.analysis.exec.model.StepExec;
 import tzatziki.analysis.exec.tag.TagView;
 import tzatziki.analysis.java.Grammar;
 import tzatziki.analysis.tag.TagDictionary;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -32,6 +36,10 @@ public class PdfReport {
 
     public void endReport() {
         iTextContext.close();
+    }
+
+    public <T> void emit(PdfEmitter<T> emitter, T arg) {
+        emitter.emit(arg, emitterContext);
     }
 
     public void emit(FeatureExec featureExec) {

@@ -52,10 +52,11 @@ public class StepExec extends EmbeddingAndWriteContainer {
         return resultExec;
     }
 
-    public void declareResult(ResultExec resultExec) {
+    public StepExec declareResult(ResultExec resultExec) {
         if (this.resultExec != null)
             throw new IllegalStateException("Result already assigned");
         this.resultExec = resultExec;
+        return this;
     }
 
     public void declareMatch(MatchExec matchExec) {

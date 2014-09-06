@@ -69,7 +69,7 @@ public class ResultExec {
     }
 
     public boolean isFailed() {
-        return SKIPPED.equalsIgnoreCase(status);
+        return FAILED.equalsIgnoreCase(status);
     }
 
     public boolean isPending() {
