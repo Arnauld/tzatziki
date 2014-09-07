@@ -1,4 +1,4 @@
-package tzatziki.pdf;
+package tzatziki.pdf.emitter;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -12,6 +12,9 @@ import org.pegdown.ast.RootNode;
 import org.pegdown.plugins.PegDownPlugins;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tzatziki.pdf.EmitterContext;
+import tzatziki.pdf.PdfEmitter;
+import tzatziki.pdf.model.Markdown;
 
 import java.io.IOException;
 import java.util.List;

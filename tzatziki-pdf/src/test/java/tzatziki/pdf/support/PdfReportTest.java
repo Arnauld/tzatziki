@@ -1,4 +1,4 @@
-package tzatziki.pdf;
+package tzatziki.pdf.support;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Section;
@@ -9,6 +9,12 @@ import tzatziki.analysis.exec.gson.JsonIO;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ResultExec;
 import tzatziki.analysis.exec.model.StepExec;
+import tzatziki.pdf.Configuration;
+import tzatziki.pdf.EmitterContext;
+import tzatziki.pdf.PdfEmitter;
+import tzatziki.pdf.TestSettings;
+import tzatziki.pdf.model.Steps;
+import tzatziki.pdf.support.PdfReport;
 
 import java.io.File;
 import java.io.InputStream;

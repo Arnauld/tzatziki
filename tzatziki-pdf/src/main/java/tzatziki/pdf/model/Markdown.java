@@ -1,4 +1,4 @@
-package tzatziki.pdf;
+package tzatziki.pdf.model;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>

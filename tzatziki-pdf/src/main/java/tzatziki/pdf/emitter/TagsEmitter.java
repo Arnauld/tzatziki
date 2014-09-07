@@ -1,4 +1,4 @@
-package tzatziki.pdf;
+package tzatziki.pdf.emitter;
 
 import com.google.common.base.Supplier;
 import com.google.common.collect.FluentIterable;
@@ -6,6 +6,10 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.CMYKColor;
+import tzatziki.pdf.Configuration;
+import tzatziki.pdf.EmitterContext;
+import tzatziki.pdf.PdfEmitter;
+import tzatziki.pdf.model.Tags;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>

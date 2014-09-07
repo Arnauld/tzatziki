@@ -1,19 +1,19 @@
-package tzatziki.pdf;
+package tzatziki.pdf.support;
 
 import com.itextpdf.text.DocumentException;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.Sections;
 import tzatziki.analysis.exec.model.FeatureExec;
-import tzatziki.analysis.exec.model.ResultExec;
-import tzatziki.analysis.exec.model.StepExec;
 import tzatziki.analysis.exec.tag.TagView;
 import tzatziki.analysis.java.Grammar;
 import tzatziki.analysis.tag.TagDictionary;
+import tzatziki.pdf.Configuration;
+import tzatziki.pdf.EmitterContext;
+import tzatziki.pdf.PdfEmitter;
+import tzatziki.pdf.emitter.DefaultEmitters;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -22,7 +22,6 @@ public class PdfReport {
     private final Configuration configuration;
     private ITextContext iTextContext;
     private EmitterContext emitterContext;
-    private Sections sections;
 
     public PdfReport(Configuration configuration) {
         this.configuration = configuration;
@@ -30,8 +29,17 @@ public class PdfReport {
 
     public void startReport(File output) throws FileNotFoundException, DocumentException {
         iTextContext = new ITextContext().open(output);
-        sections = new Sections(configuration.headerFonts());
-        emitterContext = new EmitterContext(iTextContext, configuration, sections).registerDefaults();
+        emitterContext = createEmitterContext();
+        registerPdfEmitters(emitterContext);
+    }
+
+    protected EmitterContext createEmitterContext() {
+        Sections sections = new Sections(configuration.headerFonts());
+        return new EmitterContext(iTextContext, configuration, sections);
+    }
+
+    protected void registerPdfEmitters(EmitterContext emitterContext) {
+        new DefaultEmitters().registerDefaults(emitterContext);
     }
 
     public void endReport() {

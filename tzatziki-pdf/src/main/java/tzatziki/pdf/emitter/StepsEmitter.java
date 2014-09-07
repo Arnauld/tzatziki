@@ -1,4 +1,4 @@
-package tzatziki.pdf;
+package tzatziki.pdf.emitter;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -6,6 +6,9 @@ import com.itextpdf.text.pdf.PdfPTable;
 import gutenberg.itext.FontAwesomeAdapter;
 import tzatziki.analysis.exec.model.ResultExec;
 import tzatziki.analysis.exec.model.StepExec;
+import tzatziki.pdf.EmitterContext;
+import tzatziki.pdf.PdfEmitter;
+import tzatziki.pdf.model.Steps;
 
 import java.io.IOException;
 

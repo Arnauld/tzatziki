@@ -8,8 +8,6 @@ import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfWriter;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.Sections;
-import tzatziki.analysis.exec.model.FeatureExec;
-import tzatziki.analysis.exec.model.ScenarioExec;
 
 import java.util.Map;
 
@@ -48,15 +46,6 @@ public class EmitterContext {
         return registered.get(type);
     }
 
-    public EmitterContext registerDefaults() {
-        registered.put(FeatureExec.class, new FeatureEmitter());
-        registered.put(ScenarioExec.class, new ScenarioEmitter());
-        registered.put(Markdown.class, new MarkdownEmitter());
-        registered.put(Steps.class, new StepsEmitter());
-        registered.put(Tags.class, new TagsEmitter());
-        return this;
-    }
-
     public Configuration getConfiguration() {
         return configuration;
     }
@@ -79,5 +68,9 @@ public class EmitterContext {
 
     public Sections sections() {
         return sections;
+    }
+
+    public <T> void register(Class<T> type, PdfEmitter<? super T> emitter) {
+        registered.put(type, emitter);
     }
 }

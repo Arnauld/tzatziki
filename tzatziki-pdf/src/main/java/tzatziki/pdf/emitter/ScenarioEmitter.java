@@ -1,4 +1,4 @@
-package tzatziki.pdf;
+package tzatziki.pdf.emitter;
 
 import com.google.common.base.Optional;
 import gutenberg.itext.Sections;
@@ -7,6 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.analysis.exec.model.StepExec;
+import tzatziki.pdf.Comments;
+import tzatziki.pdf.Configuration;
+import tzatziki.pdf.EmitterContext;
+import tzatziki.pdf.PdfEmitter;
+import tzatziki.pdf.model.Markdown;
+import tzatziki.pdf.model.Steps;
+import tzatziki.pdf.model.Tags;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>

@@ -1,4 +1,4 @@
-package tzatziki.pdf;
+package tzatziki.pdf.model;
 
 import com.google.common.collect.FluentIterable;
 
