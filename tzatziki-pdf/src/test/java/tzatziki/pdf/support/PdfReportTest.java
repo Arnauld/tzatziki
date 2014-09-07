@@ -8,7 +8,6 @@ import tzatziki.analysis.exec.gson.JsonIO;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ResultExec;
 import tzatziki.analysis.exec.model.StepExec;
-import tzatziki.pdf.Configuration;
 import tzatziki.pdf.EmitterContext;
 import tzatziki.pdf.PdfSimpleEmitter;
 import tzatziki.pdf.TestSettings;
@@ -24,13 +23,13 @@ import java.util.List;
 
 public class PdfReportTest {
 
-    private Configuration configuration;
     private TestSettings settings;
+    private Configuration configuration;
 
     @Before
     public void setUp() {
-        configuration = new Configuration();
         settings = new TestSettings();
+        configuration = new Configuration();
     }
 
     @Test

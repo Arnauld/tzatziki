@@ -1,7 +1,6 @@
 package tzatziki.pdf.emitter;
 
 import com.google.common.base.Optional;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Section;
 import gutenberg.itext.Sections;
@@ -11,11 +10,11 @@ import org.slf4j.LoggerFactory;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.pdf.Comments;
-import tzatziki.pdf.Configuration;
+import tzatziki.pdf.Settings;
 import tzatziki.pdf.EmitterContext;
-import tzatziki.pdf.Margin;
 import tzatziki.pdf.PdfEmitter;
 import tzatziki.pdf.model.Markdown;
+import tzatziki.pdf.model.Tags;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -27,24 +26,27 @@ public class FeatureEmitter implements PdfEmitter<FeatureExec> {
 
     private Logger log = LoggerFactory.getLogger(FeatureEmitter.class);
     //
-    private Margin descriptionMargin = Margin.create(10);
 
     @Override
     public void emit(FeatureExec feature, EmitterContext emitterContext) {
-        Configuration configuration = emitterContext.getConfiguration();
+        Settings settings = emitterContext.getSettings();
         Sections sections = emitterContext.sections();
 
         Section featureChap = sections.newSection(feature.name(), 1);
         try {
 
             // Uri
-            if (configuration.getBoolean(DISPLAY_URI, true)) {
-                Paragraph uri = new Paragraph("Uri: " + feature.uri(), configuration.defaultMetaFont());
-                featureChap.add(uri);
+            if (settings.getBoolean(DISPLAY_URI, true)) {
+                emitUri(feature, emitterContext);
+            }
+
+            // Tags
+            if (settings.getBoolean(DISPLAY_TAGS, true)) {
+                emitTags(feature, emitterContext);
             }
 
             // Description
-            emitDescription(feature, featureChap, emitterContext);
+            emitDescription(feature, emitterContext);
 
             // Scenario
             for (ScenarioExec scenario : feature.scenario()) {
@@ -57,7 +59,17 @@ public class FeatureEmitter implements PdfEmitter<FeatureExec> {
         emitterContext.append(featureChap);
     }
 
-    protected void emitDescription(FeatureExec feature, Section featureChap, EmitterContext emitterContext) {
+    private void emitUri(FeatureExec feature, EmitterContext emitterContext) {
+        Settings settings = emitterContext.getSettings();
+        Paragraph uri = new Paragraph("Uri: " + feature.uri(), settings.styles().getFontOrDefault(Settings.META_FONT));
+        emitterContext.append(uri);
+    }
+
+    private void emitTags(FeatureExec feature, EmitterContext emitterContext) {
+        emitterContext.emit(Tags.class, new Tags(feature.tags()));
+    }
+
+    protected void emitDescription(FeatureExec feature, EmitterContext emitterContext) {
         // Description
         StringBuilder b = new StringBuilder();
         String description = feature.description();

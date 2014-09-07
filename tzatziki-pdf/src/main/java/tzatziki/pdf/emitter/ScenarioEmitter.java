@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.analysis.exec.model.StepExec;
 import tzatziki.pdf.Comments;
-import tzatziki.pdf.Configuration;
+import tzatziki.pdf.Settings;
 import tzatziki.pdf.EmitterContext;
 import tzatziki.pdf.PdfEmitter;
 import tzatziki.pdf.model.Markdown;
@@ -27,12 +27,12 @@ public class ScenarioEmitter implements PdfEmitter<ScenarioExec> {
 
     @Override
     public void emit(ScenarioExec scenario, EmitterContext emitterContext) {
-        Configuration configuration = emitterContext.getConfiguration();
+        Settings settings = emitterContext.getSettings();
         Sections sections = emitterContext.sections();
 
         sections.newSection(scenario.name(), 2);
         try {
-            if (configuration.getBoolean(DISPLAY_TAGS, true)) {
+            if (settings.getBoolean(DISPLAY_TAGS, true)) {
                 emitTags(scenario, emitterContext);
             }
             emitDescription(scenario, emitterContext);

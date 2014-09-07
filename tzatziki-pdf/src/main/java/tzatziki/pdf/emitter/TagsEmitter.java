@@ -1,14 +1,13 @@
 package tzatziki.pdf.emitter;
 
-import com.google.common.base.Supplier;
 import com.google.common.collect.FluentIterable;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.CMYKColor;
-import tzatziki.pdf.Configuration;
+import gutenberg.itext.Styles;
 import tzatziki.pdf.EmitterContext;
 import tzatziki.pdf.PdfEmitter;
+import tzatziki.pdf.Settings;
 import tzatziki.pdf.model.Tags;
 
 /**
@@ -23,11 +22,13 @@ public class TagsEmitter implements PdfEmitter<Tags> {
         if (tags.isEmpty())
             return;
 
-        Configuration configuration = emitterContext.getConfiguration();
+        Settings settings = emitterContext.getSettings();
 
-        Paragraph pTags = new Paragraph("Tags: ", configuration.defaultMetaFont());
+        Styles styles = settings.styles();
+
+        Paragraph pTags = new Paragraph("Tags: ", styles.getFontOrDefault(Settings.META_FONT));
         boolean first = true;
-        Font tagFont = configuration.getFont(TAG_FONT).or(tagFont(configuration));
+        Font tagFont = styles.getFontOrDefault(TAG_FONT);
         for (String text : tags) {
             if (first) {
                 first = false;
@@ -39,14 +40,5 @@ public class TagsEmitter implements PdfEmitter<Tags> {
         }
 
         emitterContext.append(pTags);
-    }
-
-    private static Supplier<? extends Font> tagFont(final Configuration configuration) {
-        return new Supplier<Font>() {
-            @Override
-            public Font get() {
-                return new Font(configuration.defaultMonospaceBaseFont(), 8, Font.ITALIC, new CMYKColor(25, 255, 255, 17));
-            }
-        };
     }
 }

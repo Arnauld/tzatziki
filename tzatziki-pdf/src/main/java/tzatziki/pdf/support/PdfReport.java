@@ -8,7 +8,7 @@ import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.tag.TagView;
 import tzatziki.analysis.java.Grammar;
 import tzatziki.analysis.tag.TagDictionary;
-import tzatziki.pdf.Configuration;
+import tzatziki.pdf.Settings;
 import tzatziki.pdf.EmitterContext;
 import tzatziki.pdf.PdfEmitter;
 import tzatziki.pdf.PdfSimpleEmitter;
@@ -21,12 +21,13 @@ import java.io.FileNotFoundException;
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
 public class PdfReport {
-    private final Configuration configuration;
+    private final Settings settings;
     private ITextContext iTextContext;
     private EmitterContext emitterContext;
 
     public PdfReport(Configuration configuration) {
-        this.configuration = configuration;
+        this.settings = new Settings();
+        configuration.configure(settings);
     }
 
     public void startReport(File output) throws FileNotFoundException, DocumentException {
@@ -36,10 +37,9 @@ public class PdfReport {
     }
 
     protected EmitterContext createEmitterContext() {
-        Styles styles = configuration.styles();
-
+        Styles styles = settings.styles();
         Sections sections = new Sections(styles);
-        return new EmitterContext(iTextContext, configuration, sections, styles);
+        return new EmitterContext(iTextContext, settings, sections, styles);
     }
 
     protected void registerPdfEmitters(EmitterContext emitterContext) {

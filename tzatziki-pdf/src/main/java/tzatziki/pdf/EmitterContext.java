@@ -18,18 +18,18 @@ import java.util.Map;
  */
 public class EmitterContext {
     private final ITextContext context;
-    private final Configuration configuration;
+    private final Settings settings;
     private final Sections sections;
     private final Styles styles;
 
     private Map<Object, PdfEmitter> registered = Maps.newConcurrentMap();
 
     public EmitterContext(ITextContext context,
-                          Configuration configuration,
+                          Settings settings,
                           Sections sections,
                           Styles styles) {
         this.context = context;
-        this.configuration = configuration;
+        this.settings = settings;
         this.sections = sections;
         this.styles = styles;
     }
@@ -55,8 +55,8 @@ public class EmitterContext {
         return registered.get(type);
     }
 
-    public Configuration getConfiguration() {
-        return configuration;
+    public Settings getSettings() {
+        return settings;
     }
 
     public void appendAll(Iterable<? extends Element> elements) {
