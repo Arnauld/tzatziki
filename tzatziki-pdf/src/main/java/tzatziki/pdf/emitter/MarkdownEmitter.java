@@ -3,7 +3,6 @@ package tzatziki.pdf.emitter;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Section;
 import gutenberg.itext.pegdown.InvocationContext;
 import gutenberg.pegdown.plugin.AttributesPlugin;
 import org.pegdown.Extensions;
@@ -40,11 +39,7 @@ public class MarkdownEmitter implements PdfEmitter<Markdown> {
                     new InvocationContext(emitterContext.iTextContext())
                             .useSections(emitterContext.sections());
             List<Element> elements = context.process(0, rootNode);
-
-            Section section = emitterContext.sections().currentSection();
-            for (Element element : elements) {
-                section.add(element);
-            }
+            emitterContext.appendAll(elements);
         } catch (IOException e) {
             log.error("Fail to generate markdown", e);
             emitRaw(value, emitterContext);
@@ -55,7 +50,6 @@ public class MarkdownEmitter implements PdfEmitter<Markdown> {
     }
 
     private void emitRaw(Markdown value, EmitterContext emitterContext) {
-        Section section = emitterContext.sections().currentSection();
-        section.add(new Paragraph(value.raw()));
+        emitterContext.append(new Paragraph(value.raw()));
     }
 }

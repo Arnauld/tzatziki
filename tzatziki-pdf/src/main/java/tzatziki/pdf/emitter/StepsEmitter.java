@@ -1,11 +1,14 @@
 package tzatziki.pdf.emitter;
 
+import com.google.common.base.Supplier;
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.CMYKColor;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import gutenberg.itext.FontAwesomeAdapter;
 import tzatziki.analysis.exec.model.ResultExec;
 import tzatziki.analysis.exec.model.StepExec;
+import tzatziki.pdf.Configuration;
 import tzatziki.pdf.EmitterContext;
 import tzatziki.pdf.PdfEmitter;
 import tzatziki.pdf.model.Steps;
@@ -16,6 +19,9 @@ import java.io.IOException;
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
 public class StepsEmitter implements PdfEmitter<Steps> {
+
+    public static final String STEP_KEYWORD_FONT = "step-keyword-font";
+    public static final String STEP_PHRASE_FONT = "step-phrase-font";
 
     private boolean debugTable = false;
     private FontAwesomeAdapter fontAwesomeAdapter;
@@ -31,10 +37,12 @@ public class StepsEmitter implements PdfEmitter<Steps> {
         steps.setSpacingAfter(5f);
         steps.setHorizontalAlignment(Element.ALIGN_LEFT);
 
-        emitterContext.sections().currentSection().add(steps);
+        emitterContext.append(steps);
     }
 
     private void emitStep(PdfPTable steps, StepExec step, EmitterContext emitterContext) {
+        Configuration configuration = emitterContext.getConfiguration();
+
         Phrase statusSymbol = new Phrase(statusMarker(step.result()));
         PdfPCell statusCell = new PdfPCell(statusSymbol);
         statusCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -42,14 +50,16 @@ public class StepsEmitter implements PdfEmitter<Steps> {
         if (!debugTable)
             statusCell.setBorder(Rectangle.NO_BORDER);
 
-        Paragraph pKeyword = new Paragraph(step.keyword());
+        Font stepKeywordFont = configuration.getFont(STEP_KEYWORD_FONT).or(stepKeywordFont(configuration));
+        Paragraph pKeyword = new Paragraph(step.keyword(), stepKeywordFont);
         PdfPCell keywordCell = new PdfPCell(pKeyword);
         keywordCell.setVerticalAlignment(Element.ALIGN_TOP);
         keywordCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         if (!debugTable)
             keywordCell.setBorder(Rectangle.NO_BORDER);
 
-        Paragraph pPhrase = new Paragraph(step.name());
+        Font stepPhraseFont = configuration.getFont(STEP_PHRASE_FONT).or(stepPhraseFont(configuration));
+        Paragraph pPhrase = new Paragraph(step.name(), stepPhraseFont);
         PdfPCell phraseCell = new PdfPCell(pPhrase);
         phraseCell.setVerticalAlignment(Element.ALIGN_TOP);
         phraseCell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -87,5 +97,31 @@ public class StepsEmitter implements PdfEmitter<Steps> {
                 throw new RuntimeException(e);
             }
         return fontAwesomeAdapter;
+    }
+
+    private static Supplier<? extends Font> stepKeywordFont(final Configuration configuration) {
+        return new Supplier<Font>() {
+            @Override
+            public Font get() {
+                return new Font(
+                        configuration.defaultMonospaceBaseFont(),
+                        configuration.defaultFontSize(),
+                        Font.BOLD,
+                        configuration.emphasizeColor());
+            }
+        };
+    }
+
+    private static Supplier<? extends Font> stepPhraseFont(final Configuration configuration) {
+        return new Supplier<Font>() {
+            @Override
+            public Font get() {
+                return new Font(
+                        configuration.defaultMonospaceBaseFont(),
+                        configuration.defaultFontSize(),
+                        Font.NORMAL,
+                        configuration.defaultColor());
+            }
+        };
     }
 }

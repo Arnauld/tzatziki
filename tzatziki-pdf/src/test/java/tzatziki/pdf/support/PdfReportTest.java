@@ -12,6 +12,7 @@ import tzatziki.analysis.exec.model.StepExec;
 import tzatziki.pdf.Configuration;
 import tzatziki.pdf.EmitterContext;
 import tzatziki.pdf.PdfEmitter;
+import tzatziki.pdf.PdfSimpleEmitter;
 import tzatziki.pdf.TestSettings;
 import tzatziki.pdf.model.Steps;
 import tzatziki.pdf.support.PdfReport;
@@ -50,13 +51,12 @@ public class PdfReportTest {
     }
 
     private void emitPreamble(PdfReport report) {
-        report.emit(new PdfEmitter<Object>() {
+        report.emit(new PdfSimpleEmitter() {
             @Override
-            public void emit(Object value, EmitterContext emitterContext) {
+            public void emit(EmitterContext emitterContext) {
                 Sections sections = emitterContext.sections();
-                Section section = sections.newSection("Preamble", 1);
+                Section section = sections.newSection("Preamble", 1, false);
                 try {
-                    section.setNumberDepth(0);
                     //
                     List<StepExec> list = Arrays.asList(
                             new StepExec("Given", "a passed step").declareResult(new ResultExec("passed", null, null, 500L)),
@@ -69,13 +69,9 @@ public class PdfReportTest {
                 } finally {
                     sections.leaveSection(1);
                 }
-                try {
-                    emitterContext.emit(section);
-                } catch (DocumentException e) {
-                    throw new RuntimeException(e);
-                }
+                emitterContext.append(section);
             }
-        }, null);
+        });
     }
 
     private List<FeatureExec> loadSample() throws UnsupportedEncodingException {

@@ -38,10 +38,10 @@ public class TagsEmitter implements PdfEmitter<Tags> {
             pTags.add(new Chunk(text, tagFont));
         }
 
-        emitterContext.sections().currentSection().add(pTags);
+        emitterContext.append(pTags);
     }
 
-    private Supplier<? extends Font> tagFont(final Configuration configuration) {
+    private static Supplier<? extends Font> tagFont(final Configuration configuration) {
         return new Supplier<Font>() {
             @Override
             public Font get() {

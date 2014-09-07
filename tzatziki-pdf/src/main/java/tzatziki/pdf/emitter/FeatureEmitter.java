@@ -54,11 +54,7 @@ public class FeatureEmitter implements PdfEmitter<FeatureExec> {
             sections.leaveSection(1);
         }
 
-        try {
-            emitterContext.emit(featureChap);
-        } catch (DocumentException e) {
-            log.warn("Failed to emit feature '{}'", feature.name(), e);
-        }
+        emitterContext.append(featureChap);
     }
 
     protected void emitDescription(FeatureExec feature, Section featureChap, EmitterContext emitterContext) {

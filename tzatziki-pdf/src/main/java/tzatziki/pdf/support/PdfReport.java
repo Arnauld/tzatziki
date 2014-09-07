@@ -10,6 +10,7 @@ import tzatziki.analysis.tag.TagDictionary;
 import tzatziki.pdf.Configuration;
 import tzatziki.pdf.EmitterContext;
 import tzatziki.pdf.PdfEmitter;
+import tzatziki.pdf.PdfSimpleEmitter;
 import tzatziki.pdf.emitter.DefaultEmitters;
 
 import java.io.File;
@@ -44,6 +45,14 @@ public class PdfReport {
 
     public void endReport() {
         iTextContext.close();
+    }
+
+    public <T> void emit(T value) {
+        emitterContext.emit(value);
+    }
+
+    public void emit(PdfSimpleEmitter emitter) {
+        emitter.emit(emitterContext);
     }
 
     public <T> void emit(PdfEmitter<T> emitter, T arg) {

@@ -14,6 +14,11 @@ public class Colors {
 
 
     public static final BaseColor CYAN = new BaseColor(0, 183, 255);
+
+    public static final BaseColor DARK_GRAY = BaseColor.DARK_GRAY;
+    public static final BaseColor GRAY = BaseColor.GRAY;
+    public static final BaseColor LIGHT_GRAY = BaseColor.LIGHT_GRAY;
     public static final BaseColor VERY_LIGHT_GRAY = new BaseColor(215, 215, 215);
 
+    public static final BaseColor DARK_BLUE = new BaseColor(0x00, 0x00, 0xD4);
 }

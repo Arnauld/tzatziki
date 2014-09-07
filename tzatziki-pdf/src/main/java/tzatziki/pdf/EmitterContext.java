@@ -50,12 +50,21 @@ public class EmitterContext {
         return configuration;
     }
 
-    public void emit(Element element) throws DocumentException {
-        Section section = sections.currentSection();
-        if (section == null) {
-            getDocument().add(element);
-        } else {
-            section.add(element);
+    public void appendAll(Iterable<? extends Element> elements) {
+        for(Element e : elements)
+            append(e);
+
+    }
+    public void append(Element element) {
+        try {
+            Section section = sections.currentSection();
+            if (section == null) {
+                getDocument().add(element);
+            } else {
+                section.add(element);
+            }
+        } catch (DocumentException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -64,6 +73,21 @@ public class EmitterContext {
         if (emitter == null)
             throw new RuntimeException("No emitter registered for type " + klazz);
         emitter.emit(value, this);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> void emit(T value) {
+        Class klazz = value.getClass();
+        for (Map.Entry<Object, PdfEmitter> entry : registered.entrySet()) {
+            if (entry.getKey() instanceof Class) {
+                Class supportedType = (Class) entry.getKey();
+                if (supportedType.isAssignableFrom(klazz)) {
+                    PdfEmitter emitter = entry.getValue();
+                    emitter.emit(value, this);
+                }
+            }
+        }
+        throw new RuntimeException("No emitter registered or suitable for type " + klazz);
     }
 
     public Sections sections() {

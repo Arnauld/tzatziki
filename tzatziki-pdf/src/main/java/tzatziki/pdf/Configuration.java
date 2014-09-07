@@ -67,6 +67,10 @@ public class Configuration {
         }
     }
 
+    public BaseColor emphasizeColor() {
+        return Colors.GRAY;
+    }
+
     public BaseColor primaryColor() {
         if (primaryColor == null)
             primaryColor = Colors.DARK_RED;
@@ -82,13 +86,17 @@ public class Configuration {
         return this;
     }
 
+    public float defaultFontSize() {
+        return 12f;
+    }
+
     /**
      * @see #defaultColor()
      * @see #defaultFontName()
      */
     public Font defaultFont() {
         if (defaultFont == null)
-            defaultFont = FontFactory.getFont(defaultFontName(), 12, Font.NORMAL, defaultColor());
+            defaultFont = FontFactory.getFont(defaultFontName(), defaultFontSize(), Font.NORMAL, defaultColor());
         return defaultFont;
     }
 
@@ -97,7 +105,7 @@ public class Configuration {
      * @see #defaultFontName()
      */
     public Font defaultStrongFont() {
-        return FontFactory.getFont(defaultFontName(), 12, Font.BOLD, defaultColor());
+        return FontFactory.getFont(defaultFontName(), defaultFontSize(), Font.BOLD, defaultColor());
     }
 
     /**
