@@ -1,6 +1,5 @@
 package tzatziki.pdf.support;
 
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Section;
 import gutenberg.itext.Sections;
 import org.junit.Before;
@@ -11,13 +10,13 @@ import tzatziki.analysis.exec.model.ResultExec;
 import tzatziki.analysis.exec.model.StepExec;
 import tzatziki.pdf.Configuration;
 import tzatziki.pdf.EmitterContext;
-import tzatziki.pdf.PdfEmitter;
 import tzatziki.pdf.PdfSimpleEmitter;
 import tzatziki.pdf.TestSettings;
+import tzatziki.pdf.model.Markdown;
 import tzatziki.pdf.model.Steps;
-import tzatziki.pdf.support.PdfReport;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
@@ -40,7 +39,8 @@ public class PdfReportTest {
 
         PdfReport report = new PdfReport(configuration);
         report.startReport(output);
-        emitPreamble(report);
+        emitSampleStepsPreamble(report);
+        emitMarkdownPreamble(report);
 
         for (FeatureExec feature : loadSample()) {
             report.emit(feature);
@@ -50,12 +50,16 @@ public class PdfReportTest {
         System.out.println("PdfReportTest.usecase~~> " + output);
     }
 
-    private void emitPreamble(PdfReport report) {
+    private void emitMarkdownPreamble(PdfReport report) throws IOException {
+        report.emit(Markdown.fromUTF8Resource("/tzatziki/pdf/00-preambule.md"));
+    }
+
+    private void emitSampleStepsPreamble(PdfReport report) {
         report.emit(new PdfSimpleEmitter() {
             @Override
             public void emit(EmitterContext emitterContext) {
                 Sections sections = emitterContext.sections();
-                Section section = sections.newSection("Preamble", 1, false);
+                Section section = sections.newSection("Sample Steps", 1, false);
                 try {
                     //
                     List<StepExec> list = Arrays.asList(

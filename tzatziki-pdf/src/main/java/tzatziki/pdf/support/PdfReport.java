@@ -3,6 +3,7 @@ package tzatziki.pdf.support;
 import com.itextpdf.text.DocumentException;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.Sections;
+import gutenberg.itext.Styles;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.tag.TagView;
 import tzatziki.analysis.java.Grammar;
@@ -35,8 +36,10 @@ public class PdfReport {
     }
 
     protected EmitterContext createEmitterContext() {
-        Sections sections = new Sections(configuration.headerFonts());
-        return new EmitterContext(iTextContext, configuration, sections);
+        Styles styles = configuration.styles();
+
+        Sections sections = new Sections(styles);
+        return new EmitterContext(iTextContext, configuration, sections, styles);
     }
 
     protected void registerPdfEmitters(EmitterContext emitterContext) {

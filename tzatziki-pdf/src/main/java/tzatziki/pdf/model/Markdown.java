@@ -14,6 +14,15 @@ import java.nio.charset.Charset;
 public class Markdown {
     public static final Charset UTF8 = Charset.forName("utf8");
 
+    public static Markdown fromUTF8Resource(String resourcePath) throws IOException {
+        InputStream in = Markdown.class.getResourceAsStream(resourcePath);
+        try {
+            return fromUTF8(in);
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
+    }
+
     public static Markdown fromUTF8(InputStream in) throws IOException {
         return from(in, UTF8);
     }
@@ -22,7 +31,7 @@ public class Markdown {
         return from(new InputStreamReader(in, cs));
     }
 
-    private static Markdown from(Reader reader) throws IOException {
+    public static Markdown from(Reader reader) throws IOException {
         String s = IOUtils.toString(reader);
         return new Markdown(s);
     }

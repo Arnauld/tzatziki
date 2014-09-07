@@ -3,7 +3,10 @@ package tzatziki.pdf;
 import com.google.common.base.Optional;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
+import gutenberg.itext.Colors;
 import gutenberg.itext.ITextUtils;
+import gutenberg.itext.Styles;
+import gutenberg.util.Style;
 
 import java.io.IOException;
 
@@ -20,6 +23,7 @@ public class Configuration {
     private BaseColor primaryColor;
     private Font chapterTitleFont;
     private Font defaultFont;
+    private Styles styles;
 
     public Configuration withDocumentMargin(Margin documentMargin) {
         this.documentMargin = documentMargin;
@@ -44,6 +48,12 @@ public class Configuration {
                 documentMargin.marginBottom,
                 pageSize.getWidth() - documentMargin.marginRight,
                 pageSize.getHeight() - documentMargin.marginTop);
+    }
+
+    public Styles styles() {
+        if(styles==null)
+            styles = new Styles().initDefaults();
+        return styles;
     }
 
     public Configuration withDefaultFontName(String fontName) {

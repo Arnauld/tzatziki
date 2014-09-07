@@ -3,6 +3,7 @@ package tzatziki.pdf.emitter;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
+import gutenberg.itext.Styles;
 import gutenberg.itext.pegdown.InvocationContext;
 import gutenberg.pegdown.plugin.AttributesPlugin;
 import org.pegdown.Extensions;
@@ -27,6 +28,8 @@ public class MarkdownEmitter implements PdfEmitter<Markdown> {
 
     @Override
     public void emit(Markdown value, EmitterContext emitterContext) {
+        Styles styles = emitterContext.styles();
+
         PegDownPlugins plugins = PegDownPlugins
                 .builder()
                 .withPlugin(AttributesPlugin.class)
@@ -36,7 +39,7 @@ public class MarkdownEmitter implements PdfEmitter<Markdown> {
 
         try {
             InvocationContext context =
-                    new InvocationContext(emitterContext.iTextContext())
+                    new InvocationContext(emitterContext.iTextContext(), styles)
                             .useSections(emitterContext.sections());
             List<Element> elements = context.process(0, rootNode);
             emitterContext.appendAll(elements);
