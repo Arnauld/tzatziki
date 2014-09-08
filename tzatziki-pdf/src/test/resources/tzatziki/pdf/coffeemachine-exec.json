@@ -13,8 +13,8 @@
           "keyword": "When ",
           "name": "I order a \"Tea\" with 1 sugar",
           "resultExec": {
-            "status": "passed",
-            "duration": 193610000
+            "status": "Passed",
+            "duration": 207229000
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -39,8 +39,8 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"T:1:0\"",
           "resultExec": {
-            "status": "passed",
-            "duration": 5677000
+            "status": "Passed",
+            "duration": 5471000
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -111,8 +111,8 @@
           "keyword": "When ",
           "name": "I order a \"Chocolate\" with 0 sugar",
           "resultExec": {
-            "status": "passed",
-            "duration": 395000
+            "status": "Passed",
+            "duration": 490000
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -137,8 +137,8 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"H::\"",
           "resultExec": {
-            "status": "passed",
-            "duration": 113000
+            "status": "Passed",
+            "duration": 192000
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -179,8 +179,8 @@
           "keyword": "When ",
           "name": "I order a \"Coffee\" with 2 sugar",
           "resultExec": {
-            "status": "passed",
-            "duration": 454000
+            "status": "Passed",
+            "duration": 493000
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -205,8 +205,8 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"C:2:0\"",
           "resultExec": {
-            "status": "passed",
-            "duration": 238000
+            "status": "Passed",
+            "duration": 192000
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -247,8 +247,8 @@
           "keyword": "When ",
           "name": "the message \"Hello\" is sent",
           "resultExec": {
-            "status": "passed",
-            "duration": 544000
+            "status": "Passed",
+            "duration": 531000
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_message_is_sent(String)",
@@ -269,8 +269,8 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"M:Hello\"",
           "resultExec": {
-            "status": "passed",
-            "duration": 198000
+            "status": "Passed",
+            "duration": 244000
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -309,9 +309,9 @@
           "keyword": "When ",
           "name": "the message \"Not enough money\" is sent",
           "resultExec": {
-            "status": "failed",
+            "status": "Failed",
             "errorMessage": "java.lang.IllegalArgumentException\n\tat samples.coffeemachine.Gateway.publish(Gateway.java:38)\n\tat samples.coffeemachine.TakeOrderSteps.the_message_is_sent(TakeOrderSteps.java:46)\n\tat ✽.When the message \"Not enough money\" is sent(samples/coffeemachine/01-making-drinks.feature:52)\n",
-            "duration": 667000
+            "duration": 864000
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_message_is_sent(String)",
@@ -332,7 +332,7 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"M:Not enough money\"",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -381,7 +381,7 @@
           "keyword": "Given ",
           "name": "I\u0027ve inserted 0.40€ in the machine",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -396,7 +396,7 @@
           "keyword": "When ",
           "name": "I order a \"Tea\" with 1 sugar",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -421,7 +421,7 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"T:1:0\"",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -475,7 +475,7 @@
           "keyword": "Given ",
           "name": "I\u0027ve inserted 0.30€ in the machine",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -490,7 +490,7 @@
           "keyword": "When ",
           "name": "I order a \"Tea\" with 1 sugar",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -515,7 +515,7 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"M:Not enough money 0.10 missing\"",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -558,8 +558,8 @@
           "keyword": "Given ",
           "name": "I\u0027ve inserted 2€ in the machine",
           "resultExec": {
-            "status": "passed",
-            "duration": 1137000
+            "status": "Passed",
+            "duration": 1752000
           },
           "matchExec": {
             "location": "MoneySteps.I_ve_inserted_€_in_the_machine(BigDecimal)",
@@ -580,8 +580,8 @@
           "keyword": "When ",
           "name": "I order a \"Coffee\" with 0 sugar",
           "resultExec": {
-            "status": "passed",
-            "duration": 626000
+            "status": "Passed",
+            "duration": 628000
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -606,8 +606,8 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"C::\"",
           "resultExec": {
-            "status": "passed",
-            "duration": 257000
+            "status": "Passed",
+            "duration": 321000
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -650,7 +650,7 @@
           "keyword": "Given ",
           "name": "I\u0027ve inserted 0.25€ in the machine",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -665,7 +665,7 @@
           "keyword": "When ",
           "name": "I order a \"Coffee\" with 0 sugar",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -690,7 +690,7 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"M:Not enough money 0.25 missing\"",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -734,7 +734,7 @@
           "keyword": "Given ",
           "name": "I\u0027ve inserted 0.55€ in the machine",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -749,7 +749,7 @@
           "keyword": "When ",
           "name": "I order a \"Chocolate\" with 0 sugar",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -774,7 +774,7 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"M:Not enough money 0.05 missing\"",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -818,7 +818,7 @@
           "keyword": "Given ",
           "name": "I\u0027ve inserted 0.05€ in the machine",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -833,7 +833,7 @@
           "keyword": "When ",
           "name": "I order a \"Tea\" with 1 sugar",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -858,7 +858,7 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"M:Not enough money 0.35 missing\"",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -912,9 +912,9 @@
           "keyword": "When ",
           "name": "I order an extra hot \"Tea\" with 1 sugar",
           "resultExec": {
-            "status": "failed",
+            "status": "Failed",
             "errorMessage": "java.lang.AssertionError: Extra hot is forbidden in summer!\n\tat samples.coffeemachine.TakeOrderSteps.I_order_an_extra_hot_with_sugar(TakeOrderSteps.java:41)\n\tat ✽.When I order an extra hot \"Tea\" with 1 sugar(samples/coffeemachine/03-extra-hot.feature:12)\n",
-            "duration": 8925000
+            "duration": 7911000
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_an_extra_hot_with_sugar(String,int)",
@@ -939,7 +939,7 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"Th:1:0\"",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -987,8 +987,8 @@
           "keyword": "When ",
           "name": "I order an \"Orange Juice\"",
           "resultExec": {
-            "status": "passed",
-            "duration": 700000
+            "status": "Passed",
+            "duration": 464000
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_an(String)",
@@ -1009,8 +1009,8 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"O::\"",
           "resultExec": {
-            "status": "passed",
-            "duration": 250000
+            "status": "Passed",
+            "duration": 228000
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -1050,8 +1050,8 @@
           "keyword": "When ",
           "name": "I order an \"Orange Juice\" with 1 sugar",
           "resultExec": {
-            "status": "passed",
-            "duration": 482000
+            "status": "Passed",
+            "duration": 654000
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -1076,9 +1076,9 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"O::\"",
           "resultExec": {
-            "status": "failed",
+            "status": "Failed",
             "errorMessage": "Argument(s) are different! Wanted:\ndrinkMaker.executeCommand(\"O::\");\n-\u003e at samples.coffeemachine.TakeOrderSteps.the_instruction_generated_should_be(TakeOrderSteps.java:51)\nActual invocation has different arguments:\ndrinkMaker.executeCommand(\"O:1:0\");\n-\u003e at samples.coffeemachine.Gateway.order(Gateway.java:33)\n\n\tat sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\n\tat sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)\n\tat sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\n\tat java.lang.reflect.Constructor.newInstance(Constructor.java:408)\n\tat samples.coffeemachine.TakeOrderSteps.the_instruction_generated_should_be(TakeOrderSteps.java:51)\n\tat ✽.Then the instruction generated should be \"O::\"(samples/coffeemachine/03-extra-hot.feature:26)\n",
-            "duration": 6127000
+            "duration": 12179000
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -1120,9 +1120,9 @@
           "keyword": "When ",
           "name": "I order an extra hot \"Orange Juice\" with 1 sugar",
           "resultExec": {
-            "status": "failed",
+            "status": "Failed",
             "errorMessage": "java.lang.AssertionError: Extra hot is forbidden in summer!\n\tat samples.coffeemachine.TakeOrderSteps.I_order_an_extra_hot_with_sugar(TakeOrderSteps.java:41)\n\tat ✽.When I order an extra hot \"Orange Juice\" with 1 sugar(samples/coffeemachine/03-extra-hot.feature:31)\n",
-            "duration": 581000
+            "duration": 624000
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_an_extra_hot_with_sugar(String,int)",
@@ -1147,7 +1147,7 @@
           "keyword": "Then ",
           "name": "the instruction generated should be \"O::\"",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
@@ -1199,9 +1199,9 @@
           "keyword": "Given ",
           "name": "the following orders:",
           "resultExec": {
-            "status": "pending",
+            "status": "Pending",
             "errorMessage": "cucumber.api.PendingException: TODO: implement me\n\tat samples.coffeemachine.TakeOrderSteps.the_following_orders(TakeOrderSteps.java:26)\n\tat ✽.Given the following orders:(samples/coffeemachine/04-making-money.feature:24)\n",
-            "duration": 2709000
+            "duration": 3269000
           },
           "matchExec": {
             "location": "TakeOrderSteps.the_following_orders(DataTable)",
@@ -1267,7 +1267,7 @@
           "keyword": "When ",
           "name": "I query for a report",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1282,7 +1282,7 @@
           "keyword": "Then ",
           "name": "the report output should be",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1336,7 +1336,7 @@
           "keyword": "When ",
           "name": "I query for a report",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1367,7 +1367,7 @@
           "keyword": "Then ",
           "name": "the report output should be",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1410,7 +1410,7 @@
           "keyword": "Given ",
           "name": "no more \"Coffee\" remaining in the machine",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1425,7 +1425,7 @@
           "keyword": "When ",
           "name": "I order a \"Coffee\" with 1 sugar",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
@@ -1450,7 +1450,7 @@
           "keyword": "Then ",
           "name": "a mail should have been sent indicating \"Coffee\" is running out",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1498,7 +1498,7 @@
           "keyword": "Given ",
           "name": "no more \"Orange juice\" remaining in the machine",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1513,7 +1513,7 @@
           "keyword": "When ",
           "name": "I order a \"Orange juice\"",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_an(String)",
@@ -1534,7 +1534,7 @@
           "keyword": "Then ",
           "name": "a mail should have been sent indicating \"Orange juice\" is running out",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1571,7 +1571,7 @@
           "keyword": "Given ",
           "name": "no more \"Tea\" remaining in the machine",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1586,7 +1586,7 @@
           "keyword": "When ",
           "name": "I order a \"Tea\"",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_an(String)",
@@ -1607,7 +1607,7 @@
           "keyword": "Then ",
           "name": "a mail should have been sent indicating \"Tea\" is running out",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1644,7 +1644,7 @@
           "keyword": "Given ",
           "name": "no more \"Chocolate\" remaining in the machine",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1659,7 +1659,7 @@
           "keyword": "When ",
           "name": "I order a \"Chocolate\"",
           "resultExec": {
-            "status": "skipped"
+            "status": "Skipped"
           },
           "matchExec": {
             "location": "TakeOrderSteps.I_order_an(String)",
@@ -1680,7 +1680,7 @@
           "keyword": "Then ",
           "name": "a mail should have been sent indicating \"Chocolate\" is running out",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1717,7 +1717,7 @@
           "keyword": "Given ",
           "name": "an empty machine",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1732,7 +1732,7 @@
           "keyword": "When ",
           "name": "I click on the \"Send Test Email\" button",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []
@@ -1747,7 +1747,7 @@
           "keyword": "Then ",
           "name": "a test mail should have been sent",
           "resultExec": {
-            "status": "undefined"
+            "status": "Undefined"
           },
           "matchExec": {
             "arguments": []

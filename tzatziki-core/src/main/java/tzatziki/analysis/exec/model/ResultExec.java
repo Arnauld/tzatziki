@@ -4,26 +4,19 @@ import com.google.common.base.Predicate;
 import tzatziki.util.ExceptionUtils;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
 public class ResultExec {
-    private static final String PASSED = "passed";
-    private static final String SKIPPED = "skipped";
-    private static final String UNDEFINED = "undefined";
-    private static final String FAILED = "failed";
-    private static final String PENDING = "pending";
-    private static final List<String> KNOWNS = Arrays.asList(PASSED, SKIPPED, UNDEFINED, FAILED, PENDING);
 
-    public static Predicate<ResultExec> resultPassed = statusEquals(PASSED);
-    public static Predicate<ResultExec> resultSkipped = statusEquals(SKIPPED);
-    public static Predicate<ResultExec> resultUndefined = statusEquals(UNDEFINED);
-    public static Predicate<ResultExec> resultFailed = statusEquals(FAILED);
-    public static Predicate<ResultExec> resultPending = statusEquals(PENDING);
+    public static Predicate<ResultExec> resultPassed = statusEquals(Status.Passed);
+    public static Predicate<ResultExec> resultSkipped = statusEquals(Status.Skipped);
+    public static Predicate<ResultExec> resultUndefined = statusEquals(Status.Undefined);
+    public static Predicate<ResultExec> resultFailed = statusEquals(Status.Failed);
+    public static Predicate<ResultExec> resultPending = statusEquals(Status.Pending);
 
-    private final String status;
+    private final Status status;
     private final String error;
     private final String errorMessage;
     private final Long duration;
@@ -35,19 +28,20 @@ public class ResultExec {
         this.duration = duration;
     }
 
-    public String status() {
+    public Status status() {
         return status;
     }
 
-    private static String ensureStatusIsValid(String status) {
-        String lowerCase = status.toLowerCase();
-        if (KNOWNS.contains(lowerCase))
-            return lowerCase;
+    private static Status ensureStatusIsValid(String status) {
+        Status result = Status.fromString(status);
+        if (result != null)
+            return result;
         else
-            throw new IllegalArgumentException("Unknown status <" + status + "> not in: " + KNOWNS);
+            throw new IllegalArgumentException("Unknown status <" + status + "> not in: " +
+                    Arrays.toString(Status.values()));
     }
 
-    private static Predicate<ResultExec> statusEquals(final String expectedStatus) {
+    private static Predicate<ResultExec> statusEquals(final Status expectedStatus) {
         return new Predicate<ResultExec>() {
             @Override
             public boolean apply(ResultExec input) {
@@ -57,22 +51,22 @@ public class ResultExec {
     }
 
     public boolean isPassed() {
-        return PASSED.equalsIgnoreCase(status);
+        return Status.Passed == status;
     }
 
     public boolean isSkipped() {
-        return SKIPPED.equalsIgnoreCase(status);
+        return Status.Skipped == status;
     }
 
     public boolean isUndefined() {
-        return UNDEFINED.equalsIgnoreCase(status);
+        return Status.Undefined == status;
     }
 
     public boolean isFailed() {
-        return FAILED.equalsIgnoreCase(status);
+        return Status.Failed == status;
     }
 
     public boolean isPending() {
-        return PENDING.equalsIgnoreCase(status);
+        return Status.Pending == status;
     }
 }

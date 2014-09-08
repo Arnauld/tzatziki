@@ -1,20 +1,21 @@
 package tzatziki.pdf.emitter;
 
-import com.itextpdf.text.*;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import gutenberg.itext.AlternateTableRowBackground;
-import gutenberg.itext.FontAwesomeAdapter;
 import gutenberg.itext.Styles;
 import tzatziki.analysis.exec.model.DataTable;
-import tzatziki.analysis.exec.model.ResultExec;
 import tzatziki.analysis.exec.model.StepExec;
 import tzatziki.pdf.EmitterContext;
 import tzatziki.pdf.PdfEmitter;
 import tzatziki.pdf.Settings;
 import tzatziki.pdf.model.Steps;
-
-import java.io.IOException;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -28,7 +29,7 @@ public class StepsEmitter implements PdfEmitter<Steps> {
     public static final String STEP_TABLE_CELL = "step-table-cell";
 
     private boolean debugTable = false;
-    private FontAwesomeAdapter fontAwesomeAdapter;
+    private StatusMarker statusMarker = new StatusMarker();
 
     @Override
     public void emit(Steps stepContainer, EmitterContext emitterContext) {
@@ -119,7 +120,7 @@ public class StepsEmitter implements PdfEmitter<Steps> {
     }
 
     private PdfPCell statusCell(StepExec step) {
-        Phrase statusSymbol = new Phrase(statusMarker(step.result()));
+        Phrase statusSymbol = new Phrase(statusMarker.statusMarker(step.result().status()));
         PdfPCell statusCell = new PdfPCell(statusSymbol);
         statusCell.setVerticalAlignment(Element.ALIGN_TOP);
         statusCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -138,31 +139,4 @@ public class StepsEmitter implements PdfEmitter<Steps> {
         return cell;
     }
 
-    protected Chunk statusMarker(ResultExec result) {
-        float symbolSize = 12;
-        if (result.isPassed())
-            return fontAwesomeAdapter().symbol("check-circle", symbolSize, BaseColor.GREEN.darker());
-        else if (result.isFailed())
-            return fontAwesomeAdapter().symbol("ban", symbolSize, BaseColor.RED);
-        else if (result.isPending())
-            return fontAwesomeAdapter().symbol("gears", symbolSize, BaseColor.ORANGE);
-        else if (result.isSkipped())
-            return fontAwesomeAdapter().symbol("exclamation-circle", symbolSize, BaseColor.ORANGE);
-        else if (result.isUndefined())
-            return fontAwesomeAdapter().symbol("question-circle", symbolSize, BaseColor.RED.darker());
-        else
-            return fontAwesomeAdapter().symbol("minus-circle", symbolSize, BaseColor.BLUE);
-    }
-
-    private FontAwesomeAdapter fontAwesomeAdapter() {
-        if (fontAwesomeAdapter == null)
-            try {
-                fontAwesomeAdapter = new FontAwesomeAdapter();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (DocumentException e) {
-                throw new RuntimeException(e);
-            }
-        return fontAwesomeAdapter;
-    }
 }

@@ -1,5 +1,8 @@
 package tzatziki.analysis.exec.model;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Predicates;
+
 import static tzatziki.analysis.exec.model.StepExec.statusPassed;
 
 /**
@@ -26,5 +29,13 @@ public class ScenarioExec extends StepContainer {
         ScenarioExec copy = new ScenarioExec(keyword, name);
         recursiveCopy(copy);
         return copy;
+    }
+
+    public Status status() {
+        Optional<StepExec> opt = steps().firstMatch(Predicates.not(StepExec.statusPassed));
+        if (opt.isPresent())
+            return opt.get().result().status();
+        else
+            return Status.Passed;
     }
 }

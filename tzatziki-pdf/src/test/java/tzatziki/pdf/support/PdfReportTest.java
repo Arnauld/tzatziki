@@ -36,17 +36,27 @@ public class PdfReportTest {
     public void usecase() throws Exception {
         File output = new File(settings.getBuildDir(), getClass().getSimpleName() + "_usecase.pdf");
 
+        List<FeatureExec> features = loadSample();
+
         PdfReport report = new PdfReport(configuration);
         report.startReport(output);
         emitSampleStepsPreamble(report);
         emitMarkdownPreamble(report);
-
-        for (FeatureExec feature : loadSample()) {
-            report.emit(feature);
+        emitFeaturesSummary(report, features);
+        for (FeatureExec feature : features) {
+            emitFeature(report, feature);
         }
         report.endReport();
 
         System.out.println("PdfReportTest.usecase~~> " + output);
+    }
+
+    private void emitFeature(PdfReport report, FeatureExec feature) {
+        report.emit(feature);
+    }
+
+    private void emitFeaturesSummary(PdfReport report, List<FeatureExec> features) {
+        report.emit(new FeaturesSummary(features));
     }
 
     private void emitMarkdownPreamble(PdfReport report) throws IOException {
