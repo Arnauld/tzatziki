@@ -28,7 +28,7 @@ send commands to the drink maker.
 > engine that will receive messages according to the protocol. Your job
 > is to build those messages.
 
-{% plantuml %}
+```plantuml
 
 @startuml
 actor Foo1
@@ -42,9 +42,9 @@ Foo1 -> Foo4 : To entity
 Foo1 -> Foo5 : To database
 
 @enduml
-{% plantuml %}
+```
 
-{% plantuml %}
+```plantuml
 @startuml
 :Main Admin: as Admin
 (Use the application) as (Use)
@@ -65,7 +65,7 @@ note "This note is connected\nto several objects." as N2
 (Start) .. N2
 N2 .. (Use)
 @enduml
-{% plantuml %}
+```
 
 Iterations
 ----------
@@ -80,24 +80,24 @@ This project starts simple and will grow in added features through the iteration
  5. Fifth iteration: Running out ( *~20minutes* )
 
 
-{% asciidiag %}
+```ditaa
 
  +---------+--------+------+------+-----+-----+-----+
  |         |  {o}   | {mo} | {io} | {c} | {s} | {d} |
  |    {tr} |        |      |      |     |     |     |
  +---------+--------+------+--=---+-----+-----+-----+
-{% asciidiag %}
+```
 
 
 Ready ?
 
-{% chart %}
+```chart
       type: pie
       data: [1.0, 23.5, 10, 11, 9.4]
       radius: 0.9
       inner-radius: 0.4
       gap: 0.2
-{% chart %}
+```
 
 **Requirements**
 
@@ -107,7 +107,7 @@ Ready ?
  * A passion for tested value ;)
 
 
-{% asciidiag %}
+```ditaa
                                            |
           +----------+        +---------+  |
           |     Mail |<-\     | Stock   |  |
@@ -122,4 +122,4 @@ Ready ?
                                            |   | cRED    |
                                            |   +---------+
                                            |
-{% asciidiag %}
+```

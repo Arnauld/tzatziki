@@ -3,6 +3,7 @@ package tzatziki.analysis.exec.model;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 
@@ -34,6 +35,7 @@ public class StepExec extends EmbeddingAndWriteContainer {
     private MatchExec matchExec;
     private List<String> comments = Lists.newArrayList();
     private String docString;
+    private DataTable dataTable;
 
     public StepExec(String keyword, String name) {
         this.keyword = keyword;
@@ -48,6 +50,32 @@ public class StepExec extends EmbeddingAndWriteContainer {
         return name;
     }
 
+    public StepExec declareDocString(String docString) {
+        this.docString = docString;
+        return this;
+    }
+
+    public String docString() {
+        return docString;
+    }
+
+    public boolean hasDocString() {
+        return docString != null;
+    }
+
+    public StepExec declareTable(DataTable dataTable) {
+        this.dataTable = dataTable;
+        return this;
+    }
+
+    public DataTable table() {
+        return dataTable;
+    }
+
+    public boolean hasTable() {
+        return dataTable != null && !dataTable.isEmpty();
+    }
+
     public ResultExec result() {
         return resultExec;
     }
@@ -59,21 +87,49 @@ public class StepExec extends EmbeddingAndWriteContainer {
         return this;
     }
 
-    public void declareMatch(MatchExec matchExec) {
+    public StepExec declareMatch(MatchExec matchExec) {
         if (this.matchExec != null)
             throw new IllegalStateException("Match already assigned");
         this.matchExec = matchExec;
+        return this;
     }
 
-    public void declareComments(List<String> comments) {
+    public StepExec declareComments(List<String> comments) {
         this.comments.addAll(comments);
-    }
-
-    public void declareDocString(String docString) {
-        this.docString = docString;
+        return this;
     }
 
     public FluentIterable<String> comments() {
         return FluentIterable.from(comments);
+    }
+
+    public boolean isMatching() {
+        return matchExec != null && !Strings.isNullOrEmpty(matchExec.getLocation());
+    }
+
+    public static class Tok {
+        public final String value;
+        public final boolean param;
+
+        public Tok(String value, boolean param) {
+            this.value = value;
+            this.param = param;
+        }
+    }
+
+    public List<Tok> tokenizeBody() {
+        String full = name();
+        int lastIndex = 0;
+        List<Tok> toks = Lists.newArrayList();
+        for (MatchExec.Arg arg : matchExec.getArgs()) {
+            if (arg.getOffset() > lastIndex) {
+                toks.add(new Tok(full.substring(lastIndex, arg.getOffset()), false));
+            }
+            toks.add(new Tok(arg.getVal(), true));
+            lastIndex = arg.getOffset() + arg.getVal().length();
+        }
+        if (lastIndex < full.length())
+            toks.add(new Tok(full.substring(lastIndex), false));
+        return toks;
     }
 }

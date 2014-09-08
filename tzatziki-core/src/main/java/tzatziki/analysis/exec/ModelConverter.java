@@ -68,7 +68,22 @@ public class ModelConverter {
         if (docString != null) {
             stepExec.declareDocString(docString.getValue());
         }
+        stepExec.declareTable(convertTable(step.getRows()));
         return stepExec;
+    }
+
+    private DataTable convertTable(List<DataTableRow> rows) {
+        DataTable table = new DataTable();
+        if (rows != null) {
+            for (DataTableRow row : rows) {
+                table.declareRow(convertRow(row));
+            }
+        }
+        return table;
+    }
+
+    private DataTable.Row convertRow(DataTableRow row) {
+        return new DataTable.Row(row.getCells(), convertComments(row.getComments()));
     }
 
     public ResultExec convertResult(Result result) {
@@ -82,14 +97,14 @@ public class ModelConverter {
     public MatchExec convertMatch(Match match) {
         return new MatchExec(
                 match.getLocation(),
-                concertArguments(match.getArguments()));
+                convertArguments(match.getArguments()));
     }
 
-    private List<String> concertArguments(List<Argument> arguments) {
-        return FluentIterable.from(arguments).transform(new Function<Argument, String>() {
+    private List<MatchExec.Arg> convertArguments(List<Argument> arguments) {
+        return FluentIterable.from(arguments).transform(new Function<Argument, MatchExec.Arg>() {
             @Override
-            public String apply(Argument input) {
-                return input.getVal();
+            public MatchExec.Arg apply(Argument input) {
+                return new MatchExec.Arg(input.getVal(), input.getOffset());
             }
         }).toList();
     }

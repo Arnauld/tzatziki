@@ -17,7 +17,10 @@
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
-                            "arguments": []
+                            "arguments": [
+                                "Tea",
+                                "1"
+                            ]
                         },
                         "comments": [],
                         "embeddedList": []
@@ -31,7 +34,9 @@
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
-                            "arguments": []
+                            "arguments": [
+                                "T:1:0"
+                            ]
                         },
                         "comments": [],
                         "embeddedList": []
@@ -46,34 +51,30 @@
                 ],
                 "comments": [
                     "#",
-                    "#  **In order** to send commands to the drink maker",
+                    "# **In order** to send commands to the drink maker",
                     "#",
-                    "#  **As a** developer",
+                    "# **As a** developer",
                     "#",
-                    "#  **I want to** implement the logic that translates orders",
-                    "#  from customers of the coffee machine to the drink maker",
+                    "# **I want to** implement the logic that translates orders",
+                    "# from customers of the coffee machine to the drink maker",
                     "#",
-                    "#  \u003cp style\u003d\"text-align: right;\"\u003e",
-                    "#   \u003cimg src\u003d\"/coffee-cup.jpeg\" width\u003d\"66px\" height\u003d\"100px\"/\u003e",
-                    "#  \u003c/p\u003e",
                     "#",
-                    "#The code will use the drink maker protocol (see below) to send commands to the drink maker.",
+                    "# The code will use the drink maker protocol (see below) to send commands to the drink maker.",
                     "#",
-                    "#The coffee machine can serves 3 type of drinks:",
+                    "# The coffee machine can serves 3 type of drinks:",
                     "#",
                     "#  * tea,",
                     "#  * coffee,",
                     "#  * chocolate.",
                     "#",
                     "#",
-                    "#[ asciidiag ]",
-                    "#----",
+                    "#```ditaa",
                     "#",
                     "#  /---------+     +------------+",
                     "#  |  Order  |----\u003e|  Protocol  |",
                     "#  +---------/     +------------+",
                     "#",
-                    "#----"
+                    "#```"
                 ],
                 "description": "",
                 "lineRange": {
@@ -96,7 +97,10 @@
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
-                            "arguments": []
+                            "arguments": [
+                                "Chocolate",
+                                "0"
+                            ]
                         },
                         "comments": [],
                         "embeddedList": []
@@ -110,7 +114,9 @@
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
-                            "arguments": []
+                            "arguments": [
+                                "H::"
+                            ]
                         },
                         "comments": [],
                         "embeddedList": []
@@ -144,7 +150,10 @@
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
-                            "arguments": []
+                            "arguments": [
+                                "Coffee",
+                                "2"
+                            ]
                         },
                         "comments": [],
                         "embeddedList": []
@@ -159,6 +168,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
                             "arguments": [
+                                "C:2:0"
                             ]
                         },
                         "comments": [],
@@ -193,7 +203,9 @@
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_message_is_sent(String)",
-                            "arguments": []
+                            "arguments": [
+                                "Hello"
+                            ]
                         },
                         "comments": [],
                         "embeddedList": []
@@ -208,6 +220,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
                             "arguments": [
+                                "M:Hello"
                             ]
                         },
                         "comments": [],
@@ -241,7 +254,9 @@
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_message_is_sent(String)",
-                            "arguments": []
+                            "arguments": [
+                                "Not enough money"
+                            ]
                         },
                         "comments": [],
                         "embeddedList": []
@@ -254,7 +269,9 @@
                         },
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
-                            "arguments": []
+                            "arguments": [
+                                "M:Not enough money"
+                            ]
                         },
                         "comments": [],
                         "embeddedList": []
@@ -308,6 +325,8 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
                             "arguments": [
+                                "Tea",
+                                "1"
                             ]
                         },
                         "comments": [],
@@ -322,6 +341,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
                             "arguments": [
+                                "T:1:0"
                             ]
                         },
                         "comments": [],
@@ -381,6 +401,8 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
                             "arguments": [
+                                "Tea",
+                                "1"
                             ]
                         },
                         "comments": [],
@@ -395,6 +417,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
                             "arguments": [
+                                "M:Not enough money 0.10 missing"
                             ]
                         },
                         "comments": [],
@@ -432,6 +455,7 @@
                         "matchExec": {
                             "location": "MoneySteps.I_ve_inserted_€_in_the_machine(BigDecimal)",
                             "arguments": [
+                                "2"
                             ]
                         },
                         "comments": [],
@@ -447,6 +471,8 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
                             "arguments": [
+                                "Coffee",
+                                "0"
                             ]
                         },
                         "comments": [],
@@ -462,6 +488,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
                             "arguments": [
+                                "C::"
                             ]
                         },
                         "comments": [],
@@ -510,6 +537,8 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
                             "arguments": [
+                                "Coffee",
+                                "0"
                             ]
                         },
                         "comments": [],
@@ -524,6 +553,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
                             "arguments": [
+                                "M:Not enough money 0.25 missing"
                             ]
                         },
                         "comments": [],
@@ -573,6 +603,8 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
                             "arguments": [
+                                "Chocolate",
+                                "0"
                             ]
                         },
                         "comments": [],
@@ -587,6 +619,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
                             "arguments": [
+                                "M:Not enough money 0.05 missing"
                             ]
                         },
                         "comments": [],
@@ -636,6 +669,8 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
                             "arguments": [
+                                "Tea",
+                                "1"
                             ]
                         },
                         "comments": [],
@@ -650,6 +685,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
                             "arguments": [
+                                "M:Not enough money 0.35 missing"
                             ]
                         },
                         "comments": [],
@@ -699,6 +735,8 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_an_extra_hot_with_sugar(String,int)",
                             "arguments": [
+                                "Tea",
+                                "1"
                             ]
                         },
                         "comments": [],
@@ -713,6 +751,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
                             "arguments": [
+                                "Th:1:0"
                             ]
                         },
                         "comments": [],
@@ -755,6 +794,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_an(String)",
                             "arguments": [
+                                "Orange Juice"
                             ]
                         },
                         "comments": [],
@@ -770,6 +810,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
                             "arguments": [
+                                "O::"
                             ]
                         },
                         "comments": [],
@@ -804,6 +845,8 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
                             "arguments": [
+                                "Orange Juice",
+                                "1"
                             ]
                         },
                         "comments": [],
@@ -820,6 +863,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
                             "arguments": [
+                                "O::"
                             ]
                         },
                         "comments": [],
@@ -857,6 +901,8 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_an_extra_hot_with_sugar(String,int)",
                             "arguments": [
+                                "Orange Juice",
+                                "1"
                             ]
                         },
                         "comments": [],
@@ -871,6 +917,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.the_instruction_generated_should_be(String)",
                             "arguments": [
+                                "O::"
                             ]
                         },
                         "comments": [],
@@ -962,18 +1009,17 @@
                     "#",
                     "# **I want to** track statistics of machine usage",
                     "#",
-                    "# [formula]",
-                    "#  ----",
+                    "#```formula",
                     "#    {\\eta \\leq C(\\delta(\\eta) +\\Lambda_M(0,\\delta))",
-                    "#  ----",
+                    "#```",
                     "#",
-                    "# {% formula %}",
+                    "#```formula",
                     "#",
                     "#    \\Re{z} \u003d\\frac{n\\pi \\dfrac{\\theta +\\psi}{2}}{",
                     "#            \\left(\\dfrac{\\theta +\\psi}{2}\\right)^2 + \\left( \\dfrac{1}{2}",
                     "#            \\log \\left\\vert\\dfrac{B}{A}\\right\\vert\\right)^2}.",
                     "#",
-                    "# {% formula %}",
+                    "#```",
                     "#",
                     "#"
                 ],
@@ -999,8 +1045,7 @@
                             "arguments": []
                         },
                         "comments": [
-                            "# [asciidiag]",
-                            "# ----",
+                            "#```ditaa",
                             "#   /---------------+-------------\\",
                             "#   |cRED Chocolate |cBLU 1       |-----\\",
                             "#   +---------------+-------------+     :",
@@ -1012,7 +1057,7 @@
                             "#   |               +-------------+         |    {s}|",
                             "#   |               |cYEL YEL     |         \\-------/",
                             "#   \\---------------+-------------/",
-                            "# ----",
+                            "#```",
                             "#"
                         ],
                         "embeddedList": []
@@ -1078,6 +1123,8 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_a_with_sugar(String,int)",
                             "arguments": [
+                                "Coffee",
+                                "1"
                             ]
                         },
                         "comments": [],
@@ -1149,6 +1196,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_an(String)",
                             "arguments": [
+                                "Orange juice"
                             ]
                         },
                         "comments": [],
@@ -1209,6 +1257,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_an(String)",
                             "arguments": [
+                                "Tea"
                             ]
                         },
                         "comments": [],
@@ -1269,6 +1318,7 @@
                         "matchExec": {
                             "location": "TakeOrderSteps.I_order_an(String)",
                             "arguments": [
+                                "Chocolate"
                             ]
                         },
                         "comments": [],
@@ -1362,5 +1412,6 @@
         "tags": [],
         "comments": [],
         "description": ""
-    }]
+    }
+]
 }

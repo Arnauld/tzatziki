@@ -12,23 +12,22 @@ Feature: Making Drinks
 #   <img src="/coffee-cup.jpeg" width="66px" height="100px"/>
 #  </p>
 #
-#The code will use the drink maker protocol (see below) to send commands to the drink maker.
+# The code will use the drink maker protocol (see below) to send commands to the drink maker.
 #
-#The coffee machine can serves 3 type of drinks:
+# The coffee machine can serves 3 type of drinks:
 #
 #  * tea,
 #  * coffee,
 #  * chocolate.
 #
 #
-#[ asciidiag ]
-#----
+#```ditaa
 #
 #  /---------+     +------------+
 #  |  Order  |---->|  Protocol  |
 #  +---------/     +------------+
 #
-#----
+#```
 
   @takeOrder @wip @tea @sugar @protocol
   Scenario: A tea with 1 sugar and a stick

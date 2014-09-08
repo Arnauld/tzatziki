@@ -13,8 +13,7 @@ import static com.itextpdf.text.Font.NORMAL;
 import static gutenberg.itext.Colors.DARK_RED;
 import static gutenberg.itext.Styles.CODE_FONT;
 import static tzatziki.pdf.Settings.EMPHASIZE_COLOR;
-import static tzatziki.pdf.emitter.StepsEmitter.STEP_KEYWORD_FONT;
-import static tzatziki.pdf.emitter.StepsEmitter.STEP_PHRASE_FONT;
+import static tzatziki.pdf.emitter.StepsEmitter.*;
 import static tzatziki.pdf.emitter.TagsEmitter.TAG_FONT;
 
 /**
@@ -41,8 +40,13 @@ public class Configuration {
     private void configureFonts(Styles styles) {
         Font metaFont = new FontCopier(styles.defaultFont()).style(NORMAL).size(8).color(DARK_RED).get();
         styles.registerFont(Settings.META_FONT, metaFont);
+
         styles.registerFont(STEP_KEYWORD_FONT, styles.getFontOrDefault(CODE_FONT, BOLD, styles.getColor(EMPHASIZE_COLOR).or(DARK_RED)));
         styles.registerFont(STEP_PHRASE_FONT, styles.getFontOrDefault(CODE_FONT, NORMAL, styles.defaultColor()));
+        styles.registerFont(STEP_PARAMETER_FONT, styles.getFontOrDefault(CODE_FONT, NORMAL, styles.getColor(EMPHASIZE_COLOR).or(DARK_RED)));
+        styles.registerFont(STEP_DOCSTRING, styles.getFontOrDefault(CODE_FONT, NORMAL, styles.getColor(EMPHASIZE_COLOR).or(DARK_RED)));
+        styles.registerFont(STEP_TABLE_CELL, styles.getFontOrDefault(CODE_FONT, NORMAL, styles.defaultColor()));
+
         styles.registerFont(TAG_FONT, metaFont);
     }
 

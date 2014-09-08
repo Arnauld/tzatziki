@@ -1,25 +1,21 @@
 Feature: Making Money
 
 #
-#  **In order to** have daily reports of what is sold and when
+# **In order to** have daily reports of what is sold and when
 #
 # **As a** shop keeper
 #
 # **I want to** track statistics of machine usage
 #
-# [formula]
-#  ----
+#```formula
 #    {\eta \leq C(\delta(\eta) +\Lambda_M(0,\delta))
-#  ----
+#```
 #
-# {% formula %}
-#
+#```formula
 #    \Re{z} =\frac{n\pi \dfrac{\theta +\psi}{2}}{
 #            \left(\dfrac{\theta +\psi}{2}\right)^2 + \left( \dfrac{1}{2}
 #            \log \left\vert\dfrac{B}{A}\right\vert\right)^2}.
-#
-# {% formula %}
-#
+#```
 #
 
   @reporting @tea @coffee @chocolate
@@ -46,8 +42,8 @@ Feature: Making Money
   @reporting
   Scenario: Statistics collect no usage
 
-    # [asciidiag]
-    # ----
+    #```ditaa
+    #
     #   /---------------+-------------\
     #   |cRED Chocolate |cBLU 1       |-----\
     #   +---------------+-------------+     :
@@ -59,8 +55,8 @@ Feature: Making Money
     #   |               +-------------+         |    {s}|
     #   |               |cYEL YEL     |         \-------/
     #   \---------------+-------------/
-    # ----
     #
+    #```
 
     When I query for a report
     Then the report output should be
