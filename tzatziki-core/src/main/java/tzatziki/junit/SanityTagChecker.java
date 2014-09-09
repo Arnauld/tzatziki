@@ -12,11 +12,12 @@ import tzatziki.analysis.step.Feature;
 import tzatziki.analysis.step.FeatureParser;
 import tzatziki.analysis.step.Features;
 import tzatziki.analysis.tag.TagDictionary;
+import tzatziki.analysis.tag.TagDictionaryLoader;
+import tzatziki.util.PropertiesLoader;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
@@ -144,19 +145,7 @@ public class SanityTagChecker extends ParentRunner<FeatureTagRunner> {
     }
 
     public static TagDictionary loadTagsFromUTF8PropertiesResources(String resourcePath) throws IOException {
-        InputStream stream = SanityTagChecker.class.getResourceAsStream(resourcePath);
-        try {
-            Properties properties = new Properties();
-            properties.load(new InputStreamReader(stream, "UTF8"));
-
-            TagDictionary tagDictionary = new TagDictionary();
-            tagDictionary.declareTags(properties);
-            return tagDictionary;
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("UTF8 not supported...", e);
-        } finally {
-            IOUtils.closeQuietly(stream);
-        }
+        return new TagDictionaryLoader().loadTagsFromUTF8PropertiesResources(resourcePath);
     }
 
     private static class InvalidReturnTypeException extends IllegalArgumentException {
