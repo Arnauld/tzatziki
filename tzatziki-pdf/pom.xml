@@ -22,6 +22,14 @@
     <!-- Dependencies -->
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <dependencies>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!-- Cucumber -->
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
         <!-- tzatziki -->

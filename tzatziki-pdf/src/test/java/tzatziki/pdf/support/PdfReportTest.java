@@ -8,6 +8,11 @@ import tzatziki.analysis.exec.gson.JsonIO;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ResultExec;
 import tzatziki.analysis.exec.model.StepExec;
+import tzatziki.analysis.exec.tag.TagFilter;
+import tzatziki.analysis.exec.tag.TagView;
+import tzatziki.analysis.exec.tag.TagViews;
+import tzatziki.analysis.tag.TagDictionary;
+import tzatziki.analysis.tag.TagDictionaryLoader;
 import tzatziki.pdf.EmitterContext;
 import tzatziki.pdf.PdfSimpleEmitter;
 import tzatziki.pdf.TestSettings;
@@ -37,12 +42,21 @@ public class PdfReportTest {
         File output = new File(settings.getBuildDir(), getClass().getSimpleName() + "_usecase.pdf");
 
         List<FeatureExec> features = loadSample();
+        TagDictionary tagDictionary = new TagDictionaryLoader().loadTagsFromUTF8PropertiesResources("/tzatziki/pdf/tags.properties");
+
+        TagViews tagViews = new TagViews().addAll(
+                new TagView("Payment (non wip)", TagFilter.from("~@wip", "@payment")),
+                new TagView("Non wip about tea", TagFilter.from("~@wip", "@tea")));
+        for (FeatureExec featureExec : features) {
+            tagViews.consolidateView(featureExec);
+        }
 
         PdfReport report = new PdfReport(configuration);
         report.startReport(output);
         emitSampleStepsPreamble(report);
         emitMarkdownPreamble(report);
-        emitFeaturesSummary(report, features);
+        emitOverview(report, features, tagDictionary, tagViews);
+
         for (FeatureExec feature : features) {
             emitFeature(report, feature);
         }
@@ -51,12 +65,38 @@ public class PdfReportTest {
         System.out.println("PdfReportTest.usecase~~> " + output);
     }
 
-    private void emitFeature(PdfReport report, FeatureExec feature) {
-        report.emit(feature);
+    private void emitOverview(PdfReport report,
+                              final List<FeatureExec> features,
+                              final TagDictionary tagDictionary,
+                              final TagViews tagViews) {
+        report.emit(new PdfSimpleEmitter() {
+            @Override
+            public void emit(EmitterContext emitterContext) {
+                Sections sections = emitterContext.sections();
+                Section section = sections.newSection("Overview", 1);
+                try {
+                    sections.newSection("Features", 2);
+                    emitterContext.emit(new FeatureSummaryListOfSection(features, 3));
+                    sections.leaveSection(2);
+
+                    sections.newSection("Tags", 2);
+                    emitterContext.emit(tagDictionary);
+                    sections.leaveSection(2);
+
+                    sections.newSection("Consolidated tag views", 2);
+                    emitterContext.emit(tagViews);
+                    sections.leaveSection(2);
+
+                } finally {
+                    sections.leaveSection(1);
+                }
+                emitterContext.append(section);
+            }
+        });
     }
 
-    private void emitFeaturesSummary(PdfReport report, List<FeatureExec> features) {
-        report.emit(new FeaturesSummary(features));
+    private void emitFeature(PdfReport report, FeatureExec feature) {
+        report.emit(feature);
     }
 
     private void emitMarkdownPreamble(PdfReport report) throws IOException {

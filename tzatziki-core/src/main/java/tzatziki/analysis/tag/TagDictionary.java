@@ -1,5 +1,6 @@
 package tzatziki.analysis.tag;
 
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Maps;
 
 import java.util.Enumeration;
@@ -21,6 +22,10 @@ public class TagDictionary {
     public TagDictionary clear() {
         tags.clear();
         return this;
+    }
+
+    public FluentIterable<Tag> tags() {
+        return FluentIterable.from(tags.values());
     }
 
     public TagDictionary declareTags(Properties properties) {

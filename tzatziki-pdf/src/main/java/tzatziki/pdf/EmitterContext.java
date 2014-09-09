@@ -52,7 +52,10 @@ public class EmitterContext {
 
     @SuppressWarnings("unchecked")
     public <T> PdfEmitter<T> emitterFor(Class<T> type) {
-        return registered.get(type);
+        PdfEmitter emitter = registered.get(type);
+        if (emitter == null)
+            throw new IllegalArgumentException("No emitter registered for type '" + type + "'");
+        return emitter;
     }
 
     public Settings getSettings() {
@@ -67,7 +70,7 @@ public class EmitterContext {
 
     public void append(Element element) {
         try {
-            if(element instanceof Chapter) {
+            if (element instanceof Chapter) {
                 getDocument().add(element);
                 sections.leaveSection(1);
                 return;
@@ -93,6 +96,14 @@ public class EmitterContext {
 
     @SuppressWarnings("unchecked")
     public <T> void emit(T value) {
+        if (value instanceof PdfSimpleEmitter) {
+            ((PdfSimpleEmitter) value).emit(this);
+            return;
+        }
+        if (value instanceof PdfEmitter) {
+            throw new IllegalArgumentException("PdfEmitter cannot be emitted... " + value);
+        }
+
         Class klazz = value.getClass();
         for (Map.Entry<Object, PdfEmitter> entry : registered.entrySet()) {
             if (entry.getKey() instanceof Class) {

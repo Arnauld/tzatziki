@@ -6,6 +6,7 @@ import tzatziki.util.PropertiesLoader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.Properties;
 
 /**
@@ -13,7 +14,11 @@ import java.util.Properties;
  */
 public class TagDictionaryLoader {
     public TagDictionary loadTagsFromUTF8PropertiesResources(String resourcePath) throws IOException {
-        InputStream stream = TagDictionaryLoader.class.getResourceAsStream(resourcePath);
+        URL resource = PropertiesLoader.class.getResource(resourcePath);
+        if (resource == null)
+            throw new IllegalArgumentException("Resource not found '" + resourcePath + "'");
+
+        InputStream stream = resource.openStream();
         try {
             Properties properties = new PropertiesLoader().loadFromUTF8Stream(stream);
 

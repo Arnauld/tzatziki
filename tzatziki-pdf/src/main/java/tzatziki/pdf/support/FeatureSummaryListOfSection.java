@@ -22,34 +22,29 @@ import java.util.List;
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
-public class FeaturesSummary implements PdfSimpleEmitter {
+public class FeatureSummaryListOfSection implements PdfSimpleEmitter {
     private final List<FeatureExec> features;
+    private final int hLevel;
     private StatusMarker statusMarker = new StatusMarker();
     private boolean debugTable = false;
 
-    public FeaturesSummary(List<FeatureExec> features) {
+    public FeatureSummaryListOfSection(List<FeatureExec> features, int hLevel) {
         this.features = features;
+        this.hLevel = hLevel;
     }
 
     @Override
     public void emit(EmitterContext emitterContext) {
-        Sections sections = emitterContext.sections();
-        Section section = sections.newSection("Overview", 1);
-        try {
-            for (FeatureExec feature : features) {
-                emitFeature(feature, emitterContext);
-            }
-        } finally {
-            sections.leaveSection(1);
+        for (FeatureExec feature : features) {
+            emitFeature(feature, emitterContext);
         }
-        emitterContext.append(section);
     }
 
     private void emitFeature(FeatureExec feature, EmitterContext emitterContext) {
         Styles styles = emitterContext.styles();
         Sections sections = emitterContext.sections();
 
-        Section featureSection = sections.newSection(feature.name(), 2);
+        Section featureSection = sections.newSection(feature.name(), hLevel);
         try {
             PdfPTable table = new PdfPTable(new float[]{1f, 22f});
             for (ScenarioExec scenarioExec : feature.scenario()) {
@@ -61,7 +56,7 @@ public class FeaturesSummary implements PdfSimpleEmitter {
             table.setSpacingAfter(5f);
             featureSection.add(table);
         } finally {
-            sections.leaveSection(2);
+            sections.leaveSection(hLevel);
         }
     }
 

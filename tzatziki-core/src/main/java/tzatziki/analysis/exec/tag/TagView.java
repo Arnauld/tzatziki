@@ -1,20 +1,15 @@
 package tzatziki.analysis.exec.tag;
 
-import com.google.common.base.Optional;
-import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.analysis.exec.model.ScenarioRef;
-import tzatziki.analysis.exec.model.StepExec;
 
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
-
-import static tzatziki.analysis.exec.model.StepExec.*;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -37,6 +32,14 @@ public class TagView {
 
     public String description() {
         return description;
+    }
+
+    public int nbPassed() {
+        return scenarioPassed.size();
+    }
+
+    public int nbTotal() {
+        return scenarioMatching.size();
     }
 
     public FluentIterable<ScenarioRef> scenarioMatching() {
@@ -87,24 +90,22 @@ public class TagView {
         ScenarioRef scenarioRef = createRef(featureExec, scenarioExec);
         scenarioMatching.add(scenarioRef);
 
-        if (scenarioExec.isSucess()) {
-            scenarioPassed.add(scenarioRef);
-        } else {
-            FluentIterable<StepExec> steps = scenarioExec.steps();
-            Optional<StepExec> firstMatch = steps.firstMatch(Predicates.not(statusPassed));
-            if (!firstMatch.isPresent()) {
-                return;
-            }
-            StepExec step = firstMatch.get();
-            if (statusFailed.apply(step)) {
-                scenarioFailed.add(scenarioRef);
-            } else if (statusPending.apply(step)) {
-                scenarioPending.add(scenarioRef);
-            } else if (statusSkipped.apply(step)) {
+        switch (scenarioExec.status()) {
+            case Passed:
+                scenarioPassed.add(scenarioRef);
+                break;
+            case Skipped:
                 scenarioSkipped.add(scenarioRef);
-            } else if (statusUndefined.apply(step)) {
+                break;
+            case Undefined:
                 scenarioUndefined.add(scenarioRef);
-            }
+                break;
+            case Failed:
+                scenarioFailed.add(scenarioRef);
+                break;
+            case Pending:
+                scenarioPending.add(scenarioRef);
+                break;
         }
     }
 
