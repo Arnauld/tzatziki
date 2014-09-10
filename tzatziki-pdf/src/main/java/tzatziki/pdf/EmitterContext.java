@@ -10,8 +10,11 @@ import com.itextpdf.text.pdf.PdfWriter;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.Sections;
 import gutenberg.itext.Styles;
+import tzatziki.util.Consumer;
+import tzatziki.util.New;
 
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -21,8 +24,8 @@ public class EmitterContext {
     private final Settings settings;
     private final Sections sections;
     private final Styles styles;
-
-    private Map<Object, PdfEmitter> registered = Maps.newConcurrentMap();
+    private final Stack<Consumer<Element>> consumers = New.newStack();
+    private final Map<Object, PdfEmitter> registered = Maps.newConcurrentMap();
 
     public EmitterContext(ITextContext context,
                           Settings settings,
@@ -70,6 +73,11 @@ public class EmitterContext {
 
     public void append(Element element) {
         try {
+            if (!consumers.isEmpty()) {
+                consumers.peek().consume(element);
+                return;
+            }
+
             if (element instanceof Chapter) {
                 getDocument().add(element);
                 sections.leaveSection(1);
@@ -124,5 +132,13 @@ public class EmitterContext {
 
     public <T> void register(Class<T> type, PdfEmitter<? super T> emitter) {
         registered.put(type, emitter);
+    }
+
+    public void pushElementConsumer(Consumer<Element> consumer) {
+        consumers.push(consumer);
+    }
+
+    public Consumer<Element> popElementConsumer() {
+        return consumers.pop();
     }
 }

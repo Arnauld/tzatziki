@@ -1,5 +1,6 @@
 package tzatziki.pdf.emitter;
 
+import tzatziki.analysis.exec.model.Embedded;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.analysis.exec.tag.TagViews;
@@ -21,6 +22,7 @@ public class DefaultEmitters {
         context.register(Tags.class, new TagsEmitter());
         context.register(TagDictionary.class, new TagDictionaryEmitter());
         context.register(TagViews.class, new TagViewsEmitter());
+        context.register(Embedded.class, new EmbeddedEmitter());
     }
 
 

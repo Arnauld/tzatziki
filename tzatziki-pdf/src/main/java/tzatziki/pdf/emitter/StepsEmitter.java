@@ -11,11 +11,13 @@ import com.itextpdf.text.pdf.PdfPTable;
 import gutenberg.itext.AlternateTableRowBackground;
 import gutenberg.itext.Styles;
 import tzatziki.analysis.exec.model.DataTable;
+import tzatziki.analysis.exec.model.Embedded;
 import tzatziki.analysis.exec.model.StepExec;
 import tzatziki.pdf.EmitterContext;
 import tzatziki.pdf.PdfEmitter;
 import tzatziki.pdf.Settings;
 import tzatziki.pdf.model.Steps;
+import tzatziki.util.Consumer;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -45,7 +47,7 @@ public class StepsEmitter implements PdfEmitter<Steps> {
         emitterContext.append(steps);
     }
 
-    private void emitStep(PdfPTable steps, StepExec step, EmitterContext emitterContext) {
+    private void emitStep(final PdfPTable steps, StepExec step, EmitterContext emitterContext) {
         Settings settings = emitterContext.getSettings();
         Styles styles = settings.styles();
 
@@ -72,6 +74,24 @@ public class StepsEmitter implements PdfEmitter<Steps> {
             steps.addCell(noBorder(new PdfPCell(phrase)));
         }
 
+        emitterContext.pushElementConsumer(new Consumer<Element>() {
+            @Override
+            public void consume(Element element) {
+                PdfPCell cell = new PdfPCell();
+                cell.addElement(element);
+
+                steps.addCell(noBorder(new PdfPCell(new Phrase(""))));
+                steps.addCell(noBorder(cell));
+            }
+        });
+
+        try {
+            for (Embedded embedded : step.embeddeds()) {
+                emitterContext.emit(embedded);
+            }
+        } finally {
+            emitterContext.popElementConsumer();
+        }
     }
 
     private PdfPTable stepDataTable(DataTable table, Styles styles) {

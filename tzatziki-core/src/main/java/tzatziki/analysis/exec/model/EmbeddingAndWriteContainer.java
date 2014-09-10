@@ -1,5 +1,6 @@
 package tzatziki.analysis.exec.model;
 
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -22,22 +23,8 @@ public class EmbeddingAndWriteContainer {
         copy.embeddedList.addAll(embeddedList);
     }
 
-
-    public static class Embedded {
-        private final String mimeType;
-        private final byte[] data;
-        private final String text;
-
-        public Embedded(String mimeType, byte[] data) {
-            this.mimeType = mimeType;
-            this.data = data;
-            this.text = null;
-        }
-
-        public Embedded(String text) {
-            this.mimeType = "plain/text";
-            this.data = null;
-            this.text = text;
-        }
+    public FluentIterable<Embedded> embeddeds() {
+        return FluentIterable.from(embeddedList);
     }
+
 }
