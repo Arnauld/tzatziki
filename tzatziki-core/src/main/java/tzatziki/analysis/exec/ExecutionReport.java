@@ -140,8 +140,8 @@ public abstract class ExecutionReport implements Formatter, Reporter {
     @Override
     public void embedding(String mimeType, byte[] data) {
         log.debug("embedding: {}", mimeType);
-        if (currentStep != null)
-            currentStep.embedding(mimeType, data);
+        if (stepIterator != null)
+            stepIterator.current().embedding(mimeType, data);
         else if (currentStepContainer != null)
             currentStepContainer.embedding(mimeType, data);
     }
