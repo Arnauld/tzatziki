@@ -14,6 +14,6 @@ public class ExceptionUtils {
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
         error.printStackTrace(printWriter);
-        return null;
+        return stringWriter.toString();
     }
 }

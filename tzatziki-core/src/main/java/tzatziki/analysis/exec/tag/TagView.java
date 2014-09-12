@@ -6,6 +6,7 @@ import com.google.common.collect.Sets;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.analysis.exec.model.ScenarioRef;
+import tzatziki.analysis.exec.model.Status;
 
 import java.util.List;
 import java.util.Set;
@@ -90,22 +91,25 @@ public class TagView {
         ScenarioRef scenarioRef = createRef(featureExec, scenarioExec);
         scenarioMatching.add(scenarioRef);
 
-        switch (scenarioExec.status()) {
-            case Passed:
-                scenarioPassed.add(scenarioRef);
-                break;
-            case Skipped:
-                scenarioSkipped.add(scenarioRef);
-                break;
-            case Undefined:
-                scenarioUndefined.add(scenarioRef);
-                break;
-            case Failed:
-                scenarioFailed.add(scenarioRef);
-                break;
-            case Pending:
-                scenarioPending.add(scenarioRef);
-                break;
+        Status status = scenarioExec.status();
+        if (status != null) {
+            switch (status) {
+                case Passed:
+                    scenarioPassed.add(scenarioRef);
+                    break;
+                case Skipped:
+                    scenarioSkipped.add(scenarioRef);
+                    break;
+                case Undefined:
+                    scenarioUndefined.add(scenarioRef);
+                    break;
+                case Failed:
+                    scenarioFailed.add(scenarioRef);
+                    break;
+                case Pending:
+                    scenarioPending.add(scenarioRef);
+                    break;
+            }
         }
     }
 

@@ -13,6 +13,7 @@ public class MemoizableIterator<T> implements Iterator<T> {
 
 
     private final Iterator<T> delegate;
+    private boolean currentInitialized = false;
     private T current;
 
     public MemoizableIterator(Iterator<T> delegate) {
@@ -27,10 +28,13 @@ public class MemoizableIterator<T> implements Iterator<T> {
     @Override
     public T next() {
         current = delegate.next();
+        currentInitialized = true;
         return current;
     }
 
     public T current() {
+        if(!currentInitialized)
+            throw new IllegalStateException("Invoke next() at least once");
         return current;
     }
 
