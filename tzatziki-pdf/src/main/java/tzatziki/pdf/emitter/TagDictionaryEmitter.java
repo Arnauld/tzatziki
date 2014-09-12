@@ -7,20 +7,14 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import gutenberg.itext.AlternateTableRowBackground;
-import gutenberg.itext.CellStyler;
-import gutenberg.itext.DefaultBodyCellStyler;
-import gutenberg.itext.DefaultHeaderCellStyler;
-import gutenberg.itext.Styles;
+import gutenberg.itext.*;
 import tzatziki.analysis.tag.Tag;
 import tzatziki.analysis.tag.TagDictionary;
-import tzatziki.pdf.EmitterContext;
-import tzatziki.pdf.PdfEmitter;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
-public class TagDictionaryEmitter implements PdfEmitter<TagDictionary> {
+public class TagDictionaryEmitter implements Emitter<TagDictionary> {
 
     private CellStyler headerCellStyler;
     private CellStyler bodyCellStyler;
@@ -35,7 +29,7 @@ public class TagDictionaryEmitter implements PdfEmitter<TagDictionary> {
     }
 
     @Override
-    public void emit(TagDictionary dictionary, EmitterContext emitterContext) {
+    public void emit(TagDictionary dictionary, ITextContext emitterContext) {
         Styles styles = emitterContext.styles();
         if (headerCellStyler == null)
             headerCellStyler = new DefaultHeaderCellStyler(styles);
@@ -56,8 +50,8 @@ public class TagDictionaryEmitter implements PdfEmitter<TagDictionary> {
         emitterContext.append(table);
     }
 
-    private float widthPercent(FluentIterable<Tag> tags, EmitterContext emitterContext) {
-        Rectangle artBox = emitterContext.iTextContext().getDocumentArtBox();
+    private float widthPercent(FluentIterable<Tag> tags, ITextContext emitterContext) {
+        Rectangle artBox = emitterContext.getDocumentArtBox();
 
         Font font = headerCellStyler.cellFont();
         BaseFont baseFont = font.getBaseFont();
@@ -71,7 +65,7 @@ public class TagDictionaryEmitter implements PdfEmitter<TagDictionary> {
         return len / artBox.getWidth();
     }
 
-    private void emitBody(PdfPTable table, FluentIterable<Tag> tags, EmitterContext emitterContext) {
+    private void emitBody(PdfPTable table, FluentIterable<Tag> tags, ITextContext emitterContext) {
         Styles styles = emitterContext.styles();
         CellStyler styler = bodyCellStyler;
         if (styler == null)

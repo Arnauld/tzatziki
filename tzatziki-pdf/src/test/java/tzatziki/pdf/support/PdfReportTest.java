@@ -1,7 +1,9 @@
 package tzatziki.pdf.support;
 
 import com.itextpdf.text.Section;
+import gutenberg.itext.ITextContext;
 import gutenberg.itext.Sections;
+import gutenberg.itext.SimpleEmitter;
 import org.junit.Before;
 import org.junit.Test;
 import tzatziki.analysis.exec.gson.JsonIO;
@@ -13,8 +15,6 @@ import tzatziki.analysis.exec.tag.TagView;
 import tzatziki.analysis.exec.tag.TagViews;
 import tzatziki.analysis.tag.TagDictionary;
 import tzatziki.analysis.tag.TagDictionaryLoader;
-import tzatziki.pdf.EmitterContext;
-import tzatziki.pdf.PdfSimpleEmitter;
 import tzatziki.pdf.TestSettings;
 import tzatziki.pdf.model.Markdown;
 import tzatziki.pdf.model.Steps;
@@ -38,10 +38,19 @@ public class PdfReportTest {
     }
 
     @Test
-    public void usecase() throws Exception {
-        File output = new File(settings.getBuildDir(), getClass().getSimpleName() + "_usecase.pdf");
+    public void usecase_coffeeMachine() throws Exception {
+        generateReport("/tzatziki/pdf/coffeemachine-exec.json", "coffeeMachine");
+    }
 
-        List<FeatureExec> features = loadSample();
+    @Test
+    public void usecase_stepsWEmbeded() throws Exception {
+        generateReport("/tzatziki/pdf/steps-w-embeded-exec.json", "stepsWEmbeded");
+    }
+
+    private void generateReport(String resource, String suffix) throws Exception {
+        File output = new File(settings.getBuildDir(), getClass().getSimpleName() + "_" + suffix + ".pdf");
+
+        List<FeatureExec> features = loadSample(resource);
         TagDictionary tagDictionary = new TagDictionaryLoader().loadTagsFromUTF8PropertiesResources("/tzatziki/pdf/tags.properties");
 
         TagViews tagViews = new TagViews().addAll(
@@ -69,9 +78,9 @@ public class PdfReportTest {
                               final List<FeatureExec> features,
                               final TagDictionary tagDictionary,
                               final TagViews tagViews) {
-        report.emit(new PdfSimpleEmitter() {
+        report.emit(new SimpleEmitter() {
             @Override
-            public void emit(EmitterContext emitterContext) {
+            public void emit(ITextContext emitterContext) {
                 Sections sections = emitterContext.sections();
                 Section section = sections.newSection("Overview", 1);
                 try {
@@ -104,9 +113,9 @@ public class PdfReportTest {
     }
 
     private void emitSampleStepsPreamble(PdfReport report) {
-        report.emit(new PdfSimpleEmitter() {
+        report.emit(new SimpleEmitter() {
             @Override
-            public void emit(EmitterContext emitterContext) {
+            public void emit(ITextContext emitterContext) {
                 Sections sections = emitterContext.sections();
                 Section section = sections.newSection("Sample Steps", 1, false);
                 try {
@@ -127,8 +136,8 @@ public class PdfReportTest {
         });
     }
 
-    private List<FeatureExec> loadSample() throws UnsupportedEncodingException {
-        InputStream in = getClass().getResourceAsStream("/tzatziki/pdf/coffeemachine-exec.json");
+    private List<FeatureExec> loadSample(String resourcePath) throws UnsupportedEncodingException {
+        InputStream in = getClass().getResourceAsStream(resourcePath);
         return new JsonIO().load(in);
     }
 }

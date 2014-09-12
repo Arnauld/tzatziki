@@ -1,18 +1,17 @@
 package tzatziki.pdf.support;
 
 import com.itextpdf.text.DocumentException;
+import gutenberg.itext.Emitter;
 import gutenberg.itext.ITextContext;
-import gutenberg.itext.Sections;
+import gutenberg.itext.SimpleEmitter;
 import gutenberg.itext.Styles;
+import gutenberg.itext.support.ITextContextBuilder;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.tag.TagView;
 import tzatziki.analysis.java.Grammar;
 import tzatziki.analysis.tag.TagDictionary;
 import tzatziki.pdf.Settings;
-import tzatziki.pdf.EmitterContext;
-import tzatziki.pdf.PdfEmitter;
-import tzatziki.pdf.PdfSimpleEmitter;
-import tzatziki.pdf.emitter.DefaultEmitters;
+import tzatziki.pdf.emitter.DefaultPdfEmitters;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,7 +22,6 @@ import java.io.FileNotFoundException;
 public class PdfReport {
     private final Settings settings;
     private ITextContext iTextContext;
-    private EmitterContext emitterContext;
 
     public PdfReport(Configuration configuration) {
         this.settings = new Settings();
@@ -31,19 +29,13 @@ public class PdfReport {
     }
 
     public void startReport(File output) throws FileNotFoundException, DocumentException {
-        iTextContext = new ITextContext().open(output);
-        emitterContext = createEmitterContext();
-        registerPdfEmitters(emitterContext);
-    }
-
-    protected EmitterContext createEmitterContext() {
         Styles styles = settings.styles();
-        Sections sections = new Sections(styles);
-        return new EmitterContext(iTextContext, settings, sections, styles);
-    }
-
-    protected void registerPdfEmitters(EmitterContext emitterContext) {
-        new DefaultEmitters().registerDefaults(emitterContext);
+        iTextContext = new ITextContextBuilder()
+                .usingStyles(styles)
+                .declare(Settings.class, settings)
+                .build()
+                .open(output);
+        new DefaultPdfEmitters().registerDefaults(iTextContext);
     }
 
     public void endReport() {
@@ -51,31 +43,31 @@ public class PdfReport {
     }
 
     public <T> void emit(T value) {
-        emitterContext.emit(value);
+        iTextContext.emit(value);
     }
 
-    public void emit(PdfSimpleEmitter emitter) {
-        emitter.emit(emitterContext);
+    public void emit(SimpleEmitter emitter) {
+        emitter.emit(iTextContext);
     }
 
-    public <T> void emit(PdfEmitter<T> emitter, T arg) {
-        emitter.emit(arg, emitterContext);
+    public <T> void emit(Emitter<T> emitter, T arg) {
+        emitter.emit(arg, iTextContext);
     }
 
     public void emit(FeatureExec featureExec) {
-        emitterContext.emitterFor(FeatureExec.class).emit(featureExec, emitterContext);
+        iTextContext.emitterFor(FeatureExec.class).emit(featureExec, iTextContext);
     }
 
     public void emit(Grammar grammar) {
-        emitterContext.emitterFor(Grammar.class).emit(grammar, emitterContext);
+        iTextContext.emitterFor(Grammar.class).emit(grammar, iTextContext);
     }
 
     public void emit(TagDictionary tagDictionary) {
-        emitterContext.emitterFor(TagDictionary.class).emit(tagDictionary, emitterContext);
+        iTextContext.emitterFor(TagDictionary.class).emit(tagDictionary, iTextContext);
     }
 
     public void emit(TagView tagView) {
-        emitterContext.emitterFor(TagView.class).emit(tagView, emitterContext);
+        iTextContext.emitterFor(TagView.class).emit(tagView, iTextContext);
     }
 
 }

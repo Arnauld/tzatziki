@@ -3,6 +3,8 @@ package tzatziki.pdf.emitter;
 import com.google.common.base.Optional;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Section;
+import gutenberg.itext.Emitter;
+import gutenberg.itext.ITextContext;
 import gutenberg.itext.Sections;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -11,15 +13,13 @@ import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.pdf.Comments;
 import tzatziki.pdf.Settings;
-import tzatziki.pdf.EmitterContext;
-import tzatziki.pdf.PdfEmitter;
 import tzatziki.pdf.model.Markdown;
 import tzatziki.pdf.model.Tags;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
-public class FeatureEmitter implements PdfEmitter<FeatureExec> {
+public class FeatureEmitter implements Emitter<FeatureExec> {
 
     public static final String DISPLAY_URI = "feature-display-uri";
     public static final String DISPLAY_TAGS = "feature-display-tags";
@@ -28,8 +28,8 @@ public class FeatureEmitter implements PdfEmitter<FeatureExec> {
     //
 
     @Override
-    public void emit(FeatureExec feature, EmitterContext emitterContext) {
-        Settings settings = emitterContext.getSettings();
+    public void emit(FeatureExec feature, ITextContext emitterContext) {
+        Settings settings = emitterContext.get(Settings.class);
         Sections sections = emitterContext.sections();
 
         Section featureChap = sections.newSection(feature.name(), 1);
@@ -59,17 +59,17 @@ public class FeatureEmitter implements PdfEmitter<FeatureExec> {
         emitterContext.append(featureChap);
     }
 
-    private void emitUri(FeatureExec feature, EmitterContext emitterContext) {
-        Settings settings = emitterContext.getSettings();
+    private void emitUri(FeatureExec feature, ITextContext emitterContext) {
+        Settings settings = emitterContext.get(Settings.class);
         Paragraph uri = new Paragraph("Uri: " + feature.uri(), settings.styles().getFontOrDefault(Settings.META_FONT));
         emitterContext.append(uri);
     }
 
-    private void emitTags(FeatureExec feature, EmitterContext emitterContext) {
+    private void emitTags(FeatureExec feature, ITextContext emitterContext) {
         emitterContext.emit(Tags.class, new Tags(feature.tags()));
     }
 
-    protected void emitDescription(FeatureExec feature, EmitterContext emitterContext) {
+    protected void emitDescription(FeatureExec feature, ITextContext emitterContext) {
         // Description
         StringBuilder b = new StringBuilder();
         String description = feature.description();

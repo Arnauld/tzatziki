@@ -9,6 +9,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.api.junit.Cucumber;
+import gutenberg.itext.model.SourceCode;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -65,7 +66,7 @@ public class JsonEmitterReportTest {
 
         @When("^I apply the following formula:$")
         public void I_apply_the_following_formula(String formula) throws Throwable {
-            scenario.embed(formula.getBytes(), "plain/text+java");
+            scenario.embed(new SourceCode("java", formula).toBytes(), SourceCode.MIME_TYPE);
         }
 
         @Then("^the result should be ((?:greater|lower)(?: or equal)?) to the (highest|lowest) value of 'xs'$")

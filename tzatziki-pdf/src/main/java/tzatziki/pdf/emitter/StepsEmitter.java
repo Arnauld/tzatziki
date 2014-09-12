@@ -9,20 +9,20 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import gutenberg.itext.AlternateTableRowBackground;
+import gutenberg.itext.Emitter;
+import gutenberg.itext.ITextContext;
 import gutenberg.itext.Styles;
+import gutenberg.util.Consumer;
 import tzatziki.analysis.exec.model.DataTable;
 import tzatziki.analysis.exec.model.Embedded;
 import tzatziki.analysis.exec.model.StepExec;
-import tzatziki.pdf.EmitterContext;
-import tzatziki.pdf.PdfEmitter;
 import tzatziki.pdf.Settings;
 import tzatziki.pdf.model.Steps;
-import tzatziki.util.Consumer;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
-public class StepsEmitter implements PdfEmitter<Steps> {
+public class StepsEmitter implements Emitter<Steps> {
 
     public static final String STEP_KEYWORD_FONT = "step-keyword-font";
     public static final String STEP_PHRASE_FONT = "step-phrase-font";
@@ -30,11 +30,11 @@ public class StepsEmitter implements PdfEmitter<Steps> {
     public static final String STEP_DOCSTRING = "step-docstring";
     public static final String STEP_TABLE_CELL = "step-table-cell";
 
-    private boolean debugTable = false;
+    private boolean debugTable = true;
     private StatusMarker statusMarker = new StatusMarker();
 
     @Override
-    public void emit(Steps stepContainer, EmitterContext emitterContext) {
+    public void emit(Steps stepContainer, ITextContext emitterContext) {
         PdfPTable steps = new PdfPTable(new float[]{1f, 2f, 22f});
         for (StepExec stepExec : stepContainer.steps()) {
             emitStep(steps, stepExec, emitterContext);
@@ -47,8 +47,8 @@ public class StepsEmitter implements PdfEmitter<Steps> {
         emitterContext.append(steps);
     }
 
-    private void emitStep(final PdfPTable steps, StepExec step, EmitterContext emitterContext) {
-        Settings settings = emitterContext.getSettings();
+    private void emitStep(final PdfPTable steps, StepExec step, ITextContext emitterContext) {
+        Settings settings = emitterContext.get(Settings.class);
         Styles styles = settings.styles();
 
         PdfPCell statusCell = statusCell(step);
@@ -70,21 +70,11 @@ public class StepsEmitter implements PdfEmitter<Steps> {
         if (step.hasDocString()) {
             String docString = step.docString();
             Phrase phrase = new Phrase(docString, styles.getFontOrDefault(STEP_DOCSTRING));
-            steps.addCell(noBorder(new PdfPCell(new Phrase(""))));
+            steps.addCell(noBorder(colspan(2, new PdfPCell(new Phrase("")))));
             steps.addCell(noBorder(new PdfPCell(phrase)));
         }
 
-        emitterContext.pushElementConsumer(new Consumer<Element>() {
-            @Override
-            public void consume(Element element) {
-                PdfPCell cell = new PdfPCell();
-                cell.addElement(element);
-
-                steps.addCell(noBorder(new PdfPCell(new Phrase(""))));
-                steps.addCell(noBorder(cell));
-            }
-        });
-
+        emitterContext.pushElementConsumer(appendToTable(steps));
         try {
             for (Embedded embedded : step.embeddeds()) {
                 emitterContext.emit(embedded);
@@ -92,6 +82,19 @@ public class StepsEmitter implements PdfEmitter<Steps> {
         } finally {
             emitterContext.popElementConsumer();
         }
+    }
+
+    private Consumer<Element> appendToTable(final PdfPTable steps) {
+        return new Consumer<Element>() {
+            @Override
+            public void consume(Element element) {
+                PdfPCell cell = new PdfPCell();
+                cell.addElement(element);
+
+                steps.addCell(noBorder(colspan(2, new PdfPCell(new Phrase("")))));
+                steps.addCell(noBorder(cell));
+            }
+        };
     }
 
     private PdfPTable stepDataTable(DataTable table, Styles styles) {
@@ -123,8 +126,7 @@ public class StepsEmitter implements PdfEmitter<Steps> {
         PdfPCell phraseCell = new PdfPCell(pPhrase);
         phraseCell.setVerticalAlignment(Element.ALIGN_TOP);
         phraseCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        if (!debugTable)
-            phraseCell.setBorder(Rectangle.NO_BORDER);
+        phraseCell = noBorder(phraseCell);
         return phraseCell;
     }
 
@@ -134,8 +136,7 @@ public class StepsEmitter implements PdfEmitter<Steps> {
         PdfPCell keywordCell = new PdfPCell(pKeyword);
         keywordCell.setVerticalAlignment(Element.ALIGN_TOP);
         keywordCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        if (!debugTable)
-            keywordCell.setBorder(Rectangle.NO_BORDER);
+        keywordCell = noBorder(keywordCell);
         return keywordCell;
     }
 
@@ -144,8 +145,7 @@ public class StepsEmitter implements PdfEmitter<Steps> {
         PdfPCell statusCell = new PdfPCell(statusSymbol);
         statusCell.setVerticalAlignment(Element.ALIGN_TOP);
         statusCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        if (!debugTable)
-            statusCell.setBorder(Rectangle.NO_BORDER);
+        statusCell = noBorder(statusCell);
         return statusCell;
     }
 
@@ -154,9 +154,10 @@ public class StepsEmitter implements PdfEmitter<Steps> {
         return cell;
     }
 
-    private static PdfPCell noBorder(PdfPCell cell) {
-        cell.setBorder(Rectangle.NO_BORDER);
+    private PdfPCell noBorder(PdfPCell cell) {
+        if (!debugTable) {
+            cell.setBorder(Rectangle.NO_BORDER);
+        }
         return cell;
     }
-
 }
