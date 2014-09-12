@@ -1,0 +1,245 @@
+{"features": [
+    {
+        "uri": "tzatziki/analysis/exec/gson/steps-w-embedding.feature",
+        "keyword": "Feature",
+        "name": "Embedding at the step level",
+        "description": "",
+        "stepContainerList": [
+            {
+                "keyword": "Scenario",
+                "name": "Step should be able to emit embedding",
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "a series of 10 values named \u0027xs\u0027",
+                        "resultExec": {
+                            "status": "Passed",
+                            "duration": 93215000
+                        },
+                        "matchExec": {
+                            "location": "JsonEmitterReportTest$Steps.a_series_of_values_named_xs(int,String)",
+                            "arguments": [
+                                {
+                                    "val": "10",
+                                    "offset": 12
+                                },
+                                {
+                                    "val": "xs",
+                                    "offset": 29
+                                }
+                            ]
+                        },
+                        "comments": [],
+                        "dataTable": {
+                            "rows": []
+                        },
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "I apply the following formula:",
+                        "resultExec": {
+                            "status": "Passed",
+                            "duration": 8723000
+                        },
+                        "matchExec": {
+                            "location": "JsonEmitterReportTest$Steps.I_apply_the_following_formula(String)",
+                            "arguments": []
+                        },
+                        "comments": [],
+                        "docString": "result \u003d xs.reduce(0, (x, sum) -\u003e sum + x) / xs.size()",
+                        "dataTable": {
+                            "rows": []
+                        },
+                        "embeddedList": [
+                            {
+                                "mimeType": "application/x-gutenberg.sourcecode",
+                                "data": [
+                                    123,
+                                    34,
+                                    108,
+                                    97,
+                                    110,
+                                    103,
+                                    34,
+                                    58,
+                                    34,
+                                    106,
+                                    97,
+                                    118,
+                                    97,
+                                    34,
+                                    44,
+                                    34,
+                                    99,
+                                    111,
+                                    110,
+                                    116,
+                                    101,
+                                    110,
+                                    116,
+                                    34,
+                                    58,
+                                    34,
+                                    114,
+                                    101,
+                                    115,
+                                    117,
+                                    108,
+                                    116,
+                                    32,
+                                    92,
+                                    117,
+                                    48,
+                                    48,
+                                    51,
+                                    100,
+                                    32,
+                                    120,
+                                    115,
+                                    46,
+                                    114,
+                                    101,
+                                    100,
+                                    117,
+                                    99,
+                                    101,
+                                    40,
+                                    48,
+                                    44,
+                                    32,
+                                    40,
+                                    120,
+                                    44,
+                                    32,
+                                    115,
+                                    117,
+                                    109,
+                                    41,
+                                    32,
+                                    45,
+                                    92,
+                                    117,
+                                    48,
+                                    48,
+                                    51,
+                                    101,
+                                    32,
+                                    115,
+                                    117,
+                                    109,
+                                    32,
+                                    43,
+                                    32,
+                                    120,
+                                    41,
+                                    32,
+                                    47,
+                                    32,
+                                    120,
+                                    115,
+                                    46,
+                                    115,
+                                    105,
+                                    122,
+                                    101,
+                                    40,
+                                    41,
+                                    34,
+                                    44,
+                                    34,
+                                    115,
+                                    104,
+                                    111,
+                                    119,
+                                    76,
+                                    105,
+                                    110,
+                                    101,
+                                    78,
+                                    117,
+                                    109,
+                                    98,
+                                    101,
+                                    114,
+                                    115,
+                                    34,
+                                    58,
+                                    102,
+                                    97,
+                                    108,
+                                    115,
+                                    101,
+                                    125
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "the result should be greater or equal to the lowest value of \u0027xs\u0027",
+                        "resultExec": {
+                            "status": "Passed",
+                            "duration": 68000
+                        },
+                        "matchExec": {
+                            "location": "JsonEmitterReportTest$Steps.result_comparaison(String,String)",
+                            "arguments": [
+                                {
+                                    "val": "greater or equal",
+                                    "offset": 21
+                                },
+                                {
+                                    "val": "lowest",
+                                    "offset": 45
+                                }
+                            ]
+                        },
+                        "comments": [],
+                        "dataTable": {
+                            "rows": []
+                        },
+                        "embeddedList": []
+                    },
+                    {
+                        "keyword": "And ",
+                        "name": "the result should be lower or equal to the highest value of \u0027xs\u0027",
+                        "resultExec": {
+                            "status": "Passed",
+                            "duration": 37000
+                        },
+                        "matchExec": {
+                            "location": "JsonEmitterReportTest$Steps.result_comparaison(String,String)",
+                            "arguments": [
+                                {
+                                    "val": "lower or equal",
+                                    "offset": 21
+                                },
+                                {
+                                    "val": "highest",
+                                    "offset": 43
+                                }
+                            ]
+                        },
+                        "comments": [],
+                        "dataTable": {
+                            "rows": []
+                        },
+                        "embeddedList": []
+                    }
+                ],
+                "tags": [],
+                "comments": [],
+                "description": "",
+                "lineRange": {
+                    "first": 3,
+                    "last": 3
+                },
+                "embeddedList": [],
+                "type": "scenario"
+            }
+        ],
+        "tags": [],
+        "comments": []
+    }]
+}

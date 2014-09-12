@@ -8,13 +8,13 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import gutenberg.itext.ITextContext;
 import gutenberg.itext.Sections;
+import gutenberg.itext.SimpleEmitter;
 import gutenberg.itext.Styles;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.analysis.exec.model.Status;
-import tzatziki.pdf.EmitterContext;
-import tzatziki.pdf.PdfSimpleEmitter;
 import tzatziki.pdf.emitter.StatusMarker;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
-public class FeatureSummaryListOfSection implements PdfSimpleEmitter {
+public class FeatureSummaryListOfSection implements SimpleEmitter {
     private final List<FeatureExec> features;
     private final int hLevel;
     private StatusMarker statusMarker = new StatusMarker();
@@ -34,13 +34,13 @@ public class FeatureSummaryListOfSection implements PdfSimpleEmitter {
     }
 
     @Override
-    public void emit(EmitterContext emitterContext) {
+    public void emit(ITextContext emitterContext) {
         for (FeatureExec feature : features) {
             emitFeature(feature, emitterContext);
         }
     }
 
-    private void emitFeature(FeatureExec feature, EmitterContext emitterContext) {
+    private void emitFeature(FeatureExec feature, ITextContext emitterContext) {
         Styles styles = emitterContext.styles();
         Sections sections = emitterContext.sections();
 

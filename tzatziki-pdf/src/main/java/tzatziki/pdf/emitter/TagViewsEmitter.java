@@ -5,20 +5,14 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import gutenberg.itext.AlternateTableRowBackground;
-import gutenberg.itext.CellStyler;
-import gutenberg.itext.DefaultBodyCellStyler;
-import gutenberg.itext.PercentBackgroundEvent;
-import gutenberg.itext.Styles;
+import gutenberg.itext.*;
 import tzatziki.analysis.exec.tag.TagView;
 import tzatziki.analysis.exec.tag.TagViews;
-import tzatziki.pdf.EmitterContext;
-import tzatziki.pdf.PdfEmitter;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
-public class TagViewsEmitter implements PdfEmitter<TagViews> {
+public class TagViewsEmitter implements Emitter<TagViews> {
 
     private CellStyler bodyCellStyler;
 
@@ -31,7 +25,7 @@ public class TagViewsEmitter implements PdfEmitter<TagViews> {
     }
 
     @Override
-    public void emit(TagViews views, EmitterContext emitterContext) {
+    public void emit(TagViews views, ITextContext emitterContext) {
         Styles styles = emitterContext.styles();
 
         float w = 0.8f;
@@ -47,7 +41,7 @@ public class TagViewsEmitter implements PdfEmitter<TagViews> {
         emitterContext.append(table);
     }
 
-    private void emitBody(PdfPTable table, TagViews views, EmitterContext emitterContext) {
+    private void emitBody(PdfPTable table, TagViews views, ITextContext emitterContext) {
         Styles styles = emitterContext.styles();
         CellStyler styler = bodyCellStyler;
         if (styler == null)

@@ -1,5 +1,6 @@
 package tzatziki.pdf.emitter;
 
+import gutenberg.itext.ITextContext;
 import tzatziki.analysis.exec.model.Embedded;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
@@ -13,8 +14,8 @@ import tzatziki.pdf.model.Tags;
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
-public class DefaultEmitters {
-    public void registerDefaults(EmitterContext context) {
+public class DefaultPdfEmitters {
+    public void registerDefaults(ITextContext context) {
         context.register(FeatureExec.class, new FeatureEmitter());
         context.register(ScenarioExec.class, new ScenarioEmitter());
         context.register(Markdown.class, new MarkdownEmitter());
