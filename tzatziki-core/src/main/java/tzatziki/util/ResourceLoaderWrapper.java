@@ -1,9 +1,7 @@
-package tzatziki.junit;
+package tzatziki.util;
 
 import cucumber.runtime.io.Resource;
 import cucumber.runtime.io.ResourceLoader;
-import tzatziki.util.Filter;
-import tzatziki.util.Filters;
 
 import java.io.IOException;
 import java.io.InputStream;

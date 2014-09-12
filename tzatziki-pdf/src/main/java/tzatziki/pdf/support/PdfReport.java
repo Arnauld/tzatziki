@@ -7,7 +7,7 @@ import gutenberg.itext.SimpleEmitter;
 import gutenberg.itext.Styles;
 import gutenberg.itext.support.ITextContextBuilder;
 import tzatziki.analysis.exec.model.FeatureExec;
-import tzatziki.analysis.exec.tag.TagView;
+import tzatziki.analysis.exec.support.TagView;
 import tzatziki.analysis.java.Grammar;
 import tzatziki.analysis.tag.TagDictionary;
 import tzatziki.pdf.Settings;

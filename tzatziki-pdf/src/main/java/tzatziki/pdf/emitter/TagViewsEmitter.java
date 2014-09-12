@@ -6,8 +6,8 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import gutenberg.itext.*;
-import tzatziki.analysis.exec.tag.TagView;
-import tzatziki.analysis.exec.tag.TagViews;
+import tzatziki.analysis.exec.support.TagView;
+import tzatziki.analysis.exec.support.TagViews;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>

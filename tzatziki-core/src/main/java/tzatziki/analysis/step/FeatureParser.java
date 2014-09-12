@@ -6,7 +6,7 @@ import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.model.CucumberFeature;
 import gherkin.formatter.Formatter;
-import tzatziki.junit.ResourceLoaderWrapper;
+import tzatziki.util.ResourceLoaderWrapper;
 import tzatziki.util.Filter;
 import tzatziki.util.Filters;
 

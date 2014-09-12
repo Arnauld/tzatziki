@@ -1,4 +1,4 @@
-package tzatziki.analysis.exec.tag;
+package tzatziki.analysis.exec.support;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
@@ -7,6 +7,8 @@ import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.analysis.exec.model.ScenarioRef;
 import tzatziki.analysis.exec.model.Status;
+import tzatziki.analysis.exec.tag.TagFilter;
+import tzatziki.analysis.exec.tag.Tags;
 
 import java.util.List;
 import java.util.Set;

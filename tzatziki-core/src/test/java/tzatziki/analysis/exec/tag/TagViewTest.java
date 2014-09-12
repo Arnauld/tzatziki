@@ -3,6 +3,7 @@ package tzatziki.analysis.exec.tag;
 import org.junit.Test;
 import tzatziki.analysis.exec.gson.JsonIO;
 import tzatziki.analysis.exec.model.FeatureExec;
+import tzatziki.analysis.exec.support.TagView;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
