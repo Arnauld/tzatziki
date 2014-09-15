@@ -4,15 +4,16 @@ import com.itextpdf.text.Section;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.Sections;
 import gutenberg.itext.SimpleEmitter;
+import gutenberg.itext.support.FirstPageRenderer;
 import org.junit.Before;
 import org.junit.Test;
 import tzatziki.analysis.exec.gson.JsonIO;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ResultExec;
 import tzatziki.analysis.exec.model.StepExec;
-import tzatziki.analysis.exec.tag.TagFilter;
 import tzatziki.analysis.exec.support.TagView;
 import tzatziki.analysis.exec.support.TagViews;
+import tzatziki.analysis.exec.tag.TagFilter;
 import tzatziki.analysis.tag.TagDictionary;
 import tzatziki.analysis.tag.TagDictionaryLoader;
 import tzatziki.pdf.TestSettings;
@@ -62,6 +63,7 @@ public class PdfReportTest {
 
         PdfReport report = new PdfReport(configuration);
         report.startReport(output);
+        emitCoverPage(report, suffix);
         emitSampleStepsPreamble(report);
         emitMarkdownPreamble(report);
         emitOverview(report, features, tagDictionary, tagViews);
@@ -72,6 +74,11 @@ public class PdfReportTest {
         report.endReport();
 
         System.out.println("PdfReportTest.usecase~~> " + output);
+    }
+
+    private void emitCoverPage(PdfReport report, final String suffix) {
+        FirstPageRenderer coverPage = new FirstPageRenderer("An amazing report\n" + suffix, "Sample reporting");
+        report.emit(coverPage);
     }
 
     private void emitOverview(PdfReport report,
