@@ -3,9 +3,11 @@ package tzatziki.pdf.support;
 import com.itextpdf.text.DocumentException;
 import gutenberg.itext.Emitter;
 import gutenberg.itext.ITextContext;
+import gutenberg.itext.PostProcessor;
 import gutenberg.itext.SimpleEmitter;
-import gutenberg.itext.Styles;
 import gutenberg.itext.support.ITextContextBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.support.TagView;
 import tzatziki.analysis.java.Grammar;
@@ -20,8 +22,12 @@ import java.io.FileNotFoundException;
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
 public class PdfReport {
+
+    private Logger log = LoggerFactory.getLogger(PdfReport.class);
+
     private final Settings settings;
     private ITextContext iTextContext;
+    private File outputDst, outputTmp;
 
     public PdfReport(Configuration configuration) {
         this.settings = new Settings();
@@ -29,17 +35,20 @@ public class PdfReport {
     }
 
     public void startReport(File output) throws FileNotFoundException, DocumentException {
-        Styles styles = settings.styles();
-        iTextContext = new ITextContextBuilder()
-                .usingStyles(styles)
+        this.outputDst = output;
+        this.outputTmp = new File(output.getAbsolutePath() + "~");
+        this.iTextContext = new ITextContextBuilder()
+                .usingStyles(settings.styles())
                 .declare(Settings.class, settings)
                 .build()
-                .open(output);
+                .open(outputTmp);
         new DefaultPdfEmitters().registerDefaults(iTextContext);
     }
 
-    public void endReport() {
-        iTextContext.close();
+    public ITextContext iTextContext() {
+        if (iTextContext == null)
+            throw new IllegalStateException("Context is only available once the report is started");
+        return iTextContext;
     }
 
     public <T> void emit(T value) {
@@ -70,4 +79,26 @@ public class PdfReport {
         iTextContext.emitterFor(TagView.class).emit(tagView, iTextContext);
     }
 
+    /**
+     * Indicates content start.
+     * This usually change the page numbering, and indicates the position of the Table of Contents.
+     */
+    public void startContent() {
+        iTextContext.pageNumber().startContent();
+    }
+
+    public void endReport(PostProcessor... postProcessors) {
+        iTextContext.close();
+
+        File tmp = outputTmp;
+        for (int i = 0; i < postProcessors.length; i++) {
+            PostProcessor postProcessor = postProcessors[i];
+
+            File tmp2 = new File(outputTmp.getAbsolutePath() + i);
+            postProcessor.postProcess(iTextContext, tmp, tmp2);
+            tmp = tmp2;
+        }
+        if (!tmp.renameTo(outputDst))
+            log.warn("Fail to rename generated file {}", tmp);
+    }
 }

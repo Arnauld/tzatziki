@@ -1,9 +1,12 @@
 package tzatziki.pdf.support;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Font;
 import gutenberg.itext.Colors;
 import gutenberg.itext.FontCopier;
+import gutenberg.itext.HeaderFooter;
 import gutenberg.itext.Styles;
+import gutenberg.itext.support.FirstPageRenderer;
 import tzatziki.pdf.Settings;
 import tzatziki.pdf.emitter.FeatureEmitter;
 import tzatziki.pdf.emitter.ScenarioEmitter;
@@ -41,17 +44,27 @@ public class Configuration {
         Font metaFont = new FontCopier(styles.defaultFont()).style(NORMAL).size(8).color(DARK_RED).get();
         styles.registerFont(Settings.META_FONT, metaFont);
 
-        styles.registerFont(STEP_KEYWORD_FONT, styles.getFontOrDefault(CODE_FONT, BOLD, styles.getColor(EMPHASIZE_COLOR).or(DARK_RED)));
+        BaseColor emphasizedColor = styles.getColor(EMPHASIZE_COLOR).or(DARK_RED);
+        BaseColor primaryColor = styles.getColor(Settings.PRIMARY_COLOR).or(DARK_RED);
+
+        styles.registerFont(STEP_KEYWORD_FONT, styles.getFontOrDefault(CODE_FONT, BOLD, emphasizedColor));
         styles.registerFont(STEP_PHRASE_FONT, styles.getFontOrDefault(CODE_FONT, NORMAL, styles.defaultColor()));
-        styles.registerFont(STEP_PARAMETER_FONT, styles.getFontOrDefault(CODE_FONT, NORMAL, styles.getColor(EMPHASIZE_COLOR).or(DARK_RED)));
-        styles.registerFont(STEP_DOCSTRING, styles.getFontOrDefault(CODE_FONT, NORMAL, styles.getColor(EMPHASIZE_COLOR).or(DARK_RED)));
+        styles.registerFont(STEP_PARAMETER_FONT, styles.getFontOrDefault(CODE_FONT, NORMAL, emphasizedColor));
+        styles.registerFont(STEP_DOCSTRING, styles.getFontOrDefault(CODE_FONT, NORMAL, emphasizedColor));
         styles.registerFont(STEP_TABLE_CELL, styles.getFontOrDefault(CODE_FONT, NORMAL, styles.defaultColor()));
 
         styles.registerFont(TAG_FONT, metaFont);
+
+        styles.registerFont(FirstPageRenderer.FIRST_PAGE_TITLE_FONT, new FontCopier(styles.defaultFont()).style(NORMAL).size(32).color(primaryColor).get());
+        styles.registerFont(FirstPageRenderer.FIRST_PAGE_SUBJECT_FONT, new FontCopier(styles.defaultFont()).style(NORMAL).size(18).color(emphasizedColor).get());
+
+        styles.registerFont(HeaderFooter.HEADER_FONT, new FontCopier(styles.defaultFont()).noBold().size(10f).get());
+        styles.registerFont(HeaderFooter.FOOTER_FONT, new FontCopier(styles.defaultFont()).noBold().size(10f).get());
     }
 
     private void configureColors(Styles styles) {
         styles.registerColor(Settings.PRIMARY_COLOR, DARK_RED);
         styles.registerColor(EMPHASIZE_COLOR, Colors.GRAY);
+        styles.registerColor(HeaderFooter.HEADER_LINE_COLOR, DARK_RED);
     }
 }

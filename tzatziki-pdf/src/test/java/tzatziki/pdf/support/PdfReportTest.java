@@ -1,9 +1,9 @@
 package tzatziki.pdf.support;
 
+import com.google.common.base.Function;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Section;
-import gutenberg.itext.ITextContext;
-import gutenberg.itext.Sections;
-import gutenberg.itext.SimpleEmitter;
+import gutenberg.itext.*;
 import gutenberg.itext.support.FirstPageRenderer;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,17 +63,34 @@ public class PdfReportTest {
 
         PdfReport report = new PdfReport(configuration);
         report.startReport(output);
+
+        HeaderFooter headerFooter = registerHeaderAndFooter(report);
         emitCoverPage(report, suffix);
         emitSampleStepsPreamble(report);
+
+        report.startContent();
         emitMarkdownPreamble(report);
         emitOverview(report, features, tagDictionary, tagViews);
 
         for (FeatureExec feature : features) {
             emitFeature(report, feature);
         }
-        report.endReport();
+        report.endReport(new TableOfContentsPostProcessor(headerFooter));
 
         System.out.println("PdfReportTest.usecase~~> " + output);
+    }
+
+    private HeaderFooter registerHeaderAndFooter(PdfReport report) {
+        ITextContext context = report.iTextContext();
+        PageNumber pageNumber = context.pageNumber();
+        Styles styles = context.styles();
+
+        Function<PageInfos, Phrase> header = HeaderFooter.none();
+        Function<PageInfos, Phrase> footer = HeaderFooter.create(styles, HeaderFooter.FOOTER_FONT, null, "An amazing report - ${sectionTitle}", null);
+        HeaderFooter headerFooter = new HeaderFooter(pageNumber, styles, header, footer);
+
+        context.getPdfWriter().setPageEvent(headerFooter);
+        return headerFooter;
     }
 
     private void emitCoverPage(PdfReport report, final String suffix) {
