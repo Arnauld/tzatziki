@@ -86,7 +86,7 @@ public class PdfReportTest {
         Styles styles = context.styles();
 
         Function<PageInfos, Phrase> header = HeaderFooter.none();
-        Function<PageInfos, Phrase> footer = HeaderFooter.create(styles, HeaderFooter.FOOTER_FONT, null, "An amazing report - ${sectionTitle}", null);
+        Function<PageInfos, Phrase> footer = HeaderFooter.create(styles, HeaderFooter.FOOTER_FONT, null, "An amazing report - ${chapterTitle}", null);
         HeaderFooter headerFooter = new HeaderFooter(pageNumber, styles, header, footer);
 
         context.getPdfWriter().setPageEvent(headerFooter);

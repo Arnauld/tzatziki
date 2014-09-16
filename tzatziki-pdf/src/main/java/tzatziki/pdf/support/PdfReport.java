@@ -84,7 +84,7 @@ public class PdfReport {
      * This usually change the page numbering, and indicates the position of the Table of Contents.
      */
     public void startContent() {
-        iTextContext.pageNumber().startContent();
+        iTextContext.pageNumber().startMainMatter();
     }
 
     public void endReport(PostProcessor... postProcessors) {

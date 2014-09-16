@@ -30,7 +30,7 @@ public class StepsEmitter implements Emitter<Steps> {
     public static final String STEP_DOCSTRING = "step-docstring";
     public static final String STEP_TABLE_CELL = "step-table-cell";
 
-    private boolean debugTable = true;
+    private boolean debugTable = false;
     private StatusMarker statusMarker = new StatusMarker();
 
     @Override
