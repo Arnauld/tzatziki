@@ -101,4 +101,8 @@ public class PdfReport {
         if (!tmp.renameTo(outputDst))
             log.warn("Fail to rename generated file {}", tmp);
     }
+
+    public void newPage() {
+        iTextContext().getDocument().newPage();
+    }
 }

@@ -1,5 +1,6 @@
 package tzatziki.pdf.support;
 
+import com.google.common.collect.Maps;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Font;
 import gutenberg.itext.Colors;
@@ -10,6 +11,8 @@ import gutenberg.itext.support.FirstPageRenderer;
 import tzatziki.pdf.Settings;
 import tzatziki.pdf.emitter.FeatureEmitter;
 import tzatziki.pdf.emitter.ScenarioEmitter;
+
+import java.util.Map;
 
 import static com.itextpdf.text.Font.BOLD;
 import static com.itextpdf.text.Font.NORMAL;
@@ -24,15 +27,41 @@ import static tzatziki.pdf.emitter.TagsEmitter.TAG_FONT;
  */
 public class Configuration {
 
+    private Map<Object, Boolean> properties = Maps.newHashMap();
+
+    public Configuration() {
+        displayFeatureUri(true);
+        displayFeatureTags(true);
+        displayScenarioTags(true);
+    }
+
+    public Configuration declareProperty(Object key, boolean value) {
+        properties.put(key, value);
+        return this;
+    }
+
+
+    public Configuration displayFeatureUri(boolean displayFeatureUri) {
+        return declareProperty(FeatureEmitter.DISPLAY_URI, displayFeatureUri);
+    }
+
+    public Configuration displayFeatureTags(boolean displayFeatureTags) {
+        return declareProperty(FeatureEmitter.DISPLAY_TAGS, displayFeatureTags);
+    }
+
+    public Configuration displayScenarioTags(boolean displayScenarioTags) {
+        return declareProperty(ScenarioEmitter.DISPLAY_TAGS, displayScenarioTags);
+    }
+
     public void configure(Settings settings) {
         configureProperties(settings);
         configureStyles(settings.styles());
     }
 
     protected void configureProperties(Settings settings) {
-        settings.defineProperty(FeatureEmitter.DISPLAY_URI, true);
-        settings.defineProperty(FeatureEmitter.DISPLAY_TAGS, true);
-        settings.defineProperty(ScenarioEmitter.DISPLAY_TAGS, true);
+        for (Map.Entry<Object, Boolean> entry : properties.entrySet()) {
+            settings.defineProperty(entry.getKey(), entry.getValue());
+        }
     }
 
     protected void configureStyles(Styles styles) {

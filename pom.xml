@@ -18,6 +18,7 @@
         <module>tzatziki-xls</module>
         <module>tzatziki-pdf</module>
         <module>tzatziki-samples</module>
+        <module>tzatziki-web</module>
     </modules>
 
     <licenses>
