@@ -1,7 +1,6 @@
 package tzatziki.junit;
 
 import com.google.common.collect.Lists;
-import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
@@ -13,12 +12,9 @@ import tzatziki.analysis.step.FeatureParser;
 import tzatziki.analysis.step.Features;
 import tzatziki.analysis.tag.TagDictionary;
 import tzatziki.analysis.tag.TagDictionaryLoader;
-import tzatziki.util.PropertiesLoader;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -28,7 +24,6 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -145,7 +140,7 @@ public class SanityTagChecker extends ParentRunner<FeatureTagRunner> {
     }
 
     public static TagDictionary loadTagsFromUTF8PropertiesResources(String resourcePath) throws IOException {
-        return new TagDictionaryLoader().loadTagsFromUTF8PropertiesResources(resourcePath);
+        return new TagDictionaryLoader().fromUTF8PropertiesResource(resourcePath);
     }
 
     private static class InvalidReturnTypeException extends IllegalArgumentException {

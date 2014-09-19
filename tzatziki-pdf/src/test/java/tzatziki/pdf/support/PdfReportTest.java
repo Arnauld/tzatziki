@@ -52,7 +52,7 @@ public class PdfReportTest {
         File output = new File(settings.getBuildDir(), getClass().getSimpleName() + "_" + suffix + ".pdf");
 
         List<FeatureExec> features = loadSample(resource);
-        TagDictionary tagDictionary = new TagDictionaryLoader().loadTagsFromUTF8PropertiesResources("/tzatziki/pdf/tags.properties");
+        TagDictionary tagDictionary = new TagDictionaryLoader().fromUTF8PropertiesResource("/tzatziki/pdf/tags.properties");
 
         TagViews tagViews = new TagViews().addAll(
                 new TagView("Payment (non wip)", TagFilter.from("~@wip", "@payment")),

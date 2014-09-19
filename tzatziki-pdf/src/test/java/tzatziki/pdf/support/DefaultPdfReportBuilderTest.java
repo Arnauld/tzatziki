@@ -5,7 +5,6 @@ import org.junit.Test;
 import tzatziki.analysis.exec.gson.JsonIO;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.support.TagView;
-import tzatziki.analysis.exec.support.TagViews;
 import tzatziki.analysis.exec.tag.TagFilter;
 import tzatziki.analysis.tag.TagDictionaryLoader;
 import tzatziki.pdf.TestSettings;
@@ -16,14 +15,15 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import static tzatziki.pdf.support.DefaultPdfReportBuilder.Overview.FeatureSummary;
+import static tzatziki.pdf.support.DefaultPdfReportBuilder.Overview.TagViews;
+
 public class DefaultPdfReportBuilderTest {
     private TestSettings settings;
-    private Configuration configuration;
 
     @Before
     public void setUp() {
         settings = new TestSettings();
-        configuration = new Configuration();
     }
 
     @Test
@@ -39,16 +39,15 @@ public class DefaultPdfReportBuilderTest {
                 .title("Coffee machine")
                 .subTitle("Technical & Functional specifications")
                 .markup(Markdown.fromUTF8Resource("/tzatziki/pdf/00-preambule.md"))
-                .overview(DefaultPdfReportBuilder.Overview.FeatureSummary, DefaultPdfReportBuilder.Overview.TagViews)
+                .overview(FeatureSummary, TagViews)
                 .features(features)
-                .tagDictionary(new TagDictionaryLoader().loadTagsFromUTF8PropertiesResources("/tzatziki/pdf/tags.properties"))
+                .tagDictionary(new TagDictionaryLoader().fromUTF8PropertiesResource("/tzatziki/pdf/tags.properties"))
                 .tagViews(
                         new TagView("Payment (non wip)", TagFilter.from("~@wip", "@payment")),
                         new TagView("Non wip about tea", TagFilter.from("~@wip", "@tea"))
                 )
                 .sampleSteps()
                 .generate(fileOut);
-
     }
 
     private List<FeatureExec> loadSample(String resourcePath) throws UnsupportedEncodingException {

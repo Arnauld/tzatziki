@@ -13,7 +13,7 @@ import java.util.Properties;
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
 public class TagDictionaryLoader {
-    public TagDictionary loadTagsFromUTF8PropertiesResources(String resourcePath) throws IOException {
+    public TagDictionary fromUTF8PropertiesResource(String resourcePath) throws IOException {
         URL resource = PropertiesLoader.class.getResource(resourcePath);
         if (resource == null)
             throw new IllegalArgumentException("Resource not found '" + resourcePath + "'");
