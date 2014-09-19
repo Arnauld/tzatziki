@@ -2,9 +2,6 @@ package tzatziki.pdf;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Font;
-import gutenberg.itext.Colors;
 import gutenberg.itext.Styles;
 
 import java.util.Map;
@@ -19,7 +16,7 @@ public class Settings {
 
     //
     private Styles styles;
-    private Map<Object, Boolean> booleanProperties = Maps.newHashMap();
+    private Map<Object, Object> properties = Maps.newHashMap();
 
     public Styles styles() {
         if (styles == null) {
@@ -28,19 +25,27 @@ public class Settings {
         return styles;
     }
 
-    public Optional<Boolean> getBoolean(Object propertyKey) {
-        Boolean aBoolean = booleanProperties.get(propertyKey);
-        if (aBoolean == null)
+    public Optional<String> getString(Object propertyKey) {
+        Object aValue = properties.get(propertyKey);
+        if (aValue == null)
             return Optional.absent();
         else
-            return Optional.of(aBoolean);
+            return Optional.of((String)aValue);
+    }
+
+    public Optional<Boolean> getBoolean(Object propertyKey) {
+        Object aValue = properties.get(propertyKey);
+        if (aValue == null)
+            return Optional.absent();
+        else
+            return Optional.of((Boolean)aValue);
     }
 
     public boolean getBoolean(Object propertyKey, boolean defaultValue) {
         return getBoolean(propertyKey).or(defaultValue);
     }
 
-    public void defineProperty(Object key, boolean booleanValue) {
-        booleanProperties.put(key, booleanValue);
+    public void defineProperty(Object key, Object value) {
+        properties.put(key, value);
     }
 }

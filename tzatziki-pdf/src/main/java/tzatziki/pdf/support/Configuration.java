@@ -27,7 +27,7 @@ import static tzatziki.pdf.emitter.TagsEmitter.TAG_FONT;
  */
 public class Configuration {
 
-    private Map<Object, Boolean> properties = Maps.newHashMap();
+    private Map<Object, Object> properties = Maps.newHashMap();
 
     public Configuration() {
         displayFeatureUri(true);
@@ -35,11 +35,10 @@ public class Configuration {
         displayScenarioTags(true);
     }
 
-    public Configuration declareProperty(Object key, boolean value) {
+    public Configuration declareProperty(Object key, Object value) {
         properties.put(key, value);
         return this;
     }
-
 
     public Configuration displayFeatureUri(boolean displayFeatureUri) {
         return declareProperty(FeatureEmitter.DISPLAY_URI, displayFeatureUri);
@@ -59,7 +58,7 @@ public class Configuration {
     }
 
     protected void configureProperties(Settings settings) {
-        for (Map.Entry<Object, Boolean> entry : properties.entrySet()) {
+        for (Map.Entry<Object, Object> entry : properties.entrySet()) {
             settings.defineProperty(entry.getKey(), entry.getValue());
         }
     }
