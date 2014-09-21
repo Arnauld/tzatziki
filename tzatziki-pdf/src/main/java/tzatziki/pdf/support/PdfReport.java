@@ -13,7 +13,6 @@ import tzatziki.analysis.exec.support.TagView;
 import tzatziki.analysis.java.Grammar;
 import tzatziki.analysis.tag.TagDictionary;
 import tzatziki.pdf.Settings;
-import tzatziki.pdf.emitter.DefaultPdfEmitters;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,24 +24,26 @@ public class PdfReport {
 
     private Logger log = LoggerFactory.getLogger(PdfReport.class);
 
-    private final Settings settings;
+    private final Configuration configuration;
     private ITextContext iTextContext;
     private File outputDst, outputTmp;
 
     public PdfReport(Configuration configuration) {
-        this.settings = new Settings();
-        configuration.configure(settings);
+        this.configuration = configuration;
     }
 
     public void startReport(File output) throws FileNotFoundException, DocumentException {
+        Settings settings = new Settings();
+
         this.outputDst = output;
         this.outputTmp = new File(output.getAbsolutePath() + "~");
         this.iTextContext = new ITextContextBuilder()
                 .usingStyles(settings.styles())
                 .declare(Settings.class, settings)
-                .build()
-                .open(outputTmp);
-        new DefaultPdfEmitters().registerDefaults(iTextContext);
+                .build();
+
+        configuration.configureContext(iTextContext);
+        iTextContext.open(outputTmp);
     }
 
     public ITextContext iTextContext() {

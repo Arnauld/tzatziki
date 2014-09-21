@@ -13,7 +13,7 @@ import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.pdf.Comments;
 import tzatziki.pdf.Settings;
-import tzatziki.pdf.model.Markdown;
+import gutenberg.itext.model.Markdown;
 import tzatziki.pdf.model.Tags;
 
 /**

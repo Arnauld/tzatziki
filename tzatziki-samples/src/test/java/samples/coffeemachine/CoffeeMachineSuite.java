@@ -43,7 +43,7 @@ public class CoffeeMachineSuite {
 
             File javaSourceTree = new File(baseDir, "src/main/java/samples/coffeemachine/");
             Grammar grammar = new GrammarParser()
-                    .usingListener(new ConsoleOutputListener())
+                    //.usingListener(new ConsoleOutputListener())
                     .usingSourceDirectory(javaSourceTree)
                     .process();
 

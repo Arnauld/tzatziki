@@ -6,9 +6,12 @@ import com.itextpdf.text.Font;
 import gutenberg.itext.Colors;
 import gutenberg.itext.FontCopier;
 import gutenberg.itext.HeaderFooter;
+import gutenberg.itext.ITextContext;
 import gutenberg.itext.Styles;
 import gutenberg.itext.support.FirstPageRenderer;
+import gutenberg.util.VariableResolver;
 import tzatziki.pdf.Settings;
+import tzatziki.pdf.emitter.DefaultPdfEmitters;
 import tzatziki.pdf.emitter.FeatureEmitter;
 import tzatziki.pdf.emitter.ScenarioEmitter;
 
@@ -52,7 +55,28 @@ public class Configuration {
         return declareProperty(ScenarioEmitter.DISPLAY_TAGS, displayScenarioTags);
     }
 
-    public void configure(Settings settings) {
+    public void configureContext(ITextContext iTextContext) {
+        configureEmitters(iTextContext);
+        configureSettings(iTextContext);
+        configureVariableResolver(iTextContext);
+    }
+
+    protected void configureVariableResolver(ITextContext iTextContext) {
+        VariableResolver variableResolver = iTextContext.variableResolver();
+        for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+            variableResolver.declare(
+                    String.valueOf(entry.getKey()),
+                    String.valueOf(entry.getValue()));
+        }
+    }
+
+    protected void configureSettings(ITextContext iTextContext) {
+        Settings settings = iTextContext.get(Settings.class);
+        if (settings == null) {
+            settings = new Settings();
+            iTextContext.declare(Settings.class, settings);
+        }
+
         configureProperties(settings);
         configureStyles(settings.styles());
     }
@@ -94,5 +118,9 @@ public class Configuration {
         styles.registerColor(Settings.PRIMARY_COLOR, DARK_RED);
         styles.registerColor(EMPHASIZE_COLOR, Colors.GRAY);
         styles.registerColor(HeaderFooter.HEADER_LINE_COLOR, DARK_RED);
+    }
+
+    private void configureEmitters(ITextContext iTextContext) {
+        new DefaultPdfEmitters().registerDefaults(iTextContext);
     }
 }

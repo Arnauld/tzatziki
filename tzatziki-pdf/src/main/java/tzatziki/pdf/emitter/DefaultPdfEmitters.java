@@ -1,12 +1,13 @@
 package tzatziki.pdf.emitter;
 
 import gutenberg.itext.ITextContext;
+import gutenberg.itext.emitter.MarkdownEmitter;
 import tzatziki.analysis.exec.model.Embedded;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.analysis.exec.support.TagViews;
 import tzatziki.analysis.tag.TagDictionary;
-import tzatziki.pdf.model.Markdown;
+import gutenberg.itext.model.Markdown;
 import tzatziki.pdf.model.Steps;
 import tzatziki.pdf.model.Tags;
 

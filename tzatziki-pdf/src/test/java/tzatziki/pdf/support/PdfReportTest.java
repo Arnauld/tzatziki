@@ -17,7 +17,7 @@ import tzatziki.analysis.exec.tag.TagFilter;
 import tzatziki.analysis.tag.TagDictionary;
 import tzatziki.analysis.tag.TagDictionaryLoader;
 import tzatziki.pdf.TestSettings;
-import tzatziki.pdf.model.Markdown;
+import gutenberg.itext.model.Markdown;
 import tzatziki.pdf.model.Steps;
 
 import java.io.File;
@@ -61,12 +61,14 @@ public class PdfReportTest {
             tagViews.consolidateView(featureExec);
         }
 
+        configuration.declareProperty("imageDir", new File(settings.getBaseDir(), "src/test/resources/tzatziki/pdf/images").toURI().toString());
         PdfReport report = new PdfReport(configuration);
         report.startReport(output);
 
         HeaderFooter headerFooter = registerHeaderAndFooter(report);
         emitCoverPage(report, suffix);
         emitSampleStepsPreamble(report);
+        report.newPage();
 
         report.startContent();
         emitMarkdownPreamble(report);

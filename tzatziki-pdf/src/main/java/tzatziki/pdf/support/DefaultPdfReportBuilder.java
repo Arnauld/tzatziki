@@ -14,7 +14,7 @@ import tzatziki.analysis.exec.model.StepExec;
 import tzatziki.analysis.exec.support.TagView;
 import tzatziki.analysis.exec.support.TagViews;
 import tzatziki.analysis.tag.TagDictionary;
-import tzatziki.pdf.model.Markdown;
+import gutenberg.itext.model.Markdown;
 import tzatziki.pdf.model.Steps;
 
 import java.io.File;
@@ -56,6 +56,11 @@ public class DefaultPdfReportBuilder {
 
     public DefaultPdfReportBuilder using(Configuration configuration) {
         this.configuration = configuration;
+        return this;
+    }
+
+    public DefaultPdfReportBuilder configurator(Consumer<PdfReport> configurator) {
+        this.configurator = configurator;
         return this;
     }
 

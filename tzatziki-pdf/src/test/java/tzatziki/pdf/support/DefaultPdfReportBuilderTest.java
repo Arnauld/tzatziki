@@ -1,5 +1,6 @@
 package tzatziki.pdf.support;
 
+import gutenberg.itext.model.Markdown;
 import org.junit.Before;
 import org.junit.Test;
 import tzatziki.analysis.exec.gson.JsonIO;
@@ -8,7 +9,6 @@ import tzatziki.analysis.exec.support.TagView;
 import tzatziki.analysis.exec.tag.TagFilter;
 import tzatziki.analysis.tag.TagDictionaryLoader;
 import tzatziki.pdf.TestSettings;
-import tzatziki.pdf.model.Markdown;
 
 import java.io.File;
 import java.io.InputStream;
@@ -35,6 +35,8 @@ public class DefaultPdfReportBuilderTest {
                 .using(new Configuration()
                                 .displayFeatureTags(false)
                                 .displayScenarioTags(false)
+                                .declareProperty("imageDir",
+                                        "file://" + settings.getBaseDir() + "/src/test/resources/tzatziki/pdf/images")
                 )
                 .title("Coffee machine")
                 .subTitle("Technical & Functional specifications")

@@ -1,7 +1,5 @@
 
-<p style="text-align: center;">
-<img src="/customer.jpeg"/>
-</p>
+![Customer](${imageDir}/customer.jpeg)
 
 
 Preamble
@@ -12,9 +10,8 @@ from a simple class) that translates orders from customers of the coffee
 machine to the drink maker. Your value will use the drink maker protocol to
 send commands to the drink maker.
 
-<p style="text-align: center;">
-   <img src="/coffee-800x700.png" width="200px"/>
-</p>
+{width=200px, align=center}
+![Customer](${imageDir}/coffee-800x700.png)
 
 
 **Important !**
