@@ -62,11 +62,11 @@ public class AvailableStepsXls {
         Row row = grammarSheet.createRow(grammarSheetRowNum++);
 
         int cellnum = 0;
+        createCell(row, cellnum++, headerCellStyle, "pattern");
+        createCell(row, cellnum++, headerCellStyle, "documentation");
         createCell(row, cellnum++, headerCellStyle, "package");
         createCell(row, cellnum++, headerCellStyle, "class");
         createCell(row, cellnum++, headerCellStyle, "method");
-        createCell(row, cellnum++, headerCellStyle, "pattern");
-        createCell(row, cellnum++, headerCellStyle, "documentation");
     }
 
     private static void ensureParentFolderExists(File fileDst) {
@@ -101,16 +101,16 @@ public class AvailableStepsXls {
             Row row = grammarSheet.createRow(grammarSheetRowNum++);
 
             int cellnum = 0;
+            createCell(row, cellnum++, entryCellStyle, pattern);
+            createCell(row, cellnum++, entryCellStyle, notNull(methodEntry.comment()));
             createCell(row, cellnum++, entryCellStyle, classEntry.packageName());
             createCell(row, cellnum++, entryCellStyle, classEntry.name());
             createCell(row, cellnum++, entryCellStyle, methodEntry.signature());
-            createCell(row, cellnum++, entryCellStyle, pattern);
-            createCell(row, cellnum++, entryCellStyle, notNull(methodEntry.comment()));
         }
     }
 
     private static String notNull(String string) {
-        return string == null ? null : "";
+        return string == null ? "" : string;
     }
 
     private void createCell(Row row, int column, CellStyle style, String value) {
@@ -152,6 +152,12 @@ public class AvailableStepsXls {
 
     public void close() {
         try {
+            grammarSheet.autoSizeColumn(0);
+            grammarSheet.autoSizeColumn(1);
+            grammarSheet.autoSizeColumn(2);
+            grammarSheet.autoSizeColumn(3);
+            grammarSheet.autoSizeColumn(4);
+
             FileOutputStream out = new FileOutputStream(fileDst);
             workbook.write(out);
             out.close();
