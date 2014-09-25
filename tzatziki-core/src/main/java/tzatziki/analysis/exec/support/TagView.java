@@ -1,5 +1,6 @@
 package tzatziki.analysis.exec.support;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -12,7 +13,6 @@ import tzatziki.analysis.exec.tag.Tags;
 
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -75,7 +75,7 @@ public class TagView {
         // TODO: manage background and outline
         // Set<String> backgroundTags = featureExec.background().tags().toSet();
 
-        featureExec.scenario().forEach(consolidateViewFromScenario(featureExec, featureTags));
+        featureExec.scenario().allMatch(consolidateViewFromScenario(featureExec, featureTags));
     }
 
     private void consolidateViewFromScenario(FeatureExec featureExec,
@@ -119,12 +119,13 @@ public class TagView {
         return new ScenarioRef(featureExec.uri(), featureExec.name(), scenarioExec.lineRange(), scenarioExec.name());
     }
 
-    private Consumer<? super ScenarioExec> consolidateViewFromScenario(
+    private Predicate<? super ScenarioExec> consolidateViewFromScenario(
             final FeatureExec featureExec, final FluentIterable<String> inheritedTags) {
-        return new Consumer<ScenarioExec>() {
+        return new Predicate<ScenarioExec>() {
             @Override
-            public void accept(ScenarioExec scenarioExec) {
+            public boolean apply(ScenarioExec scenarioExec) {
                 consolidateViewFromScenario(featureExec, scenarioExec, inheritedTags);
+                return true;
             }
         };
     }

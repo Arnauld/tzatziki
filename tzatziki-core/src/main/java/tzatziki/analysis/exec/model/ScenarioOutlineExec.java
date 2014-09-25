@@ -1,10 +1,10 @@
 package tzatziki.analysis.exec.model;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -26,16 +26,17 @@ public class ScenarioOutlineExec extends StepContainer {
 
     public ScenarioOutlineExec recursiveCopy() {
         ScenarioOutlineExec copy = new ScenarioOutlineExec(keyword, name);
-        FluentIterable.from(examplesList).forEach(copyExamplesTo(copy));
+        FluentIterable.from(examplesList).allMatch(copyExamplesTo(copy));
         recursiveCopy(copy);
         return copy;
     }
 
-    private static Consumer<? super ExamplesExec> copyExamplesTo(final ScenarioOutlineExec outlineExec) {
-        return new Consumer<ExamplesExec>() {
+    private static Predicate<? super ExamplesExec> copyExamplesTo(final ScenarioOutlineExec outlineExec) {
+        return new Predicate<ExamplesExec>() {
             @Override
-            public void accept(ExamplesExec examplesExec) {
+            public boolean apply(ExamplesExec examplesExec) {
                 outlineExec.declareExamples(examplesExec.recursiveCopy());
+                return true;
             }
         };
     }

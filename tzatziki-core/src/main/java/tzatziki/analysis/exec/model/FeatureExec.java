@@ -7,7 +7,6 @@ import tzatziki.analysis.exec.tag.TagFilter;
 import tzatziki.analysis.exec.tag.Tags;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -42,7 +41,7 @@ public class FeatureExec {
         if (backgroundExec != null)
             copy.background(backgroundExec.recursiveCopy());
 
-        FluentIterable.from(stepContainerList).forEach(copyScenarioTo(copy, acceptedContent));
+        FluentIterable.from(stepContainerList).allMatch(copyScenarioTo(copy, acceptedContent));
         return copy;
     }
 
@@ -100,13 +99,13 @@ public class FeatureExec {
         return FluentIterable.from(stepContainerList).filter(ScenarioExec.class);
     }
 
-    private static Consumer<? super StepContainer> copyScenarioTo(final FeatureExec featureExec,
-                                                                  final Predicate<Tags> matching) {
-        return new Consumer<StepContainer>() {
+    private static Predicate<? super StepContainer> copyScenarioTo(final FeatureExec featureExec,
+                                                                   final Predicate<Tags> matching) {
+        return new Predicate<StepContainer>() {
             @Override
-            public void accept(StepContainer stepContainer) {
+            public boolean apply(StepContainer stepContainer) {
                 if (!matching.apply(Tags.from(stepContainer.tags().toList())))
-                    return;
+                    return true;
 
                 if (stepContainer instanceof ScenarioExec) {
                     featureExec.declareScenario(((ScenarioExec) stepContainer).recursiveCopy());
@@ -114,6 +113,7 @@ public class FeatureExec {
                 if (stepContainer instanceof ScenarioOutlineExec) {
                     featureExec.declareScenarioOutline(((ScenarioOutlineExec) stepContainer).recursiveCopy());
                 }
+                return true;
             }
         };
     }
