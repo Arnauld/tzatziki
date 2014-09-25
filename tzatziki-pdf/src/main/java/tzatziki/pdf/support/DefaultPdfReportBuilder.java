@@ -46,9 +46,6 @@ public class DefaultPdfReportBuilder {
     //
     private List<Overview> overviews = Lists.newArrayList(Overview.FeatureSummary, Overview.TagDictionary, Overview.TagViews);
     //
-    private String title;
-    private String subTitle;
-    //
     private Properties l10n;
 
     private List<Consumer<PdfReport>> fragments = Lists.newArrayList();
@@ -84,12 +81,12 @@ public class DefaultPdfReportBuilder {
     }
 
     public DefaultPdfReportBuilder title(String title) {
-        this.title = title;
+        configuration.declareProperty(Configuration.TITLE, title);
         return this;
     }
 
     public DefaultPdfReportBuilder subTitle(String subTitle) {
-        this.subTitle = subTitle;
+        configuration.declareProperty(Configuration.SUB_TITLE, subTitle);
         return this;
     }
 
@@ -199,9 +196,7 @@ public class DefaultPdfReportBuilder {
         report.endReport(new TableOfContentsPostProcessor(headerFooter));
     }
 
-    private void checkForRequiredParameters() {
-        if (title == null)
-            throw new IllegalStateException("No title provided");
+    protected void checkForRequiredParameters() {
     }
 
     private void emitSampleSteps(PdfReport report) {
@@ -285,7 +280,12 @@ public class DefaultPdfReportBuilder {
         if (coverPage != null) {
             report.emit(coverPage);
             report.newPage();
-        } else if (title != null) {
+            return;
+        }
+
+        String title = configuration.getProperty(Configuration.TITLE);
+        String subTitle = configuration.getProperty(Configuration.SUB_TITLE);
+        if (title != null) {
             FirstPageRenderer coverPage = new FirstPageRenderer(title, subTitle);
             report.emit(coverPage);
             report.newPage();
@@ -296,6 +296,10 @@ public class DefaultPdfReportBuilder {
         ITextContext context = report.iTextContext();
         PageNumber pageNumber = context.pageNumber();
         Styles styles = context.styles();
+
+        String title = configuration.getProperty(Configuration.HEADER_TITLE);
+        if(title == null)
+            title = configuration.getProperty(Configuration.TITLE);
 
         Function<PageInfos, Phrase> header = HeaderFooter.create(
                 styles,

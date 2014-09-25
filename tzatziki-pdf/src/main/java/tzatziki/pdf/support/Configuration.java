@@ -30,6 +30,10 @@ import static tzatziki.pdf.emitter.TagsEmitter.TAG_FONT;
  */
 public class Configuration {
 
+    public static final Object TITLE = "title";
+    public static final Object SUB_TITLE = "sub-title";
+    public static final Object HEADER_TITLE = "header-title";
+
     private Map<Object, Object> properties = Maps.newHashMap();
 
     public Configuration() {
@@ -41,6 +45,11 @@ public class Configuration {
     public Configuration declareProperty(Object key, Object value) {
         properties.put(key, value);
         return this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getProperty(Object key) {
+        return (T)properties.get(key);
     }
 
     public Configuration displayFeatureUri(boolean displayFeatureUri) {
