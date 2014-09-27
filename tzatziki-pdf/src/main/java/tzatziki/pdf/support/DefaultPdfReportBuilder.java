@@ -6,6 +6,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Section;
 import gutenberg.itext.*;
+import gutenberg.itext.model.Markdown;
 import gutenberg.itext.support.FirstPageRenderer;
 import gutenberg.util.Consumer;
 import tzatziki.analysis.exec.model.FeatureExec;
@@ -14,7 +15,7 @@ import tzatziki.analysis.exec.model.StepExec;
 import tzatziki.analysis.exec.support.TagView;
 import tzatziki.analysis.exec.support.TagViews;
 import tzatziki.analysis.tag.TagDictionary;
-import gutenberg.itext.model.Markdown;
+import tzatziki.pdf.emitter.FeatureEmitter;
 import tzatziki.pdf.model.Steps;
 
 import java.io.File;
@@ -106,13 +107,19 @@ public class DefaultPdfReportBuilder {
     }
 
     public DefaultPdfReportBuilder features(final Collection<? extends FeatureExec> features) {
+        return features(features, 0);
+    }
+
+    public DefaultPdfReportBuilder features(final Collection<? extends FeatureExec> features, final int headerLevelOffset) {
         this.features.addAll(features);
         this.fragments.add(new Consumer<PdfReport>() {
             @Override
             public void consume(PdfReport report) {
+                report.iTextContext().declare(FeatureEmitter.FEATURE_HEADER_LEVEL_OFFSET, headerLevelOffset);
                 for (FeatureExec feature : features) {
                     emitFeature(report, feature);
                 }
+                report.iTextContext().declare(FeatureEmitter.FEATURE_HEADER_LEVEL_OFFSET, 0);
             }
         });
         return this;
@@ -128,11 +135,31 @@ public class DefaultPdfReportBuilder {
         return this;
     }
 
+    public DefaultPdfReportBuilder flushPendingChapter() {
+        this.fragments.add(new Consumer<PdfReport>() {
+            @Override
+            public void consume(PdfReport report) {
+                report.iTextContext().flushPendingChapter();
+            }
+        });
+        return this;
+    }
+
     public DefaultPdfReportBuilder markup(final Markdown markdown) {
         this.fragments.add(new Consumer<PdfReport>() {
             @Override
             public void consume(PdfReport report) {
                 emitMarkup(report, markdown);
+            }
+        });
+        return this;
+    }
+
+    public DefaultPdfReportBuilder emit(final SimpleEmitter emitter) {
+        this.fragments.add(new Consumer<PdfReport>() {
+            @Override
+            public void consume(PdfReport report) {
+                emitDirect(report, emitter);
             }
         });
         return this;
@@ -197,6 +224,10 @@ public class DefaultPdfReportBuilder {
     }
 
     protected void checkForRequiredParameters() {
+    }
+
+    private void emitDirect(PdfReport report, SimpleEmitter emitter) {
+        report.emit(emitter);
     }
 
     private void emitSampleSteps(PdfReport report) {
@@ -298,7 +329,7 @@ public class DefaultPdfReportBuilder {
         Styles styles = context.styles();
 
         String title = configuration.getProperty(Configuration.HEADER_TITLE);
-        if(title == null)
+        if (title == null)
             title = configuration.getProperty(Configuration.TITLE);
 
         Function<PageInfos, Phrase> header = HeaderFooter.create(

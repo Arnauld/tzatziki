@@ -18,7 +18,6 @@ public class DefaultPdfEmitters {
     public void registerDefaults(ITextContext context) {
         context.register(FeatureExec.class, new FeatureEmitter());
         context.register(ScenarioExec.class, new ScenarioEmitter());
-        context.register(Markdown.class, new MarkdownEmitter());
         context.register(Steps.class, new StepsEmitter());
         context.register(Tags.class, new TagsEmitter());
         context.register(TagDictionary.class, new TagDictionaryEmitter());

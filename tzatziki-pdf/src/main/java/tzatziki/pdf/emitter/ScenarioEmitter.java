@@ -38,7 +38,10 @@ public class ScenarioEmitter implements Emitter<ScenarioExec> {
         Settings settings = emitterContext.get(Settings.class);
         Sections sections = emitterContext.sections();
 
-        sections.newSection(scenario.name(), hLevel);
+        Integer rawOffset = emitterContext.get(FeatureEmitter.FEATURE_HEADER_LEVEL_OFFSET);
+        int headerLevel = hLevel + ((rawOffset == null) ? 0 : rawOffset);
+
+        sections.newSection(scenario.name(), headerLevel);
         try {
             if (settings.getBoolean(DISPLAY_TAGS, true)) {
                 emitTags(scenario, emitterContext);
@@ -47,7 +50,7 @@ public class ScenarioEmitter implements Emitter<ScenarioExec> {
             emitEmbeddings(scenario, emitterContext);
             emitSteps(scenario, emitterContext);
         } finally {
-            sections.leaveSection(hLevel); // end-of-scenario
+            sections.leaveSection(headerLevel); // end-of-scenario
         }
     }
 
