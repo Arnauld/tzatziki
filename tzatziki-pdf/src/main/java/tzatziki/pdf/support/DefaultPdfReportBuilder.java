@@ -45,8 +45,6 @@ public class DefaultPdfReportBuilder {
     private TagViews tagViews = new TagViews();
     private List<FeatureExec> features = Lists.newArrayList();
     //
-    private List<Overview> overviews = Lists.newArrayList(Overview.FeatureSummary, Overview.TagDictionary, Overview.TagViews);
-    //
     private Properties l10n;
 
     private List<Consumer<PdfReport>> fragments = Lists.newArrayList();
@@ -70,12 +68,42 @@ public class DefaultPdfReportBuilder {
         return overview(Overview.values());
     }
 
-    public DefaultPdfReportBuilder overview(Overview... overviews) {
-        this.overviews = Arrays.asList(overviews);
+    public DefaultPdfReportBuilder overview(final Overview... overviews) {
         fragments.add(new Consumer<PdfReport>() {
             @Override
             public void consume(PdfReport report) {
-                emitOverview(report);
+                emitOverview(
+                        features,
+                        0,
+                        tagViews,
+                        report,
+                        overviews);
+            }
+        });
+        return this;
+    }
+
+    public DefaultPdfReportBuilder overview(final List<FeatureExec> features,
+                                            final int hLevelOffset,
+                                            final Overview... overviews) {
+        fragments.add(new Consumer<PdfReport>() {
+            @Override
+            public void consume(PdfReport report) {
+                emitOverview(features, hLevelOffset, tagViews, report, overviews);
+            }
+        });
+        return this;
+    }
+
+
+    public DefaultPdfReportBuilder overview(final List<FeatureExec> features,
+                                            final int hLevelOffset,
+                                            final TagViews tagViews,
+                                            final Overview... overviews) {
+        fragments.add(new Consumer<PdfReport>() {
+            @Override
+            public void consume(PdfReport report) {
+                emitOverview(features, hLevelOffset, tagViews, report, overviews);
             }
         });
         return this;
@@ -259,10 +287,15 @@ public class DefaultPdfReportBuilder {
         report.emit(feature);
     }
 
-    private void emitOverview(PdfReport report) {
-        if (overviews.isEmpty())
+    private void emitOverview(List<FeatureExec> features,
+                              final int hLevelOffset,
+                              final TagViews tagViews,
+                              PdfReport report,
+                              final Overview[] overviews) {
+        if (overviews.length == 0)
             return;
 
+        tagViews.clear();
         for (FeatureExec feature : features) {
             tagViews.consolidateView(feature);
         }
@@ -271,33 +304,35 @@ public class DefaultPdfReportBuilder {
             @Override
             public void emit(ITextContext emitterContext) {
                 Sections sections = emitterContext.sections();
-                Section section = sections.newSection(l10n("overview.section-title"), 1);
+                Section section = sections.newSection(l10n("overview.section-title"), hLevelOffset + 1);
                 try {
                     for (Overview overview : overviews) {
                         switch (overview) {
 
                             case FeatureSummary:
-                                sections.newSection(l10n("overview.subsection.features.title"), 2);
-                                emitterContext.emit(new FeatureSummaryListOfSection(features, 3));
-                                sections.leaveSection(2);
+                                sections.newSection(l10n("overview.subsection.features.title"), hLevelOffset + 2);
+                                emitterContext.emit(new FeatureSummaryListOfSection(DefaultPdfReportBuilder.this.features, hLevelOffset + 3));
+                                sections.leaveSection(hLevelOffset + 2);
                                 break;
                             case TagDictionary:
-                                sections.newSection(l10n("overview.subsection.tags.title"), 2);
+                                sections.newSection(l10n("overview.subsection.tags.title"), hLevelOffset + 2);
                                 emitterContext.emit(tagDictionary);
-                                sections.leaveSection(2);
+                                sections.leaveSection(hLevelOffset + 2);
                                 break;
                             case TagViews:
-                                sections.newSection(l10n("overview.subsection.tagViews.title"), 2);
+                                sections.newSection(l10n("overview.subsection.tagViews.title"), hLevelOffset + 2);
                                 emitterContext.emit(tagViews);
-                                sections.leaveSection(2);
+                                sections.leaveSection(hLevelOffset + 2);
                                 break;
                         }
                     }
 
                 } finally {
-                    sections.leaveSection(1);
+                    sections.leaveSection(hLevelOffset + 1);
                 }
-                emitterContext.append(section);
+
+                if (hLevelOffset == 0)
+                    emitterContext.append(section);
             }
         });
     }

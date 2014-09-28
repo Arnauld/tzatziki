@@ -36,4 +36,32 @@ public class Grammar {
     public FluentIterable<MethodEntry> matchingEntries(String text) {
         return root.matchingEntries(text);
     }
+
+    public void traverse(GrammarVisitor visitor) {
+        for (ClassEntry classEntry : classes()) {
+            traverse(null, classEntry, visitor);
+        }
+        for (PackageEntry packageEntry : packages()) {
+            traverse(packageEntry, visitor);
+        }
+    }
+
+    private void traverse(PackageEntry packageEntry, ClassEntry classEntry, GrammarVisitor visitor) {
+        visitor.enter(packageEntry, classEntry);
+        for (MethodEntry methodEntry : classEntry.methods()) {
+            visitor.visit(packageEntry, classEntry, methodEntry);
+        }
+        visitor.leave(packageEntry, classEntry);
+    }
+
+    private void traverse(PackageEntry packageEntry, GrammarVisitor visitor) {
+        visitor.enter(packageEntry);
+        for (PackageEntry subPkgEntry : packageEntry.subPackages()) {
+            traverse(subPkgEntry, visitor);
+        }
+        for (ClassEntry classEntry : packageEntry.classes()) {
+            traverse(packageEntry, classEntry, visitor);
+        }
+        visitor.leave(packageEntry);
+    }
 }

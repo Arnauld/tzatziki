@@ -21,16 +21,26 @@ public class TagView {
     private final String description;
     private final TagFilter tagFilter;
     //
-    private List<ScenarioRef> scenarioMatching = Lists.newArrayList();
-    private List<ScenarioRef> scenarioPassed = Lists.newArrayList();
-    private List<ScenarioRef> scenarioPending = Lists.newArrayList();
-    private List<ScenarioRef> scenarioFailed = Lists.newArrayList();
-    private List<ScenarioRef> scenarioUndefined = Lists.newArrayList();
-    private List<ScenarioRef> scenarioSkipped = Lists.newArrayList();
+    private List<ScenarioRef> scenarioMatching;
+    private List<ScenarioRef> scenarioPassed;
+    private List<ScenarioRef> scenarioPending;
+    private List<ScenarioRef> scenarioFailed;
+    private List<ScenarioRef> scenarioUndefined;
+    private List<ScenarioRef> scenarioSkipped;
 
     public TagView(String description, TagFilter tagFilter) {
         this.description = description;
         this.tagFilter = tagFilter;
+        clear();
+    }
+
+    public void clear() {
+        scenarioMatching = Lists.newArrayList();
+        scenarioPassed = Lists.newArrayList();
+        scenarioPending = Lists.newArrayList();
+        scenarioFailed = Lists.newArrayList();
+        scenarioUndefined = Lists.newArrayList();
+        scenarioSkipped = Lists.newArrayList();
     }
 
     public String description() {
@@ -129,4 +139,5 @@ public class TagView {
             }
         };
     }
+
 }

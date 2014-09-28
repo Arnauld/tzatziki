@@ -39,4 +39,10 @@ public class TagViews implements Iterable<TagView> {
             tagView.consolidateView(featureExec);
         }
     }
+
+    public void clear() {
+        for (TagView tagView : tagViews) {
+            tagView.clear();
+        }
+    }
 }

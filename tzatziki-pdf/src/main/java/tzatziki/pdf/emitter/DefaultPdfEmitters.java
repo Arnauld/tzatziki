@@ -6,6 +6,7 @@ import tzatziki.analysis.exec.model.Embedded;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.analysis.exec.support.TagViews;
+import tzatziki.analysis.java.Grammar;
 import tzatziki.analysis.tag.TagDictionary;
 import gutenberg.itext.model.Markdown;
 import tzatziki.pdf.model.Steps;
@@ -23,6 +24,7 @@ public class DefaultPdfEmitters {
         context.register(TagDictionary.class, new TagDictionaryEmitter());
         context.register(TagViews.class, new TagViewsEmitter());
         context.register(Embedded.class, new EmbeddedEmitter());
+        context.register(Grammar.class, new GrammarEmitter());
     }
 
 

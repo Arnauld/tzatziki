@@ -1,11 +1,10 @@
 package tzatziki.analysis.java;
 
+import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -17,7 +16,7 @@ public class MethodEntry extends Describable {
     private final String methodName;
     private final List<String> args;
 
-    private final List<String> patterns = Lists.newArrayList();
+    private final List<KeywordBasedPattern> patterns = Lists.newArrayList();
     private final List<Parameter> parameters = Lists.newArrayList();
     private final Set<UsedBy> usedBySet = Sets.newHashSet();
 
@@ -35,6 +34,15 @@ public class MethodEntry extends Describable {
     }
 
     public FluentIterable<String> patterns() {
+        return FluentIterable.from(patterns).transform(new Function<KeywordBasedPattern, String>() {
+            @Override
+            public String apply(KeywordBasedPattern input) {
+                return input.getKeyword();
+            }
+        });
+    }
+
+    public FluentIterable<KeywordBasedPattern> keywordBasedPatterns() {
         return FluentIterable.from(patterns);
     }
 
@@ -44,7 +52,7 @@ public class MethodEntry extends Describable {
 
     public void declarePattern(String keyword, String pattern) {
         if (pattern != null)
-            patterns.add(pattern);
+            patterns.add(new KeywordBasedPattern(keyword, pattern));
     }
 
     public List<Parameter> parameters() {
@@ -66,8 +74,8 @@ public class MethodEntry extends Describable {
     }
 
     public boolean matches(String text) {
-        for (String regex : patterns) {
-            Pattern pattern = Pattern.compile(regex);
+        for (KeywordBasedPattern p : patterns) {
+            Pattern pattern = Pattern.compile(p.getPattern());
             if (pattern.matcher(text).matches())
                 return true;
         }

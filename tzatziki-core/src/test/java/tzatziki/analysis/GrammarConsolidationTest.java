@@ -77,7 +77,10 @@ public class GrammarConsolidationTest {
                         "                              \"int\"\n" +
                         "                            ],\n" +
                         "                            \"patterns\": [\n" +
-                        "                              \"^I order an? \\\"([^\\\"]*)\\\" with (\\\\d+) sugar$\"\n" +
+                        "                              {\n" +
+                        "                                \"keyword\": \"When\",\n" +
+                        "                                \"pattern\": \"^I order an? \\\"([^\\\"]*)\\\" with (\\\\d+) sugar$\"\n" +
+                        "                              }\n" +
                         "                            ],\n" +
                         "                            \"parameters\": [\n" +
                         "                              {\n" +
@@ -138,7 +141,10 @@ public class GrammarConsolidationTest {
                         "                              \"java.lang.String\"\n" +
                         "                            ],\n" +
                         "                            \"patterns\": [\n" +
-                        "                              \"^the instruction generated should be \\\"([^\\\"]*)\\\"$\"\n" +
+                        "                              {\n" +
+                        "                                \"keyword\": \"Then\",\n" +
+                        "                                \"pattern\": \"^the instruction generated should be \\\"([^\\\"]*)\\\"$\"\n" +
+                        "                              }\n" +
                         "                            ],\n" +
                         "                            \"parameters\": [\n" +
                         "                              {\n" +
@@ -202,7 +208,10 @@ public class GrammarConsolidationTest {
                         "                              \"java.lang.String\"\n" +
                         "                            ],\n" +
                         "                            \"patterns\": [\n" +
-                        "                              \"^the message \\\"([^\\\"]*)\\\" is sent$\"\n" +
+                        "                              {\n" +
+                        "                                \"keyword\": \"When\",\n" +
+                        "                                \"pattern\": \"^the message \\\"([^\\\"]*)\\\" is sent$\"\n" +
+                        "                              }\n" +
                         "                            ],\n" +
                         "                            \"parameters\": [\n" +
                         "                              {\n" +
@@ -218,7 +227,10 @@ public class GrammarConsolidationTest {
                         "                              \"int\"\n" +
                         "                            ],\n" +
                         "                            \"patterns\": [\n" +
-                        "                              \"^I\\u0027ve inserted (\\\\d+)€ in the machine$\"\n" +
+                        "                              {\n" +
+                        "                                \"keyword\": \"Given\",\n" +
+                        "                                \"pattern\": \"^I\\u0027ve inserted (\\\\d+)€ in the machine$\"\n" +
+                        "                              }\n" +
                         "                            ],\n" +
                         "                            \"parameters\": [\n" +
                         "                              {\n" +
@@ -239,7 +251,10 @@ public class GrammarConsolidationTest {
                         "                              \"java.lang.String\"\n" +
                         "                            ],\n" +
                         "                            \"patterns\": [\n" +
-                        "                              \"^the report output should be$\"\n" +
+                        "                              {\n" +
+                        "                                \"keyword\": \"Then\",\n" +
+                        "                                \"pattern\": \"^the report output should be$\"\n" +
+                        "                              }\n" +
                         "                            ],\n" +
                         "                            \"parameters\": [\n" +
                         "                              {\n" +
