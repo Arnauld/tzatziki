@@ -4,13 +4,17 @@ import com.google.common.base.Strings;
 import com.google.common.base.Supplier;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.draw.LineSeparator;
+import gutenberg.itext.Colors;
 import gutenberg.itext.Emitter;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.ITextUtils;
 import gutenberg.itext.Styles;
+import gutenberg.itext.model.Markdown;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tzatziki.analysis.java.ClassEntry;
@@ -19,6 +23,9 @@ import tzatziki.analysis.java.GrammarVisitor;
 import tzatziki.analysis.java.KeywordBasedPattern;
 import tzatziki.analysis.java.MethodEntry;
 import tzatziki.analysis.java.PackageEntry;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -40,12 +47,17 @@ public class GrammarEmitter implements Emitter<Grammar> {
 
                 Paragraph p = new Paragraph();
                 p.setSpacingBefore(5f);
-                if(!Strings.isNullOrEmpty(methodEntry.comment())) {
-                    p.add(new Chunk(methodEntry.comment(), styles.defaultFont()));
+                if (!Strings.isNullOrEmpty(methodEntry.comment())) {
+                    List<Element> subs = context.emitButCollectElements(Markdown.from(methodEntry.comment()));
+                    p.addAll(subs);
                     p.add(Chunk.NEWLINE);
                 }
 
+                int nb = 0;
                 for (KeywordBasedPattern kwPattern : methodEntry.keywordBasedPatterns()) {
+                    if(nb++ >  0)
+                        p.add(Chunk.NEWLINE);
+
                     Chunk keywordChunk = new Chunk(kwPattern.getKeyword(), keywordFont);
                     Chunk regexChunk = new Chunk(kwPattern.getPattern(), regexFont);
                     regexChunk.setBackground(regexBg);
@@ -53,8 +65,12 @@ public class GrammarEmitter implements Emitter<Grammar> {
                     p.add(keywordChunk);
                     p.add(new Chunk(" "));
                     p.add(regexChunk);
-                    p.add(Chunk.NEWLINE);
                 }
+
+                LineSeparator lineSeparator = new LineSeparator(1f, 50f, Colors.LIGHT_GRAY, Element.ALIGN_BASELINE, 0);
+                p.add(Chunk.NEWLINE);
+                p.add(lineSeparator);
+                p.add(Chunk.NEWLINE);
 
                 context.append(p);
             }
