@@ -40,7 +40,7 @@ public class GrammarEmitter implements Emitter<Grammar> {
 
                 Paragraph p = new Paragraph();
                 p.setSpacingBefore(5f);
-                if(Strings.isNullOrEmpty(methodEntry.comment())) {
+                if(!Strings.isNullOrEmpty(methodEntry.comment())) {
                     p.add(new Chunk(methodEntry.comment(), styles.defaultFont()));
                     p.add(Chunk.NEWLINE);
                 }
@@ -59,10 +59,6 @@ public class GrammarEmitter implements Emitter<Grammar> {
                 context.append(p);
             }
         });
-    }
-
-    private static String notNull(String text) {
-        return text == null ? "" : text;
     }
 
     private Supplier<? extends Font> inlineCodeFont(final Styles styles) {
