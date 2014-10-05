@@ -18,3 +18,4 @@ cucumber-contrib.iml
 .idea/
 *.iml
 .sass-cache/
+pom.xml.versionsBackup
