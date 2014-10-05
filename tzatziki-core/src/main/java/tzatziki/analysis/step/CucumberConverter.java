@@ -18,7 +18,7 @@ import java.util.List;
 public class CucumberConverter {
 
     public Feature convert(CucumberFeature cucumberFeature) {
-        Feature feature = new Feature(cucumberFeature.getUri(), cucumberFeature.getGherkinFeature().getName());
+        Feature feature = new Feature(cucumberFeature.getPath(), cucumberFeature.getGherkinFeature().getName());
         feature.addTags(convertTags(cucumberFeature.getGherkinFeature().getTags()));
         for (CucumberTagStatement featureElement : cucumberFeature.getFeatureElements()) {
             if (featureElement instanceof CucumberScenario) {

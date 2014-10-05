@@ -60,6 +60,16 @@ public class ResourceLoaderWrapper implements ResourceLoader {
     private Resource wrap(final Resource resource) {
         return new Resource() {
             @Override
+            public String getAbsolutePath() {
+                return resource.getAbsolutePath();
+            }
+
+            @Override
+            public String getClassName(String s) {
+                return resource.getClassName(s);
+            }
+
+            @Override
             public String getPath() {
                 return resource.getPath();
             }
@@ -67,11 +77,6 @@ public class ResourceLoaderWrapper implements ResourceLoader {
             @Override
             public InputStream getInputStream() throws IOException {
                 return wrap(resource.getInputStream());
-            }
-
-            @Override
-            public String getClassName() {
-                return resource.getClassName();
             }
         };
     }

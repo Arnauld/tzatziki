@@ -79,6 +79,16 @@ public abstract class ExecutionReport implements Formatter, Reporter {
     }
 
     @Override
+    public void startOfScenarioLifeCycle(Scenario scenario) {
+
+    }
+
+    @Override
+    public void endOfScenarioLifeCycle(Scenario scenario) {
+
+    }
+
+    @Override
     public void scenario(Scenario scenario) {
         log.debug("scenario: {}", scenario.getName());
         currentStep = null;
