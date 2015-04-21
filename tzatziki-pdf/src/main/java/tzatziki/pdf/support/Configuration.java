@@ -5,6 +5,7 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Font;
 import gutenberg.itext.Colors;
 import gutenberg.itext.FontCopier;
+import gutenberg.itext.FontModifier;
 import gutenberg.itext.HeaderFooter;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.Styles;
@@ -35,6 +36,8 @@ public class Configuration {
     public static final Object HEADER_TITLE = "header-title";
 
     private Map<Object, Object> properties = Maps.newHashMap();
+    private Map<Object, FontModifier> fontModifiers = Maps.newHashMap();
+    private Map<Object, BaseColor> colors = Maps.newHashMap();
 
     public Configuration() {
         displayFeatureUri(true);
@@ -49,7 +52,7 @@ public class Configuration {
 
     @SuppressWarnings("unchecked")
     public <T> T getProperty(Object key) {
-        return (T)properties.get(key);
+        return (T) properties.get(key);
     }
 
     public Configuration displayFeatureUri(boolean displayFeatureUri) {
@@ -62,6 +65,16 @@ public class Configuration {
 
     public Configuration displayScenarioTags(boolean displayScenarioTags) {
         return declareProperty(ScenarioEmitter.DISPLAY_TAGS, displayScenarioTags);
+    }
+
+    public Configuration adjustFont(Object key, FontModifier modifier) {
+        fontModifiers.put(key, modifier);
+        return this;
+    }
+
+    public Configuration defineColor(Object key, BaseColor color) {
+        colors.put(key, color);
+        return this;
     }
 
     public void configureContext(ITextContext iTextContext) {
@@ -99,6 +112,13 @@ public class Configuration {
     protected void configureStyles(Styles styles) {
         configureColors(styles);
         configureFonts(styles);
+        configureFontModifiers(styles);
+    }
+
+    private void configureFontModifiers(Styles styles) {
+        for (Map.Entry<Object, FontModifier> entry : fontModifiers.entrySet()) {
+            styles.registerFontModifier(entry.getKey(), entry.getValue());
+        }
     }
 
     private void configureFonts(Styles styles) {
@@ -127,6 +147,10 @@ public class Configuration {
         styles.registerColor(Settings.PRIMARY_COLOR, DARK_RED);
         styles.registerColor(EMPHASIZE_COLOR, Colors.GRAY);
         styles.registerColor(HeaderFooter.HEADER_LINE_COLOR, DARK_RED);
+
+        for (Map.Entry<Object, BaseColor> entry : colors.entrySet()) {
+            styles.registerColor(entry.getKey(), entry.getValue());
+        }
     }
 
     private void configureEmitters(ITextContext iTextContext) {
