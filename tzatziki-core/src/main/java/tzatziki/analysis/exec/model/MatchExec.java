@@ -24,6 +24,12 @@ public class MatchExec {
         return location;
     }
 
+    public MatchExec recursiveCopy() {
+        // TODO find a suitable to ensure this is still valid
+        // or a real copy is made if a field becomes mutable
+        return this;
+    }
+
     public static class Arg {
         public final String val;
         public final Integer offset;

@@ -107,6 +107,22 @@ public class StepExec extends EmbeddingAndWriteContainer {
         return matchExec != null && !Strings.isNullOrEmpty(matchExec.getLocation());
     }
 
+    @Override
+    public String toString() {
+        return "StepExec{" + keyword + "'" + name + "'}";
+    }
+
+    public StepExec recursiveCopy() {
+        StepExec copy = new StepExec(keyword, name);
+        copy.resultExec = resultExec.recursiveCopy();
+        copy.matchExec = matchExec.recursiveCopy();
+        copy.comments.addAll(comments);
+        copy.docString = docString;
+        copy.dataTable = dataTable; // clone?
+        super.recursiveCopy(copy);
+        return copy;
+    }
+
     public static class Tok {
         public final String value;
         public final boolean param;

@@ -645,7 +645,7 @@
             },
             {
                 "keyword": "Scenario Outline",
-                "name": "Check missing money",
+                "name": "Check missing money 0.25€",
                 "steps": [
                     {
                         "keyword": "Given ",
@@ -729,7 +729,7 @@
             },
             {
                 "keyword": "Scenario Outline",
-                "name": "Check missing money",
+                "name": "Check missing money 0.55€",
                 "steps": [
                     {
                         "keyword": "Given ",
@@ -813,7 +813,7 @@
             },
             {
                 "keyword": "Scenario Outline",
-                "name": "Check missing money",
+                "name": "Check missing money 0.05€",
                 "steps": [
                     {
                         "keyword": "Given ",
@@ -1497,7 +1497,7 @@
             },
             {
                 "keyword": "Scenario Outline",
-                "name": "Last beverage",
+                "name": "Last beverage \"Orange juice\"",
                 "steps": [
                     {
                         "keyword": "Given ",
@@ -1570,7 +1570,7 @@
             },
             {
                 "keyword": "Scenario Outline",
-                "name": "Last beverage",
+                "name": "Last beverage \"Tea\"",
                 "steps": [
                     {
                         "keyword": "Given ",
@@ -1643,7 +1643,7 @@
             },
             {
                 "keyword": "Scenario Outline",
-                "name": "Last beverage",
+                "name": "Last beverage \"Chocolate\"",
                 "steps": [
                     {
                         "keyword": "Given ",
