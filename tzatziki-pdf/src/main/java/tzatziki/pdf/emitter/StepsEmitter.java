@@ -1,5 +1,6 @@
 package tzatziki.pdf.emitter;
 
+import com.google.common.base.Optional;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
@@ -29,6 +30,7 @@ public class StepsEmitter implements Emitter<Steps> {
     public static final String STEP_PARAMETER_FONT = "step-parameter-font";
     public static final String STEP_DOCSTRING = "step-docstring";
     public static final String STEP_TABLE_CELL = "step-table-cell";
+    public static final String STEP_TABLE_CELL_HEADER = "step-table-cell-header";
 
     private boolean debugTable = false;
     private StatusMarker statusMarker = new StatusMarker();
@@ -100,12 +102,27 @@ public class StepsEmitter implements Emitter<Steps> {
     private PdfPTable stepDataTable(DataTable table, Styles styles) {
         PdfPTable iTable = new PdfPTable(table.nbColumns());
         iTable.setTableEvent(new AlternateTableRowBackground(styles));
+
+        int rownum = 0;
         for (DataTable.Row row : table.rows()) {
+
+            Font font = null;
+            if (rownum == 0) {
+                Optional<Font> fontOpt = styles.getFont(STEP_TABLE_CELL_HEADER);
+                if (fontOpt.isPresent()) {
+                    font = fontOpt.get();
+                }
+            }
+            if (font == null)
+                font = styles.getFontOrDefault(STEP_TABLE_CELL);
+
             for (String value : row.cells()) {
-                PdfPCell cell = new PdfPCell(new Phrase(value, styles.getFontOrDefault(STEP_TABLE_CELL)));
+                PdfPCell cell = new PdfPCell(new Phrase(value, font));
                 iTable.addCell(noBorder(cell));
             }
+            rownum++;
         }
+
         return iTable;
     }
 

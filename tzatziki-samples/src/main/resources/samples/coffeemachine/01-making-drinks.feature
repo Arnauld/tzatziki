@@ -2,15 +2,11 @@ Feature: Making Drinks
 
 #
 #  **In order** to send commands to the drink maker
-#
 #  **As a** developer
+#  **I want to** implement the logic that translates orders from customers of the coffee machine to the drink maker
 #
-#  **I want to** implement the logic that translates orders
-#  from customers of the coffee machine to the drink maker
-#
-#  <p style="text-align: right;">
-#   <img src="/coffee-cup.jpeg" width="66px" height="100px"/>
-#  </p>
+# {width:66px, height:100px}
+# ![Coffee cup](${imageDir}/coffee-cup.jpeg)
 #
 # The code will use the drink maker protocol (see below) to send commands to the drink maker.
 #

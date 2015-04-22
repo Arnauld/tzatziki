@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Section;
 import gutenberg.itext.*;
+import gutenberg.itext.model.Markdown;
 import gutenberg.itext.support.FirstPageRenderer;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,7 @@ import tzatziki.analysis.exec.tag.TagFilter;
 import tzatziki.analysis.tag.TagDictionary;
 import tzatziki.analysis.tag.TagDictionaryLoader;
 import tzatziki.pdf.TestSettings;
-import gutenberg.itext.model.Markdown;
+import tzatziki.pdf.emitter.StepsEmitter;
 import tzatziki.pdf.model.Steps;
 
 import java.io.File;
@@ -27,15 +28,15 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 
+import static gutenberg.itext.FontModifier.fontModifier;
+
 public class PdfReportTest {
 
     private TestSettings settings;
-    private Configuration configuration;
 
     @Before
     public void setUp() {
         settings = new TestSettings();
-        configuration = new Configuration();
     }
 
     @Test
@@ -61,8 +62,14 @@ public class PdfReportTest {
             tagViews.consolidateView(featureExec);
         }
 
-        configuration.declareProperty("imageDir", new File(settings.getBaseDir(), "src/test/resources/tzatziki/pdf/images").toURI().toString());
-        PdfReport report = new PdfReport(configuration);
+        PdfReport report =
+                new PdfReport(new Configuration()
+                        .declareProperty("imageDir", new File(settings.getBaseDir(), "src/test/resources/tzatziki/pdf/images").toURI().toString())
+                        .adjustFont(Styles.TABLE_HEADER_FONT, fontModifier().size(10))
+                        //.adjustFont(StepsEmitter.STEP_KEYWORD_FONT, fontModifier().size(10))
+                        //.adjustFont(StepsEmitter.STEP_PARAMETER_FONT, fontModifier().size(10))
+                        //.adjustFont(StepsEmitter.STEP_PHRASE_FONT, fontModifier().size(10))
+                );
         report.startReport(output);
 
         HeaderFooter headerFooter = registerHeaderAndFooter(report);

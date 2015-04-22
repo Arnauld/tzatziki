@@ -14,6 +14,8 @@ import tzatziki.analysis.exec.model.ResultExec;
 import tzatziki.analysis.exec.model.StepExec;
 import tzatziki.analysis.exec.support.TagView;
 import tzatziki.analysis.exec.support.TagViews;
+import tzatziki.analysis.exec.tag.TagFilter;
+import tzatziki.analysis.tag.Tag;
 import tzatziki.analysis.tag.TagDictionary;
 import tzatziki.pdf.emitter.FeatureEmitter;
 import tzatziki.pdf.model.Steps;
@@ -43,6 +45,7 @@ public class DefaultPdfReportBuilder {
     private SimpleEmitter coverPage;
     private TagDictionary tagDictionary;
     private TagViews tagViews = new TagViews();
+    private boolean tagViewsFromDictionnary = false;
     private List<FeatureExec> features = Lists.newArrayList();
     //
     private Properties l10n;
@@ -131,6 +134,11 @@ public class DefaultPdfReportBuilder {
 
     public DefaultPdfReportBuilder tagViews(TagView... tagViews) {
         this.tagViews.addAll(tagViews);
+        return this;
+    }
+
+    public DefaultPdfReportBuilder tagViewsFromDictionnary() {
+        this.tagViewsFromDictionnary = true;
         return this;
     }
 
@@ -295,9 +303,21 @@ public class DefaultPdfReportBuilder {
         if (overviews.length == 0)
             return;
 
+        final TagViews dictionnaryTagViews = new TagViews();
+        final boolean emitTagDictionary = (tagViewsFromDictionnary && tagDictionary != null);
+        if (emitTagDictionary) {
+            for (Tag tag : tagDictionary.tags()) {
+                TagView tagView = new TagView(
+                        orDefault(tag.getDescription(), tag.getTag()),
+                        TagFilter.from(tag.getTag()));
+                dictionnaryTagViews.addAll(tagView);
+            }
+        }
+
         tagViews.clear();
         for (FeatureExec feature : features) {
             tagViews.consolidateView(feature);
+            dictionnaryTagViews.consolidateView(feature);
         }
 
         report.emit(new SimpleEmitter() {
@@ -321,6 +341,9 @@ public class DefaultPdfReportBuilder {
                                 break;
                             case TagViews:
                                 sections.newSection(l10n("overview.subsection.tagViews.title"), hLevelOffset + 2);
+                                if (emitTagDictionary) {
+                                    emitterContext.emit(dictionnaryTagViews);
+                                }
                                 emitterContext.emit(tagViews);
                                 sections.leaveSection(hLevelOffset + 2);
                                 break;
@@ -335,6 +358,10 @@ public class DefaultPdfReportBuilder {
                     emitterContext.append(section);
             }
         });
+    }
+
+    private static String orDefault(String value, String fallback) {
+        return (value != null && !value.trim().isEmpty()) ? value : fallback;
     }
 
     private void emitMarkup(PdfReport report, Markdown markdown) {

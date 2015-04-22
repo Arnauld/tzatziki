@@ -6,8 +6,9 @@
         </encoder>
     </appender>
 
-    <logger name="tzatziki" level="debug"/>
-    <logger name="tzatziki.analysis" level="debug"/>
+    <logger name="tzatziki" level="info"/>
+    <logger name="tzatziki.analysis" level="info"/>
+    <logger name="tzatziki.analysis.exec.gson" level="info"/>
 
     <root level="info">
         <appender-ref ref="STDOUT"/>

@@ -89,4 +89,10 @@ Ready ?
 | col 2 is      | centered      |   $12 |
 | zebra stripes | are neat      |    $1 |
 
+{width:100%}
+| Tables        | Are Cool      | Even full width  |
+| ------------- |:-------------:| ----------------:|
+| col 3 is      | right-aligned |            $1600 |
+| col 2 is      | centered      |              $12 |
+| zebra stripes | are neat      |               $1 |
 

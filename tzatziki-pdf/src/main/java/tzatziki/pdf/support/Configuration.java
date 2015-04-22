@@ -19,6 +19,7 @@ import tzatziki.pdf.emitter.ScenarioEmitter;
 import java.util.Map;
 
 import static com.itextpdf.text.Font.BOLD;
+import static com.itextpdf.text.Font.BOLDITALIC;
 import static com.itextpdf.text.Font.NORMAL;
 import static gutenberg.itext.Colors.DARK_RED;
 import static gutenberg.itext.Styles.CODE_FONT;
@@ -133,6 +134,7 @@ public class Configuration {
         styles.registerFont(STEP_PARAMETER_FONT, styles.getFontOrDefault(CODE_FONT, NORMAL, emphasizedColor));
         styles.registerFont(STEP_DOCSTRING, styles.getFontOrDefault(CODE_FONT, NORMAL, emphasizedColor));
         styles.registerFont(STEP_TABLE_CELL, styles.getFontOrDefault(CODE_FONT, NORMAL, styles.defaultColor()));
+        styles.registerFont(STEP_TABLE_CELL_HEADER, styles.getFontOrDefault(CODE_FONT, BOLDITALIC, styles.defaultColor()));
 
         styles.registerFont(TAG_FONT, metaFont);
 

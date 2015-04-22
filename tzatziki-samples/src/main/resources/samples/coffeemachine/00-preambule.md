@@ -1,7 +1,5 @@
 
-<p style="text-align: center;">
-<img src="/customer.jpeg"/>
-</p>
+![Customer](${imageDir}/customer.jpeg)
 
 
 Preamble
@@ -12,9 +10,8 @@ from a simple class) that translates orders from customers of the coffee
 machine to the drink maker. Your value will use the drink maker protocol to
 send commands to the drink maker.
 
-<p style="text-align: center;">
-   <img src="/coffee-800x700.png" width="200px"/>
-</p>
+{width=200px, align=center}
+![Customer](${imageDir}/coffee-800x700.png)
 
 
 **Important !**
@@ -28,44 +25,6 @@ send commands to the drink maker.
 > engine that will receive messages according to the protocol. Your job
 > is to build those messages.
 
-```plantuml
-
-@startuml
-actor Foo1
-boundary Foo2
-control Foo3
-entity Foo4
-database Foo5
-Foo1 -> Foo2 : To boundary
-Foo1 -> Foo3 : To control
-Foo1 -> Foo4 : To entity
-Foo1 -> Foo5 : To database
-
-@enduml
-```
-
-```plantuml
-@startuml
-:Main Admin: as Admin
-(Use the application) as (Use)
-
-User -> (Start)
-User --> (Use)
-
-Admin ---> (Use)
-
-note right of Admin : This is an example.
-
-note right of (Use)
-  A note can also
-  be on several lines
-end note
-
-note "This note is connected\nto several objects." as N2
-(Start) .. N2
-N2 .. (Use)
-@enduml
-```
 
 Iterations
 ----------
@@ -81,12 +40,12 @@ This project starts simple and will grow in added features through the iteration
 
 
 ```ditaa
-
  +---------+--------+------+------+-----+-----+-----+
  |         |  {o}   | {mo} | {io} | {c} | {s} | {d} |
  |    {tr} |        |      |      |     |     |     |
  +---------+--------+------+--=---+-----+-----+-----+
 ```
+
 
 
 Ready ?
@@ -123,3 +82,17 @@ Ready ?
                                            |   +---------+
                                            |
 ```
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+
+{width:100%}
+| Tables        | Are Cool      | Even full width  |
+| ------------- |:-------------:| ----------------:|
+| col 3 is      | right-aligned |            $1600 |
+| col 2 is      | centered      |              $12 |
+| zebra stripes | are neat      |               $1 |
+

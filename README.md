@@ -4,6 +4,12 @@
 Release
 -------
 
+First check for **snapshot** dependencies:
+
+```bash
+    fgrep SNAPSHOT **/pom.xml
+```
+
 [Maven Release Plugin: The Final Nail in the Coffin](http://axelfontaine.com/blog/final-nail.html)
 
 ```bash
