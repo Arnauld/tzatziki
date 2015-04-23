@@ -1,7 +1,10 @@
 package samples.coffeemachine;
 
+import com.google.common.base.Predicate;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
+import gutenberg.itext.FontModifier;
+import gutenberg.itext.Styles;
 import gutenberg.itext.model.Markdown;
 import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
@@ -16,10 +19,12 @@ import tzatziki.analysis.exec.tag.TagFilter;
 import tzatziki.analysis.java.AvailableStepsXls;
 import tzatziki.analysis.java.Grammar;
 import tzatziki.analysis.java.GrammarParser;
+import tzatziki.analysis.tag.Tag;
 import tzatziki.analysis.tag.TagDictionary;
 import tzatziki.analysis.tag.TagDictionaryLoader;
 import tzatziki.pdf.support.Configuration;
 import tzatziki.pdf.support.DefaultPdfReportBuilder;
+import tzatziki.pdf.support.TagViewsFromDictionaryBuilder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -84,6 +89,7 @@ public class CoffeeMachineSuite {
                                 .displayScenarioTags(false)
                                 .declareProperty("imageDir",
                                         new File(baseDir(), "/src/main/resources/samples/coffeemachine/images").toURI().toString())
+                                .adjustFont(Styles.TABLE_HEADER_FONT, new FontModifier().size(10.0f))
                 )
                 .title("Coffee machine")
                 .subTitle("Technical & Functional specifications")
@@ -91,13 +97,25 @@ public class CoffeeMachineSuite {
                 .overview(FeatureSummary, TagViews)
                 .features(execs)
                 .tagDictionary(tagDictionary)
-                .tagViewsFromDictionnary()
+                .tagViewsFromDictionary(new TagViewsFromDictionaryBuilder()
+                                .tagFilter(excludeWip())
+                )
                 .tagViews(
                         new TagView("Payment (non wip)", TagFilter.from("~@wip", "@payment")),
-                        new TagView("Non wip about tea", TagFilter.from("~@wip", "@tea"))
+                        new TagView("Non wip about tea", TagFilter.from("~@wip", "@tea")),
+                        new TagView("WIP - Work in progress", TagFilter.from("@wip,@wip1,@wip2"))
                 )
                 .sampleSteps()
                 .generate(fileOut);
+    }
+
+    private static Predicate<Tag> excludeWip() {
+        return new Predicate<Tag>() {
+            @Override
+            public boolean apply(Tag tag) {
+                return !tag.getTag().startsWith("@wip");
+            }
+        };
     }
 
     private static File buildDir() {

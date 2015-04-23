@@ -14,13 +14,14 @@ import tzatziki.analysis.exec.support.TagViews;
  */
 public class TagViewsEmitter implements Emitter<TagViews> {
 
-    private CellStyler bodyCellStyler;
+    private CellStyler bodyCellStyler, headerCellStyler;
 
     public TagViewsEmitter() {
-        this(null);
+        this(null, null);
     }
 
-    public TagViewsEmitter(CellStyler bodyCellStyler) {
+    public TagViewsEmitter(CellStyler headerCellStyler, CellStyler bodyCellStyler) {
+        this.headerCellStyler = headerCellStyler;
         this.bodyCellStyler = bodyCellStyler;
     }
 
@@ -28,17 +29,30 @@ public class TagViewsEmitter implements Emitter<TagViews> {
     public void emit(TagViews views, ITextContext emitterContext) {
         Styles styles = emitterContext.styles();
 
-        float w = 0.8f;
+        float w = 0.1f;
 
-        PdfPTable table = new PdfPTable(new float[]{w, 1 - w});
+        PdfPTable table = new PdfPTable(new float[]{1 - 3 * w, w, w, w});
         table.setWidthPercentage(100);
         table.setSpacingBefore(5f);
         table.setSpacingAfter(5f);
         table.setTableEvent(new AlternateTableRowBackground(styles));
 
+        emitHeader(table, emitterContext);
         emitBody(table, views, emitterContext);
 
         emitterContext.append(table);
+    }
+
+    private void emitHeader(PdfPTable table, ITextContext emitterContext) {
+        Styles styles = emitterContext.styles();
+        CellStyler styler = headerCellStyler;
+        if (styler == null)
+            styler = new DefaultHeaderCellStyler(styles);
+
+        table.addCell(styler.applyStyle(new PdfPCell(new Phrase("Tag/Description", styler.cellFont()))));
+        table.addCell(styler.applyStyle(new PdfPCell(new Phrase("Passed", styler.cellFont()))));
+        table.addCell(styler.applyStyle(new PdfPCell(new Phrase("Failed", styler.cellFont()))));
+        table.addCell(styler.applyStyle(new PdfPCell(new Phrase("Other", styler.cellFont()))));
     }
 
     private void emitBody(PdfPTable table, TagViews views, ITextContext emitterContext) {
@@ -48,23 +62,34 @@ public class TagViewsEmitter implements Emitter<TagViews> {
             styler = new DefaultBodyCellStyler(styles);
 
         for (TagView tagView : views) {
+
+            int nbTotal = tagView.nbTotal();
+            int nbFailed = tagView.nbFailed();
+            int nbPassed = tagView.nbPassed();
+            int nbOther = nbTotal - (nbFailed + nbPassed);
+
             Phrase tagPhrase = new Phrase(tagView.description(), styler.cellFont());
-            Phrase descPhrase = new Phrase(tagView.nbPassed() + "/" + tagView.nbTotal(), styler.cellFont());
+            PdfPCell tagCell = styler.applyStyle(new PdfPCell(tagPhrase));
+            PdfPCell passedCell = valuedCell(nbPassed, nbTotal, styler, constant(BaseColor.GREEN.darker()));
+            PdfPCell failedCell = valuedCell(nbFailed, nbTotal, styler, constant(BaseColor.RED.darker()));
+            PdfPCell otherCell = valuedCell(nbOther, nbTotal, styler, constant(BaseColor.YELLOW));
 
-            PdfPCell tagCell = new PdfPCell(tagPhrase);
-            PdfPCell descCell = new PdfPCell(descPhrase);
-            tagCell = styler.applyStyle(tagCell);
-            descCell = styler.applyStyle(descCell);
-
-            Function<Float, BaseColor> colorProvider = constant(BaseColor.GREEN.darker());
-            descCell.setCellEvent(
-                    new PercentBackgroundEvent(
-                            tagView.nbPassed(),
-                            tagView.nbTotal(),
-                            colorProvider));
             table.addCell(tagCell);
-            table.addCell(descCell);
+            table.addCell(passedCell);
+            table.addCell(failedCell);
+            table.addCell(otherCell);
         }
+    }
+
+    private PdfPCell valuedCell(int value, int total, CellStyler styler, Function<Float, BaseColor> colorProviders) {
+        Phrase phrase = new Phrase(value + "/" + total, styler.cellFont());
+        PdfPCell cell = styler.applyStyle(new PdfPCell(phrase));
+        cell.setCellEvent(
+                new PercentBackgroundEvent(
+                        value,
+                        total,
+                        colorProviders));
+        return cell;
     }
 
     private Function<Float, BaseColor> constant(final BaseColor color) {

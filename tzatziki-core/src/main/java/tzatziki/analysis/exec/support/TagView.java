@@ -28,6 +28,11 @@ public class TagView {
     private List<ScenarioRef> scenarioUndefined;
     private List<ScenarioRef> scenarioSkipped;
 
+    public TagView(String description, String... tagExprs) {
+        this(description, TagFilter.from(tagExprs));
+
+    }
+
     public TagView(String description, TagFilter tagFilter) {
         this.description = description;
         this.tagFilter = tagFilter;
@@ -49,6 +54,22 @@ public class TagView {
 
     public int nbPassed() {
         return scenarioPassed.size();
+    }
+
+    public int nbFailed() {
+        return scenarioFailed.size();
+    }
+
+    public int nbSkipped() {
+        return scenarioSkipped.size();
+    }
+
+    public int nbUndefined() {
+        return scenarioUndefined.size();
+    }
+
+    public int nbPending() {
+        return scenarioPending.size();
     }
 
     public int nbTotal() {
