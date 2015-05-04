@@ -33,13 +33,10 @@ public class PdfReport {
     }
 
     public void startReport(File output) throws FileNotFoundException, DocumentException {
-        Settings settings = new Settings();
-
         this.outputDst = output;
         this.outputTmp = new File(output.getAbsolutePath() + "~");
         this.iTextContext = new ITextContextBuilder()
-                .usingStyles(settings.styles())
-                .declare(Settings.class, settings)
+                .usingDocumentMargin(configuration.getDocumentMargin())
                 .build();
 
         configuration.configureContext(iTextContext);

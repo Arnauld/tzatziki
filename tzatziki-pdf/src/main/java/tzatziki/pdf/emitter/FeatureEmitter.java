@@ -6,7 +6,9 @@ import com.itextpdf.text.Section;
 import gutenberg.itext.Emitter;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.Sections;
+import gutenberg.itext.Styles;
 import gutenberg.itext.model.Markdown;
+import gutenberg.util.KeyValues;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,22 +32,22 @@ public class FeatureEmitter implements Emitter<FeatureExec> {
 
     @Override
     public void emit(FeatureExec feature, ITextContext emitterContext) {
-        Settings settings = emitterContext.get(Settings.class);
+        KeyValues kvs = emitterContext.keyValues();
         Sections sections = emitterContext.sections();
 
-        Integer rawOffset = emitterContext.get(FEATURE_HEADER_LEVEL_OFFSET);
+        Integer rawOffset = kvs.getInteger(FEATURE_HEADER_LEVEL_OFFSET).orNull();
         int headerLevel = 1 + ((rawOffset == null) ? 0 : rawOffset);
 
         Section featureChap = sections.newSection(feature.name(), headerLevel);
         try {
 
             // Uri
-            if (settings.getBoolean(DISPLAY_URI, true)) {
+            if (kvs.getBoolean(DISPLAY_URI, true)) {
                 emitUri(feature, emitterContext);
             }
 
             // Tags
-            if (settings.getBoolean(DISPLAY_TAGS, true)) {
+            if (kvs.getBoolean(DISPLAY_TAGS, true)) {
                 emitTags(feature, emitterContext);
             }
 
@@ -65,8 +67,8 @@ public class FeatureEmitter implements Emitter<FeatureExec> {
     }
 
     private void emitUri(FeatureExec feature, ITextContext emitterContext) {
-        Settings settings = emitterContext.get(Settings.class);
-        Paragraph uri = new Paragraph("Uri: " + feature.uri(), settings.styles().getFontOrDefault(Settings.META_FONT));
+        Styles styles = emitterContext.keyValues().<Styles>getNullable(Styles.class).get();
+        Paragraph uri = new Paragraph("Uri: " + feature.uri(), styles.getFontOrDefault(Settings.META_FONT));
         emitterContext.append(uri);
     }
 

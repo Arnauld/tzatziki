@@ -4,6 +4,7 @@ import com.google.common.base.Optional;
 import gutenberg.itext.Emitter;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.Sections;
+import gutenberg.util.KeyValues;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,15 +36,15 @@ public class ScenarioEmitter implements Emitter<ScenarioExec> {
 
     @Override
     public void emit(ScenarioExec scenario, ITextContext emitterContext) {
-        Settings settings = emitterContext.get(Settings.class);
         Sections sections = emitterContext.sections();
+        KeyValues kvs = emitterContext.keyValues();
 
-        Integer rawOffset = emitterContext.get(FeatureEmitter.FEATURE_HEADER_LEVEL_OFFSET);
-        int headerLevel = hLevel + ((rawOffset == null) ? 0 : rawOffset);
+        Integer rawOffset = kvs.getInteger(FeatureEmitter.FEATURE_HEADER_LEVEL_OFFSET).or(0);
+        int headerLevel = hLevel + rawOffset;
 
         sections.newSection(scenario.name(), headerLevel);
         try {
-            if (settings.getBoolean(DISPLAY_TAGS, true)) {
+            if (kvs.getBoolean(DISPLAY_TAGS, true)) {
                 emitTags(scenario, emitterContext);
             }
             emitDescription(scenario, emitterContext);

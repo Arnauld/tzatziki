@@ -10,6 +10,7 @@ import gutenberg.itext.*;
 import gutenberg.itext.model.Markdown;
 import gutenberg.itext.support.FirstPageRenderer;
 import gutenberg.util.Consumer;
+import gutenberg.util.KeyValues;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ResultExec;
 import tzatziki.analysis.exec.model.StepExec;
@@ -162,11 +163,11 @@ public class DefaultPdfReportBuilder {
         this.fragments.add(new Consumer<PdfReport>() {
             @Override
             public void consume(PdfReport report) {
-                report.iTextContext().declare(FeatureEmitter.FEATURE_HEADER_LEVEL_OFFSET, headerLevelOffset);
+                report.iTextContext().keyValues().declare(FeatureEmitter.FEATURE_HEADER_LEVEL_OFFSET, headerLevelOffset);
                 for (FeatureExec feature : features) {
                     emitFeature(report, feature);
                 }
-                report.iTextContext().declare(FeatureEmitter.FEATURE_HEADER_LEVEL_OFFSET, 0);
+                report.iTextContext().keyValues().declare(FeatureEmitter.FEATURE_HEADER_LEVEL_OFFSET, 0);
             }
         });
         return this;
@@ -389,8 +390,9 @@ public class DefaultPdfReportBuilder {
             return;
         }
 
-        String title = configuration.getProperty(Configuration.TITLE);
-        String subTitle = configuration.getProperty(Configuration.SUB_TITLE);
+        KeyValues kvs = report.iTextContext().keyValues();
+        String title = kvs.getString(Configuration.TITLE).orNull();
+        String subTitle = kvs.getString(Configuration.SUB_TITLE).orNull();
         if (title != null) {
             FirstPageRenderer coverPage = new FirstPageRenderer(title, subTitle);
             report.emit(coverPage);
@@ -403,9 +405,10 @@ public class DefaultPdfReportBuilder {
         PageNumber pageNumber = context.pageNumber();
         Styles styles = context.styles();
 
-        String title = configuration.getProperty(Configuration.HEADER_TITLE);
+        KeyValues kvs = context.keyValues();
+        String title = kvs.getString(Configuration.HEADER_TITLE).orNull();
         if (title == null)
-            title = configuration.getProperty(Configuration.TITLE);
+            title = kvs.getString(Configuration.TITLE).orNull();
 
         Function<PageInfos, Phrase> header = HeaderFooter.create(
                 styles,

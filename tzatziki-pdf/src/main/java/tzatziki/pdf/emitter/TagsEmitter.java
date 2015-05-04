@@ -22,9 +22,7 @@ public class TagsEmitter implements Emitter<Tags> {
         if (tags.isEmpty())
             return;
 
-        Settings settings = emitterContext.get(Settings.class);
-
-        Styles styles = settings.styles();
+        Styles styles = emitterContext.keyValues().<Styles>getNullable(Styles.class).get();
 
         Paragraph pTags = new Paragraph("Tags: ", styles.getFontOrDefault(Settings.META_FONT));
         boolean first = true;

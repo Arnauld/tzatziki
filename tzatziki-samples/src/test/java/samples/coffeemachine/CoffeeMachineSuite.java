@@ -6,6 +6,7 @@ import cucumber.api.junit.Cucumber;
 import gutenberg.itext.FontModifier;
 import gutenberg.itext.Styles;
 import gutenberg.itext.model.Markdown;
+import gutenberg.util.Margin;
 import org.apache.commons.io.IOUtils;
 import org.junit.AfterClass;
 import org.junit.Test;
@@ -22,6 +23,7 @@ import tzatziki.analysis.java.GrammarParser;
 import tzatziki.analysis.tag.Tag;
 import tzatziki.analysis.tag.TagDictionary;
 import tzatziki.analysis.tag.TagDictionaryLoader;
+import tzatziki.pdf.emitter.StepsEmitter;
 import tzatziki.pdf.support.Configuration;
 import tzatziki.pdf.support.DefaultPdfReportBuilder;
 import tzatziki.pdf.support.TagViewsFromDictionaryBuilder;
@@ -87,8 +89,10 @@ public class CoffeeMachineSuite {
                 .using(new Configuration()
                                 .displayFeatureTags(false)
                                 .displayScenarioTags(false)
+                                .declareProperty(StepsEmitter.STEP_TABLE_MODE, 2)
                                 .declareProperty("imageDir",
                                         new File(baseDir(), "/src/main/resources/samples/coffeemachine/images").toURI().toString())
+                                .usingDocumentMargin(new Margin(10, 10, 50, 50))
                                 .adjustFont(Styles.TABLE_HEADER_FONT, new FontModifier().size(10.0f))
                 )
                 .title("Coffee machine")

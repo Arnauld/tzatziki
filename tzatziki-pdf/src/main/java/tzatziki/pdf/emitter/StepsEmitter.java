@@ -14,10 +14,10 @@ import gutenberg.itext.Emitter;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.Styles;
 import gutenberg.util.Consumer;
+import gutenberg.util.KeyValues;
 import tzatziki.analysis.exec.model.DataTable;
 import tzatziki.analysis.exec.model.Embedded;
 import tzatziki.analysis.exec.model.StepExec;
-import tzatziki.pdf.Settings;
 import tzatziki.pdf.model.Steps;
 
 /**
@@ -31,6 +31,8 @@ public class StepsEmitter implements Emitter<Steps> {
     public static final String STEP_DOCSTRING = "step-docstring";
     public static final String STEP_TABLE_CELL = "step-table-cell";
     public static final String STEP_TABLE_CELL_HEADER = "step-table-cell-header";
+
+    public static final String STEP_TABLE_MODE = "step-table-mode";
 
     private boolean debugTable = false;
     private StatusMarker statusMarker = new StatusMarker();
@@ -50,8 +52,8 @@ public class StepsEmitter implements Emitter<Steps> {
     }
 
     private void emitStep(final PdfPTable steps, StepExec step, ITextContext emitterContext) {
-        Settings settings = emitterContext.get(Settings.class);
-        Styles styles = settings.styles();
+        KeyValues kvs = emitterContext.keyValues();
+        Styles styles = kvs.<Styles>getNullable(Styles.class).get();
 
         PdfPCell statusCell = statusCell(step);
         PdfPCell keywordCell = keywordCell(step, styles);
@@ -65,8 +67,17 @@ public class StepsEmitter implements Emitter<Steps> {
             // table added on stepParagraph is not visible...
             // thus it becomes a direct nested table
             PdfPTable table = stepDataTable(step.table(), styles);
-            steps.addCell(noBorder(colspan(2, new PdfPCell(new Phrase("")))));
-            steps.addCell(noBorder(new PdfPCell(table)));
+
+            int mode = kvs.getInteger(STEP_TABLE_MODE, 1);
+            if (mode == 1) {
+                steps.addCell(noBorder(colspan(2, new PdfPCell(new Phrase("")))));
+                steps.addCell(noBorder(new PdfPCell(table)));
+            } else if (mode == 2) {
+                steps.addCell(noBorder(new PdfPCell(new Phrase(""))));
+                steps.addCell(noBorder(colspan(2, new PdfPCell(table))));
+            } else {
+                steps.addCell(noBorder(colspan(3, new PdfPCell(table))));
+            }
         }
 
         if (step.hasDocString()) {

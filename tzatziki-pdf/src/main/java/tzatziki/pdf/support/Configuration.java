@@ -1,5 +1,6 @@
 package tzatziki.pdf.support;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Font;
@@ -10,6 +11,9 @@ import gutenberg.itext.HeaderFooter;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.Styles;
 import gutenberg.itext.support.FirstPageRenderer;
+import gutenberg.util.KeyValues;
+import gutenberg.util.Margin;
+import gutenberg.util.SimpleKeyValues;
 import gutenberg.util.VariableResolver;
 import tzatziki.pdf.Settings;
 import tzatziki.pdf.emitter.DefaultPdfEmitters;
@@ -18,9 +22,7 @@ import tzatziki.pdf.emitter.ScenarioEmitter;
 
 import java.util.Map;
 
-import static com.itextpdf.text.Font.BOLD;
-import static com.itextpdf.text.Font.BOLDITALIC;
-import static com.itextpdf.text.Font.NORMAL;
+import static com.itextpdf.text.Font.*;
 import static gutenberg.itext.Colors.DARK_RED;
 import static gutenberg.itext.Styles.CODE_FONT;
 import static tzatziki.pdf.Settings.EMPHASIZE_COLOR;
@@ -36,9 +38,10 @@ public class Configuration {
     public static final Object SUB_TITLE = "sub-title";
     public static final Object HEADER_TITLE = "header-title";
 
-    private Map<Object, Object> properties = Maps.newHashMap();
+    private KeyValues keyValues = new SimpleKeyValues();
     private Map<Object, FontModifier> fontModifiers = Maps.newHashMap();
     private Map<Object, BaseColor> colors = Maps.newHashMap();
+    private Margin documentMargin;
 
     public Configuration() {
         displayFeatureUri(true);
@@ -47,13 +50,8 @@ public class Configuration {
     }
 
     public Configuration declareProperty(Object key, Object value) {
-        properties.put(key, value);
+        keyValues.declare(key, value);
         return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T> T getProperty(Object key) {
-        return (T) properties.get(key);
     }
 
     public Configuration displayFeatureUri(boolean displayFeatureUri) {
@@ -78,36 +76,44 @@ public class Configuration {
         return this;
     }
 
+    public Configuration usingDocumentMargin(Margin documentMargin) {
+        this.documentMargin = documentMargin;
+        return this;
+    }
+
     public void configureContext(ITextContext iTextContext) {
         configureEmitters(iTextContext);
-        configureSettings(iTextContext);
+        configureProperties(iTextContext);
         configureVariableResolver(iTextContext);
+
+        Styles styles = ensureStylesIsDefined(iTextContext);
+        configureStyles(styles);
     }
 
     protected void configureVariableResolver(ITextContext iTextContext) {
         VariableResolver variableResolver = iTextContext.variableResolver();
-        for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+        for (Map.Entry<Object, Object> entry : keyValues.asMap().entrySet()) {
             variableResolver.declare(
                     String.valueOf(entry.getKey()),
                     String.valueOf(entry.getValue()));
         }
     }
 
-    protected void configureSettings(ITextContext iTextContext) {
-        Settings settings = iTextContext.get(Settings.class);
-        if (settings == null) {
-            settings = new Settings();
-            iTextContext.declare(Settings.class, settings);
-        }
+    protected Styles ensureStylesIsDefined(ITextContext iTextContext) {
+        KeyValues kvs = iTextContext.keyValues();
 
-        configureProperties(settings);
-        configureStyles(settings.styles());
+        Optional<Styles> stylesOpt = kvs.getNullable(Styles.class);
+        if (!stylesOpt.isPresent()) {
+            Styles styles = new Styles();
+            kvs.declare(Styles.class, styles);
+            return styles;
+        }
+        return stylesOpt.get();
     }
 
-    protected void configureProperties(Settings settings) {
-        for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-            settings.defineProperty(entry.getKey(), entry.getValue());
-        }
+    protected void configureProperties(ITextContext iTextContext) {
+        KeyValues kvs = iTextContext.keyValues();
+        kvs.delegateTo(this.keyValues);
     }
 
     protected void configureStyles(Styles styles) {
@@ -155,7 +161,11 @@ public class Configuration {
         }
     }
 
-    private void configureEmitters(ITextContext iTextContext) {
+    protected void configureEmitters(ITextContext iTextContext) {
         new DefaultPdfEmitters().registerDefaults(iTextContext);
+    }
+
+    public Margin getDocumentMargin() {
+        return documentMargin;
     }
 }
