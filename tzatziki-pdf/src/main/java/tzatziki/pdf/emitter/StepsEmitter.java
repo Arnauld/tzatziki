@@ -13,12 +13,15 @@ import gutenberg.itext.AlternateTableRowBackground;
 import gutenberg.itext.Emitter;
 import gutenberg.itext.ITextContext;
 import gutenberg.itext.Styles;
+import gutenberg.itext.model.RichText;
 import gutenberg.util.Consumer;
 import gutenberg.util.KeyValues;
 import tzatziki.analysis.exec.model.DataTable;
 import tzatziki.analysis.exec.model.Embedded;
 import tzatziki.analysis.exec.model.StepExec;
 import tzatziki.pdf.model.Steps;
+
+import java.util.List;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -57,7 +60,7 @@ public class StepsEmitter implements Emitter<Steps> {
 
         PdfPCell statusCell = statusCell(step);
         PdfPCell keywordCell = keywordCell(step, styles);
-        PdfPCell phraseCell = phraseCell(step, styles);
+        PdfPCell phraseCell = phraseCell(step, styles, emitterContext);
 
         steps.addCell(statusCell);
         steps.addCell(keywordCell);
@@ -137,7 +140,7 @@ public class StepsEmitter implements Emitter<Steps> {
         return iTable;
     }
 
-    private PdfPCell phraseCell(StepExec step, Styles styles) {
+    private PdfPCell phraseCell(StepExec step, Styles styles, ITextContext emitterContext) {
         Font stepPhraseFont = styles.getFontOrDefault(STEP_PHRASE_FONT);
         Font stepParamFont = styles.getFontOrDefault(STEP_PARAMETER_FONT);
         Paragraph pPhrase = new Paragraph();
@@ -148,7 +151,9 @@ public class StepsEmitter implements Emitter<Steps> {
                 Font tokFont = stepPhraseFont;
                 if (tok.param)
                     tokFont = stepParamFont;
-                pPhrase.add(new Chunk(tok.value, tokFont));
+
+                List<Element> richText = emitterContext.emitButCollectElements(new RichText(tok.value, tokFont));
+                pPhrase.addAll(richText);
             }
         }
         PdfPCell phraseCell = new PdfPCell(pPhrase);
