@@ -42,11 +42,17 @@ public class Configuration {
     private Map<Object, FontModifier> fontModifiers = Maps.newHashMap();
     private Map<Object, BaseColor> colors = Maps.newHashMap();
     private Margin documentMargin;
+    private StylesPostProcessor stylesPostProcessor;
 
     public Configuration() {
         displayFeatureUri(true);
         displayFeatureTags(true);
         displayScenarioTags(true);
+    }
+
+    public Configuration stylesPostProcessor(StylesPostProcessor stylesPostProcessor) {
+        this.stylesPostProcessor = stylesPostProcessor;
+        return this;
     }
 
     public Configuration declareProperty(Object key, Object value) {
@@ -120,6 +126,9 @@ public class Configuration {
         configureColors(styles);
         configureFonts(styles);
         configureFontModifiers(styles);
+
+        if (stylesPostProcessor != null)
+            stylesPostProcessor.postProcess(styles);
     }
 
     private void configureFontModifiers(Styles styles) {
