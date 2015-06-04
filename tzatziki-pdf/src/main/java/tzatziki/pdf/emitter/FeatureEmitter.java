@@ -9,14 +9,20 @@ import gutenberg.itext.Sections;
 import gutenberg.itext.Styles;
 import gutenberg.itext.model.Markdown;
 import gutenberg.util.KeyValues;
+import net.sourceforge.plantuml.Run;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
+import tzatziki.analysis.exec.model.ScenarioOutlineExec;
+import tzatziki.analysis.exec.model.StepContainer;
 import tzatziki.pdf.Comments;
 import tzatziki.pdf.Settings;
+import tzatziki.pdf.model.ScenarioOutlineWithResolved;
 import tzatziki.pdf.model.Tags;
+
+import java.util.Iterator;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -55,14 +61,30 @@ public class FeatureEmitter implements Emitter<FeatureExec> {
             emitDescription(feature, emitterContext);
 
             // Scenario
-            for (ScenarioExec scenario : feature.scenario()) {
-                emitterContext.emit(ScenarioExec.class, scenario);
+            Iterator<StepContainer> containers = feature.stepContainers().iterator();
+            while (containers.hasNext()) {
+                StepContainer container = containers.next();
+                if (container instanceof ScenarioOutlineExec) {
+                    ScenarioOutlineExec outline = (ScenarioOutlineExec) container;
+
+                    ScenarioOutlineWithResolved outlineWithResolved = new ScenarioOutlineWithResolved(outline);
+                    for (int i = 1; i < outline.rowCount(); i++) {
+                        outlineWithResolved.declareScenario((ScenarioExec) containers.next());
+                    }
+                    emitterContext.emit(ScenarioOutlineWithResolved.class, outlineWithResolved);
+
+                } else if (container instanceof ScenarioExec) {
+                    emitterContext.emit(ScenarioExec.class, (ScenarioExec) container);
+                }
             }
+        } catch (Exception e) {
+            log.warn("Error during feature emit", e);
+            throw new RuntimeException(e);
         } finally {
             sections.leaveSection(headerLevel);
         }
 
-        if(headerLevel==1)
+        if (headerLevel == 1)
             emitterContext.append(featureChap);
     }
 

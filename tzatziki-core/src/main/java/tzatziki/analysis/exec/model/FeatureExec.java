@@ -41,7 +41,7 @@ public class FeatureExec {
         if (backgroundExec != null)
             copy.background(backgroundExec.recursiveCopy());
 
-        FluentIterable.from(stepContainerList).allMatch(copyScenarioTo(copy, acceptedContent));
+        stepContainers().allMatch(copyScenarioTo(copy, acceptedContent));
         return copy;
     }
 
@@ -96,7 +96,11 @@ public class FeatureExec {
     }
 
     public FluentIterable<ScenarioExec> scenario() {
-        return FluentIterable.from(stepContainerList).filter(ScenarioExec.class);
+        return stepContainers().filter(ScenarioExec.class);
+    }
+
+    public FluentIterable<StepContainer> stepContainers() {
+        return FluentIterable.from(stepContainerList);
     }
 
     private static Predicate<? super StepContainer> copyScenarioTo(final FeatureExec featureExec,

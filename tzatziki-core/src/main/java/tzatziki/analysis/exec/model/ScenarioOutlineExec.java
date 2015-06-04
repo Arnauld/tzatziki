@@ -5,6 +5,10 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
+
+import static tzatziki.analysis.exec.model.StepExec.statusPassed;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -15,13 +19,24 @@ public class ScenarioOutlineExec extends StepContainer {
     private List<ExamplesExec> examplesList = Lists.newArrayList();
 
     public ScenarioOutlineExec(String keyword, String name) {
-
         this.keyword = keyword;
         this.name = name;
     }
 
+    public String name() {
+        return name;
+    }
+
+    public boolean isSucess() {
+        return steps().allMatch(statusPassed);
+    }
+
     public void declareExamples(ExamplesExec examplesExec) {
         examplesList.add(examplesExec);
+    }
+
+    public FluentIterable<ExamplesExec> examples() {
+        return FluentIterable.from(examplesList);
     }
 
     public ScenarioOutlineExec recursiveCopy() {
@@ -41,4 +56,14 @@ public class ScenarioOutlineExec extends StepContainer {
         };
     }
 
+    public int rowCount() {
+        final AtomicInteger sum = new AtomicInteger();
+        examples().forEach(new Consumer<ExamplesExec>() {
+            @Override
+            public void accept(ExamplesExec examples) {
+                sum.addAndGet(examples.rowCount());
+            }
+        });
+        return sum.get();
+    }
 }

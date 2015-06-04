@@ -18,6 +18,7 @@ import gutenberg.util.Consumer;
 import gutenberg.util.KeyValues;
 import tzatziki.analysis.exec.model.DataTable;
 import tzatziki.analysis.exec.model.Embedded;
+import tzatziki.analysis.exec.model.ResultExec;
 import tzatziki.analysis.exec.model.StepExec;
 import tzatziki.pdf.model.Steps;
 
@@ -37,7 +38,7 @@ public class StepsEmitter implements Emitter<Steps> {
 
     public static final String STEP_TABLE_MODE = "step-table-mode";
 
-    private boolean debugTable = false;
+    private static boolean debugTable = false;
     private StatusMarker statusMarker = new StatusMarker();
 
     @Override
@@ -141,9 +142,25 @@ public class StepsEmitter implements Emitter<Steps> {
     }
 
     private PdfPCell phraseCell(StepExec step, Styles styles, ITextContext emitterContext) {
+        Paragraph pPhrase = formatStep(step, false, styles, emitterContext);
+        PdfPCell phraseCell = new PdfPCell(pPhrase);
+        phraseCell.setVerticalAlignment(Element.ALIGN_TOP);
+        phraseCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        phraseCell = noBorder(phraseCell);
+        return phraseCell;
+    }
+
+    public static Paragraph formatStep(StepExec step, boolean includeKeyword, Styles styles, ITextContext emitterContext) {
+        Font stepKeywordFont = styles.getFontOrDefault(STEP_KEYWORD_FONT);
         Font stepPhraseFont = styles.getFontOrDefault(STEP_PHRASE_FONT);
         Font stepParamFont = styles.getFontOrDefault(STEP_PARAMETER_FONT);
         Paragraph pPhrase = new Paragraph();
+
+        if (includeKeyword) {
+            pPhrase.add(new Chunk(step.keyword(), stepKeywordFont));
+            pPhrase.add(new Chunk(" "));
+        }
+
         if (!step.isMatching()) {
             pPhrase.add(new Chunk(step.name(), stepPhraseFont));
         } else {
@@ -156,11 +173,7 @@ public class StepsEmitter implements Emitter<Steps> {
                 pPhrase.addAll(richText);
             }
         }
-        PdfPCell phraseCell = new PdfPCell(pPhrase);
-        phraseCell.setVerticalAlignment(Element.ALIGN_TOP);
-        phraseCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        phraseCell = noBorder(phraseCell);
-        return phraseCell;
+        return pPhrase;
     }
 
     private PdfPCell keywordCell(StepExec step, Styles styles) {
@@ -174,7 +187,13 @@ public class StepsEmitter implements Emitter<Steps> {
     }
 
     private PdfPCell statusCell(StepExec step) {
-        Phrase statusSymbol = new Phrase(statusMarker.statusMarker(step.result().status()));
+        ResultExec result = step.result();
+        Phrase statusSymbol;
+        if (result == null) { // this happen when step comes from outline; no status is then attached
+            statusSymbol = new Phrase("");
+        } else {
+            statusSymbol = new Phrase(statusMarker.statusMarker(result.status()));
+        }
         PdfPCell statusCell = new PdfPCell(statusSymbol);
         statusCell.setVerticalAlignment(Element.ALIGN_TOP);
         statusCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -187,7 +206,7 @@ public class StepsEmitter implements Emitter<Steps> {
         return cell;
     }
 
-    private PdfPCell noBorder(PdfPCell cell) {
+    private static PdfPCell noBorder(PdfPCell cell) {
         if (!debugTable) {
             cell.setBorder(Rectangle.NO_BORDER);
         }

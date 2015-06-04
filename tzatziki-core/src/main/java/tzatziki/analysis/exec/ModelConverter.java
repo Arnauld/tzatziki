@@ -6,6 +6,7 @@ import gherkin.formatter.Argument;
 import gherkin.formatter.model.*;
 import tzatziki.analysis.exec.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,8 +58,27 @@ public class ModelConverter {
         examplesExec.declareTags(convertTags(examples.getTags()));
         examplesExec.declareComments(convertComments(examples.getComments()));
         examplesExec.declareDescription(examples.getDescription());
+        examplesExec.declareRows(convertExamplesRows(examples.getRows()));
 
         return examplesExec;
+    }
+
+    public List<ExamplesRow> convertExamplesRows(List<ExamplesTableRow> rows) {
+        List<ExamplesRow> xrs = new ArrayList<ExamplesRow>();
+        for (ExamplesTableRow row : rows) {
+            ExamplesRow xr = convertExamplesRow(row);
+            xrs.add(xr);
+        }
+        return xrs;
+    }
+
+    public ExamplesRow convertExamplesRow(ExamplesTableRow row) {
+        ExamplesRow r = new ExamplesRow(
+                convertComments(row.getComments()),
+                row.getCells(),
+                row.getLine()
+        );
+        return r;
     }
 
     public StepExec convertStep(Step step) {

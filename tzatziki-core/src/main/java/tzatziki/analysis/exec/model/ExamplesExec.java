@@ -1,5 +1,6 @@
 package tzatziki.analysis.exec.model;
 
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -13,9 +14,9 @@ public class ExamplesExec {
     private List<String> tags = Lists.newArrayList();
     private List<String> comments = Lists.newArrayList();
     private String description;
+    private List<ExamplesRow> examplesRows;
 
     public ExamplesExec(String keyword, String name) {
-
         this.keyword = keyword;
         this.name = name;
     }
@@ -35,10 +36,36 @@ public class ExamplesExec {
         return this;
     }
 
+    public ExamplesExec declareRows(List<ExamplesRow> examplesRows) {
+        this.examplesRows = examplesRows;
+        return this;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public FluentIterable<ExamplesRow> rows() {
+        return FluentIterable.from(examplesRows);
+    }
+
     public ExamplesExec recursiveCopy() {
         return new ExamplesExec(keyword, name)
                 .declareTags(tags)
                 .declareComments(comments)
-                .declareDescription(description);
+                .declareDescription(description)
+                .declareRows(examplesRows);
+    }
+
+    public int rowCount() {
+        return examplesRows.size();
+    }
+
+    public int columnCount() {
+        return examplesRows.get(0).cells().size();
+    }
+
+    public String keyword() {
+        return keyword;
     }
 }
