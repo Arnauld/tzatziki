@@ -4,7 +4,6 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -18,12 +17,9 @@ public class StepContainer extends EmbeddingAndWriteContainer {
     private LineRange lineRange;
 
     protected void recursiveCopy(final StepContainer copy) {
-        steps().forEach(new Consumer<StepExec>() {
-            @Override
-            public void accept(StepExec stepExec) {
-                copy.declareStep(stepExec.recursiveCopy());
-            }
-        });
+        for (StepExec stepExec : steps()) {
+            copy.declareStep(stepExec.recursiveCopy());
+        }
         copy.declareTags(tags);
         copy.declareComments(comments);
         copy.declareDescription(description);
@@ -33,7 +29,7 @@ public class StepContainer extends EmbeddingAndWriteContainer {
 
 
     public void declareStep(StepExec stepExec) {
-        if(stepExec==null)
+        if (stepExec == null)
             throw new IllegalArgumentException("Step cannot be null!");
         steps.add(stepExec);
     }

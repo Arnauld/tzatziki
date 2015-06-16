@@ -37,7 +37,6 @@ import tzatziki.pdf.model.Tags;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Consumer;
 
 import static com.google.common.base.Predicates.not;
 
@@ -114,12 +113,10 @@ public class ScenarioOutlineEmitter implements Emitter<ScenarioOutlineWithResolv
         if (shouldEmitStepInError) {
             emitStepInErrorLegend(emitterContext);
         }
-        results.forEach(new Consumer<ExamplesEmitResult>() {
-            @Override
-            public void accept(ExamplesEmitResult result) {
-                emitterContext.append(result.exampleTable);
-            }
-        });
+
+        for (ExamplesEmitResult result : results) {
+            emitterContext.append(result.exampleTable);
+        }
     }
 
     private void emitStepInErrorLegend(ITextContext emitterContext) {
@@ -220,16 +217,13 @@ public class ScenarioOutlineEmitter implements Emitter<ScenarioOutlineWithResolv
         int nbCols = examples.columnCount();
 
         final int[] maxWidth = new int[nbCols];
-        examples.rows().forEach(new Consumer<ExamplesRow>() {
-            @Override
-            public void accept(ExamplesRow examplesRow) {
-                int c = 0;
-                for (String s : examplesRow.cells()) {
-                    maxWidth[c] = Math.max(s.length(), maxWidth[c]);
-                    c++;
-                }
+        for (ExamplesRow examplesRow : examples.rows()) {
+            int c = 0;
+            for (String s : examplesRow.cells()) {
+                maxWidth[c] = Math.max(s.length(), maxWidth[c]);
+                c++;
             }
-        });
+        }
 
         float sum = 0;
         for (int i : maxWidth) {

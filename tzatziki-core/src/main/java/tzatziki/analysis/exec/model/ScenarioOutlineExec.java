@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
 
 import static tzatziki.analysis.exec.model.StepExec.statusPassed;
 
@@ -58,12 +57,9 @@ public class ScenarioOutlineExec extends StepContainer {
 
     public int rowCount() {
         final AtomicInteger sum = new AtomicInteger();
-        examples().forEach(new Consumer<ExamplesExec>() {
-            @Override
-            public void accept(ExamplesExec examples) {
-                sum.addAndGet(examples.rowCount());
-            }
-        });
+        for (ExamplesExec examples : examples()) {
+            sum.addAndGet(examples.rowCount());
+        }
         return sum.get();
     }
 }
