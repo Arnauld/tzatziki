@@ -32,6 +32,11 @@ public class MemoizableIterator<T> implements Iterator<T> {
         return current;
     }
 
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
+
     public T current() {
         if(!currentInitialized)
             throw new IllegalStateException("Invoke next() at least once");

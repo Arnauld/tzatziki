@@ -31,12 +31,12 @@ public class TagFilter implements Predicate<Tags> {
 
     public TagFilter and(TagFilter... tagFilters) {
         Iterable<Predicate<Tags>> ands = extractPredicates(tagFilters);
-        return new TagFilter(Predicates.and(ands));
+        return new TagFilter(Predicates.<Tags>and(ands));
     }
 
     public TagFilter or(TagFilter... tagFilters) {
         Iterable<Predicate<Tags>> ors = extractPredicates(tagFilters);
-        return new TagFilter(Predicates.or(ors));
+        return new TagFilter(Predicates.<Tags>or(ors));
     }
 
     private static FluentIterable<Predicate<Tags>> extractPredicates(TagFilter[] tagFilters) {
