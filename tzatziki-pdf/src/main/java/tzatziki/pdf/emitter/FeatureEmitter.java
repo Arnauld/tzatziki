@@ -1,6 +1,7 @@
 package tzatziki.pdf.emitter;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.FluentIterable;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Section;
 import gutenberg.itext.Emitter;
@@ -9,10 +10,10 @@ import gutenberg.itext.Sections;
 import gutenberg.itext.Styles;
 import gutenberg.itext.model.Markdown;
 import gutenberg.util.KeyValues;
-import net.sourceforge.plantuml.Run;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tzatziki.analysis.exec.model.BackgroundExec;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
 import tzatziki.analysis.exec.model.ScenarioOutlineExec;
@@ -60,6 +61,12 @@ public class FeatureEmitter implements Emitter<FeatureExec> {
             // Description
             emitDescription(feature, emitterContext);
 
+            // Background
+            BackgroundExec background = feature.background();
+            if(background!=null) {
+                emitterContext.emit(BackgroundExec.class, background);
+            }
+
             // Scenario
             Iterator<StepContainer> containers = feature.stepContainers().iterator();
             while (containers.hasNext()) {
@@ -67,10 +74,7 @@ public class FeatureEmitter implements Emitter<FeatureExec> {
                 if (container instanceof ScenarioOutlineExec) {
                     ScenarioOutlineExec outline = (ScenarioOutlineExec) container;
 
-                    ScenarioOutlineWithResolved outlineWithResolved = new ScenarioOutlineWithResolved(outline);
-                    for (int i = 1; i < outline.rowCount(); i++) {
-                        outlineWithResolved.declareScenario((ScenarioExec) containers.next());
-                    }
+                    ScenarioOutlineWithResolved outlineWithResolved = resolveOutlineWithScenario(containers, outline);
                     emitterContext.emit(ScenarioOutlineWithResolved.class, outlineWithResolved);
 
                 } else if (container instanceof ScenarioExec) {
@@ -86,6 +90,14 @@ public class FeatureEmitter implements Emitter<FeatureExec> {
 
         if (headerLevel == 1)
             emitterContext.append(featureChap);
+    }
+
+    private ScenarioOutlineWithResolved resolveOutlineWithScenario(Iterator<StepContainer> containers, ScenarioOutlineExec outline) {
+        ScenarioOutlineWithResolved outlineWithResolved = new ScenarioOutlineWithResolved(outline);
+        for (int i = 1; i < outline.rowCount(); i++) {
+            outlineWithResolved.declareScenario((ScenarioExec) containers.next());
+        }
+        return outlineWithResolved;
     }
 
     private void emitUri(FeatureExec feature, ITextContext emitterContext) {
@@ -106,20 +118,29 @@ public class FeatureEmitter implements Emitter<FeatureExec> {
             b.append(description);
         }
 
-        Optional<ScenarioExec> first = feature.scenario().first();
-        if (first.isPresent()) {
-            ScenarioExec scenarioExec = first.get();
-            for (String comment : scenarioExec.comments()) {
-                String uncommented = Comments.discardCommentChar(comment);
-                if (!Comments.startsWithComment(uncommented)) { // double # case
-                    b.append(uncommented).append(Comments.NL);
-                }
+        BackgroundExec background = feature.background();
+        if (background != null) {
+            appendComments(b, background.comments());
+        } else {
+            Optional<ScenarioExec> first = feature.scenario().first();
+            if (first.isPresent()) {
+                ScenarioExec scenarioExec = first.get();
+                appendComments(b, scenarioExec.comments());
             }
         }
 
         if (b.length() > 0) {
             log.debug("Description content >>{}<<", b);
             emitterContext.emit(Markdown.class, new Markdown(b.toString()));
+        }
+    }
+
+    private static void appendComments(StringBuilder b, FluentIterable<String> comments) {
+        for (String comment : comments) {
+            String uncommented = Comments.discardCommentChar(comment);
+            if (!Comments.startsWithComment(uncommented)) { // double # case
+                b.append(uncommented).append(Comments.NL);
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
  */
-public class StepContainer extends EmbeddingAndWriteContainer {
+public class StepContainer extends EmbeddingAndWriteContainer implements HasComments, HasTags {
 
     private List<StepExec> steps = Lists.newArrayList();
     private List<String> tags = Lists.newArrayList();
@@ -38,6 +38,7 @@ public class StepContainer extends EmbeddingAndWriteContainer {
         this.tags.addAll(tags);
     }
 
+    @Override
     public FluentIterable<String> tags() {
         return FluentIterable.from(tags);
     }
@@ -66,6 +67,7 @@ public class StepContainer extends EmbeddingAndWriteContainer {
         return description;
     }
 
+    @Override
     public FluentIterable<String> comments() {
         return FluentIterable.from(comments);
     }

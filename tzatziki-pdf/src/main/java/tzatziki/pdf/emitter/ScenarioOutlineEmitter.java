@@ -52,6 +52,7 @@ public class ScenarioOutlineEmitter implements Emitter<ScenarioOutlineWithResolv
     private boolean debugTable = false;
     private StatusMarker statusMarker = new StatusMarker();
     private final int hLevel;
+    private StepContainerEmitter stepsEmitter;
 
     private Logger log = LoggerFactory.getLogger(FeatureEmitter.class);
 
@@ -60,7 +61,12 @@ public class ScenarioOutlineEmitter implements Emitter<ScenarioOutlineWithResolv
     }
 
     public ScenarioOutlineEmitter(int hLevel) {
+        this(hLevel, new StepContainerEmitter());
+    }
+
+    public ScenarioOutlineEmitter(int hLevel, StepContainerEmitter stepsEmitter) {
         this.hLevel = hLevel;
+        this.stepsEmitter = stepsEmitter;
     }
 
     @Override
@@ -77,11 +83,11 @@ public class ScenarioOutlineEmitter implements Emitter<ScenarioOutlineWithResolv
         sections.newSection(outline.name(), headerLevel);
         try {
             if (kvs.getBoolean(DISPLAY_TAGS, true)) {
-                emitTags(outline, emitterContext);
+                stepsEmitter.emitTags(outline, emitterContext);
             }
-            emitDescription(outline, emitterContext);
-            emitEmbeddings(outline, emitterContext);
-            emitSteps(outline, emitterContext);
+            stepsEmitter.emitDescription(outline, emitterContext);
+            stepsEmitter.emitEmbeddings(outline, emitterContext);
+            stepsEmitter.emitSteps(outline, emitterContext);
 
             emitExamples(scenarioOutlineWithResolved, emitterContext, headerLevel, outline);
 
@@ -290,42 +296,6 @@ public class ScenarioOutlineEmitter implements Emitter<ScenarioOutlineWithResolv
         statusCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         statusCell = noBorder(statusCell);
         return statusCell;
-    }
-
-    private void emitTags(ScenarioOutlineExec scenario, ITextContext emitterContext) {
-        emitterContext.emit(Tags.class, new Tags(scenario.tags()));
-    }
-
-    private void emitSteps(ScenarioOutlineExec scenario, ITextContext emitterContext) {
-        emitterContext.emit(Steps.class, new Steps(scenario.steps()));
-    }
-
-    protected void emitEmbeddings(ScenarioOutlineExec scenario, ITextContext emitterContext) {
-    }
-
-    protected void emitDescription(ScenarioOutlineExec scenario, ITextContext emitterContext) {
-        // Description
-        StringBuilder b = new StringBuilder();
-        String description = scenario.description();
-        if (StringUtils.isNotBlank(description)) {
-            b.append(description);
-        }
-
-        Optional<StepExec> first = scenario.steps().first();
-        if (first.isPresent()) {
-            StepExec stepExec = first.get();
-            for (String comment : stepExec.comments()) {
-                String uncommented = Comments.discardCommentChar(comment);
-                if (!Comments.startsWithComment(uncommented)) { // double # case
-                    b.append(uncommented).append(Comments.NL);
-                }
-            }
-        }
-
-        if (b.length() > 0) {
-            log.debug("Description content >>{}<<", b);
-            emitterContext.emit(Markdown.class, new Markdown(b.toString()));
-        }
     }
 
     private static PdfPCell colspan(int colspan, PdfPCell cell) {

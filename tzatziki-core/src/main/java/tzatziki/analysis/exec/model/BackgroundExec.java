@@ -13,6 +13,14 @@ public class BackgroundExec extends StepContainer {
         this.name = name;
     }
 
+    public String keyword() {
+        return keyword;
+    }
+
+    public String name() {
+        return name;
+    }
+
     public BackgroundExec recursiveCopy() {
         BackgroundExec copy = new BackgroundExec(keyword, name);
         recursiveCopy(copy);

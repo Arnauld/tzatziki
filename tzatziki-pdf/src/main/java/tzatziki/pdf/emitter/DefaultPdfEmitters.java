@@ -1,6 +1,7 @@
 package tzatziki.pdf.emitter;
 
 import gutenberg.itext.ITextContext;
+import tzatziki.analysis.exec.model.BackgroundExec;
 import tzatziki.analysis.exec.model.Embedded;
 import tzatziki.analysis.exec.model.FeatureExec;
 import tzatziki.analysis.exec.model.ScenarioExec;
@@ -18,6 +19,7 @@ public class DefaultPdfEmitters {
     public void registerDefaults(ITextContext context) {
         context.register(FeatureExec.class, new FeatureEmitter());
         context.register(ScenarioExec.class, new ScenarioEmitter());
+        context.register(BackgroundExec.class, new BackgroundEmitter());
         context.register(ScenarioOutlineWithResolved.class, new ScenarioOutlineEmitter());
         context.register(Steps.class, new StepsEmitter());
         context.register(Tags.class, new TagsEmitter());
