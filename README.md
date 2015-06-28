@@ -108,11 +108,111 @@ public class PdfSimpleReport {
 }
 ```
 
+## Wire everything together
+
+The simpler way to plug everything together is to use junit suite:
+
+Once cucumber is done, trigger the report generation (`@AfterClass`)
+
+
+```java
+import org.junit.AfterClass;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+/**
+ * @author <a href="http://twitter.com/aloyer">@aloyer</a>
+ */
+@RunWith(Suite.class)
+@Suite.SuiteClasses({RunAllFeatures.class})
+public class RunAllFeatureAndGenerateReportTest {
+
+    @AfterClass
+    public static void generateExecutionReport() throws Exception {
+        new PdfSimpleReport().generate();
+    }
+}
+```
+
+
 ## A more advanced report
 
+TODO
 
 
-## A simple preamble
+## A simple preamble (#preamble-md)
+
+
+This preamble illustrate several markdown enhancement supported by tzatziki (though [gutenberg](https://github.com/Arnauld/gutenberg)).
+
+
+### variable reference in URL
+
+e.g. `${imageDir}` in `![Yamex Logo](${imageDir}/Yamex-header.png)`
+
+### Icon based block
+
+```
+  {icon=warning,icon-color=dark-red}
+  G> This specification describes the matching engine expected behaviors.
+```
+
+is rendered as:
+
+![Warning block](doc/images/warning-block.png)
+
+List of available icons can be found here: [Font-Awesome](http://fortawesome.github.io/Font-Awesome/icons/)
+
+### Syntax highlighting
+
+Code blocks can be taken a step further by adding syntax highlighting.
+In your fenced block, add an optional language identifier and we'll run it through syntax highlighting.
+
+Currently supported language are available here: [Pygments](http://pygments.org/languages/)
+
+### Ditaa support
+
+[Ditaa](http://ditaa.sourceforge.net/) block is also supported as an extra language;
+it can be triggered using the triple ticks block marker followed by the `ditaa` language.
+
+```
+    ```ditaa
+                                                                     +-------------+
+                                                             /------ | Market Book |
+        /--------------\     submit order  /-------------\   |       +-------------+
+        | Electronic   | ----------------> | Transaction |---/              .
+        | Trading      |                   | Router      |------ ...        .
+        | Network cBLK | <---------------- |        cRED |---\              .
+        \--------------/   order status    \-------------/   |       +-------------+
+                                                             \-------| Market Book |
+                                                                     +-------------+
+    ```
+```
+
+is rendered as:
+
+
+![Ditaa support](doc/images/ditaa-support.png)
+
+### Math LateX support
+
+[JLatexMath](http://forge.scilab.org/index.php/p/jlatexmath/) block is also supported as an extra language;
+it can be triggered using the triple ticks block marker followed by the `formula` language.
+
+
+```
+    ```formula
+    \sum\limits_{i=1}^{min(j+1,n)} Q_i \geq N
+    ```
+```
+
+is rendered as:
+
+![JLatexMath support](doc/images/jlatexmath-support.png)
+
+
+### A Full example
+
 
 ```markdown
     # Welcome to Yamex!
@@ -174,7 +274,7 @@ public class PdfSimpleReport {
     Under the Price/Time algorithm, the first `j` limit orders are filled in full, and the remaining lots are assigned to the `(j+1)`-th limit order (if `j < n`)
 ```
 
-## Test settings
+## Test settings (#test-settings)
 
 Simply provide settings, project directory, resource path and so on...
 
