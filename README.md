@@ -7,13 +7,9 @@ tzatziki
   * [Generate a report based on the execution file](#generate-a-report-based-on-the-execution-file)
   * [Plug everything together](#plug-everything-together)
 * [A simple preamble](#a-simple-preamble)
-  * [variable reference in URL](variable-reference-in-url)
-  * [Icon based block](#icon-based-block)
-  * [Syntax highlighting](#syntax-highlighting)
-  * [Ditaa support](#ditaa-support)
-  * [Math LateX support](#math-latex-support)
   * [A Full example](#a-full-example)
 * [A feature file](#a-feature-file)
+* [Extended markdown](#extended-markdown)
 * [Test settings](#test-settings)
 * [Tag Dictionary](#tag-dictionary)
   * [Add a sanity check on tags](#add-a-sanity-check-on-tags)
@@ -179,88 +175,6 @@ TODO
 
 
 This preamble illustrate several markdown enhancement supported by tzatziki (though [gutenberg](https://github.com/Arnauld/gutenberg)).
-
-
-### variable reference in URL
-
-e.g. `${imageDir}` in `![Yamex Logo](${imageDir}/Yamex-header.png)`
-
-### Icon based block
-
-```
-  {icon=warning,icon-color=dark-red}
-  G> This specification describes the matching engine expected behaviors.
-```
-
-is rendered as:
-
-![Warning block](doc/images/warning-block.png)
-
-```
-  #{icon=info-circle, icon-color=#00b200}
-  #G> In our system we support Limit Orders with various time in force parameters.
-  #G> Fill-or-Kill (FoK), Immediate-or-Cancel (IoC) works the same way as for Market Orders.
-  #G> Good-Till Date or Good-Till-Cancel and Day Orders are valid until specified time
-  #G> requested by investor and cancelled after that.
-```
-
-is rendered as:
-
-![Info block](doc/images/info-block.png)
-
-
-
-List of available icons can be found here: [Font-Awesome](http://fortawesome.github.io/Font-Awesome/icons/)
-
-### Syntax highlighting
-
-Code blocks can be taken a step further by adding syntax highlighting.
-In your fenced block, add an optional language identifier and we'll run it through syntax highlighting.
-
-Currently supported language are available here: [Pygments](http://pygments.org/languages/)
-
-### Ditaa support
-
-[Ditaa](http://ditaa.sourceforge.net/) block is also supported as an extra language;
-it can be triggered using the triple ticks block marker followed by the `ditaa` language.
-
-```
-    ```ditaa
-                                                                     +-------------+
-                                                             /------ | Market Book |
-        /--------------\     submit order  /-------------\   |       +-------------+
-        | Electronic   | ----------------> | Transaction |---/              .
-        | Trading      |                   | Router      |------ ...        .
-        | Network cBLK | <---------------- |        cRED |---\              .
-        \--------------/   order status    \-------------/   |       +-------------+
-                                                             \-------| Market Book |
-                                                                     +-------------+
-    ```
-```
-
-is rendered as:
-
-
-![Ditaa support](doc/images/ditaa-support.png)
-
-### Math LateX support
-
-[JLatexMath](http://forge.scilab.org/index.php/p/jlatexmath/) block is also supported as an extra language;
-it can be triggered using the triple ticks block marker followed by the `formula` language.
-
-
-```
-    ```formula
-    \sum\limits_{i=1}^{min(j+1,n)} Q_i \geq N
-    ```
-```
-
-is rendered as:
-
-![JLatexMath support](doc/images/jlatexmath-support.png)
-
-
-### A Full example
 
 
 ```markdown
@@ -432,6 +346,94 @@ Feature: Limit Order
       | B1            | Broker-A     | 15  | 10.4  |
 
 ```
+
+## Extended markdown
+
+* [variable reference in URL](variable-reference-in-url)
+* [Icon based block](#icon-based-block)
+* [Syntax highlighting](#syntax-highlighting)
+* [Ditaa support](#ditaa-support)
+* [Math LateX support](#math-latex-support)
+
+### variable reference in URL
+
+e.g. `${imageDir}` in `![Yamex Logo](${imageDir}/Yamex-header.png)`
+
+### Icon based block
+
+```
+  {icon=warning,icon-color=dark-red}
+  G> This specification describes the matching engine expected behaviors.
+```
+
+is rendered as:
+
+![Warning block](doc/images/warning-block.png)
+
+```
+  #{icon=info-circle, icon-color=#00b200}
+  #G> In our system we support Limit Orders with various time in force parameters.
+  #G> Fill-or-Kill (FoK), Immediate-or-Cancel (IoC) works the same way as for Market Orders.
+  #G> Good-Till Date or Good-Till-Cancel and Day Orders are valid until specified time
+  #G> requested by investor and cancelled after that.
+```
+
+is rendered as:
+
+![Info block](doc/images/info-block.png)
+
+
+
+List of available icons can be found here: [Font-Awesome](http://fortawesome.github.io/Font-Awesome/icons/)
+
+### Syntax highlighting
+
+Code blocks can be taken a step further by adding syntax highlighting.
+In your fenced block, add an optional language identifier and we'll run it through syntax highlighting.
+
+Currently supported language are available here: [Pygments](http://pygments.org/languages/)
+
+### Ditaa support
+
+[Ditaa](http://ditaa.sourceforge.net/) block is also supported as an extra language;
+it can be triggered using the triple ticks block marker followed by the `ditaa` language.
+
+```
+    ```ditaa
+                                                                     +-------------+
+                                                             /------ | Market Book |
+        /--------------\     submit order  /-------------\   |       +-------------+
+        | Electronic   | ----------------> | Transaction |---/              .
+        | Trading      |                   | Router      |------ ...        .
+        | Network cBLK | <---------------- |        cRED |---\              .
+        \--------------/   order status    \-------------/   |       +-------------+
+                                                             \-------| Market Book |
+                                                                     +-------------+
+    ```
+```
+
+is rendered as:
+
+
+![Ditaa support](doc/images/ditaa-support.png)
+
+### Math LateX support
+
+[JLatexMath](http://forge.scilab.org/index.php/p/jlatexmath/) block is also supported as an extra language;
+it can be triggered using the triple ticks block marker followed by the `formula` language.
+
+
+```
+    ```formula
+    \sum\limits_{i=1}^{min(j+1,n)} Q_i \geq N
+    ```
+```
+
+is rendered as:
+
+![JLatexMath support](doc/images/jlatexmath-support.png)
+
+
 
 ## Test settings
 
