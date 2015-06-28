@@ -7,7 +7,6 @@ tzatziki
   * [Generate a report based on the execution file](#generate-a-report-based-on-the-execution-file)
   * [Plug everything together](#plug-everything-together)
 * [A simple preamble](#a-simple-preamble)
-  * [A Full example](#a-full-example)
 * [A feature file](#a-feature-file)
 * [Extended markdown](#extended-markdown)
 * [Test settings](#test-settings)
@@ -246,24 +245,26 @@ Double comment (`##`) can then be used to comment out information that won't be 
 You can note several extensions within the markdown:
 
 * [Icon based block](#icon-based-block)
-   ```
-       #{icon=info-circle, icon-color=#00b200}
-       #G> In our system we support Limit Orders with various time in force parameters.
-       #G> Fill-or-Kill (FoK), Immediate-or-Cancel (IoC) works the same way as for Market Orders.
-       #G> Good-Till Date or Good-Till-Cancel and Day Orders are valid until specified time
-       #G> requested by investor and cancelled after that.
-   ```
+
+```
+   #{icon=info-circle, icon-color=#00b200}
+   #G> In our system we support Limit Orders with various time in force parameters.
+   #G> Fill-or-Kill (FoK), Immediate-or-Cancel (IoC) works the same way as for Market Orders.
+   #G> Good-Till Date or Good-Till-Cancel and Day Orders are valid until specified time
+   #G> requested by investor and cancelled after that.
+```
+
 * [Syntax highlighting](#syntax-highlighting)
-   ```
-       #```cucumber
-       #  Given an order book containing two sell orders: 15@10.4 by B1 and 150@11.9 by B2
-       #  When a buy order is placed 20@10.4 by BBuyer
-       #  Then the buy order should remain in the order book with the remaining quantity of 5@10.4
-       #  But an execution should have been triggered: [B1->BBuyer 15@10.4]
-       #```
-   ```
-* [Ditaa support](#ditaa-support)
-* [Math LateX support](#math-latex-support)
+
+```
+   #```cucumber
+   #  Given an order book containing two sell orders: 15@10.4 by B1 and 150@11.9 by B2
+   #  When a buy order is placed 20@10.4 by BBuyer
+   #  Then the buy order should remain in the order book with the remaining quantity of 5@10.4
+   #  But an execution should have been triggered: [B1->BBuyer 15@10.4]
+   #```
+```
+
 
 ```gherkin
 Feature: Limit Order
