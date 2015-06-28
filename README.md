@@ -32,7 +32,7 @@ Whereas this may seem a bit complicated, this is actually really simple.
 1. Read the execution file (`myapp/exec.json`) back to the tzatziki model of execution (`List<FeatureExec>`)
 2. Indicate the output file; (see [TestSettings](#test-settings))
 3. Configure the report using the basic builder
-    * declare the `imageDir` variable used in the markdown image path definition (see [preamble.md](#preamble-md)); this will be replaced within markdown file to complete image path. You can use whatever variable name you want
+    * declare the `imageDir` variable used in the markdown image path definition (see [preamble.md](#a-simple-preamble-md)); this will be replaced within markdown file to complete image path. You can use whatever variable name you want
     * Main title of the report and its sub-title; they only appear in the default first page renderer
 
 Then in order, the following content will be included in the document:
@@ -140,7 +140,7 @@ public class RunAllFeatureAndGenerateReportTest {
 TODO
 
 
-## A simple preamble (#preamble-md)
+## A simple preamble
 
 
 This preamble illustrate several markdown enhancement supported by tzatziki (though [gutenberg](https://github.com/Arnauld/gutenberg)).
@@ -274,7 +274,7 @@ is rendered as:
     Under the Price/Time algorithm, the first `j` limit orders are filled in full, and the remaining lots are assigned to the `(j+1)`-th limit order (if `j < n`)
 ```
 
-## Test settings (#test-settings)
+## Test settings
 
 Simply provide settings, project directory, resource path and so on...
 
