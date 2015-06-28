@@ -396,7 +396,7 @@ This prevents misspell by raising an error.
 
 An example of `tags.properties`
 
-```
+```INI
 wip=Work in progress
 notImplemented=Behavior not implemented
 
