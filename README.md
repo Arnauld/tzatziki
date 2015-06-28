@@ -1,10 +1,41 @@
 tzatziki
 --------
 
+* [Getting started]
+  * [Maven dependency](#maven-dependency)
+  * [First generate the execution report](#first-generate-the-execution-report)
+  * [Generate a report based on the execution file](#generate-a-report-based-on-the-execution-file)
+  * [Plug everything together](#plug-everything-together)
+* [A simple preamble](#a-simple-preamble)
+  * [variable reference in URL](variable-reference-in-url)
+  * [Icon based block](#icon-based-block)
+  * [Syntax highlighting](#syntax-highlighting)
+  * [Ditaa support](#ditaa-support)
+  * [Math LateX support](#math-latex-support)
+  * [A Full example](#a-full-example)
+* [Test settings](#test-settings)
+* [Tag Dictionary](#tag-dictionary)
+  * [Add a sanity check on tags](#add-a-sanity-check-on-tags)
+
+
 ## Getting started
 
+### Maven dependency
 
-**First generate the execution report**
+Last released version: `0.13.2`
+
+**For pdf reporting:**
+
+```
+        <dependency>
+            <groupId>org.technbolts.tzatziki</groupId>
+            <artifactId>tzatziki-pdf</artifactId>
+            <version>${tzatziki.version}</version>
+        </dependency>
+```
+
+
+### First generate the execution report
 
 This can be achieved by adding the tzatziki reporter that will track all information during cucumber execution.
 Reporter will then create an execution file: `target/myapp/exec.json`
@@ -25,7 +56,7 @@ public class RunAllFeatures {
 
 ```
 
-**Generate a report based on the execution file**
+### Generate a report based on the execution file
 
 Whereas this may seem a bit complicated, this is actually really simple.
 
@@ -108,7 +139,7 @@ public class PdfSimpleReport {
 }
 ```
 
-## Wire everything together
+### Plug everything together
 
 The simpler way to plug everything together is to use junit suite:
 
@@ -357,7 +388,7 @@ public class TestSettings {
 }
 ```
 
-## Tag Dictionary (#tag-dictionary)
+## Tag Dictionary
 
 By using a tag dictionary, you can ensure everyone is using the same tags.
 Checks can also be easily added to ensure only tags defined within the dictionary are used within the feature files.
@@ -385,3 +416,53 @@ cumulativeView=Order book cumulative view
 matchingPrinciple=Order book's Matching principles
 
 ```
+
+### Add a sanity check on tags
+
+```java
+
+import org.junit.runner.RunWith;
+import samples.TestSettings;
+import tzatziki.analysis.step.Features;
+import tzatziki.analysis.tag.TagDictionary;
+import tzatziki.junit.SanityTagChecker;
+
+import java.io.File;
+
+import static tzatziki.junit.SanityTagChecker.loadFeaturesFromSourceDirectory;
+
+/**
+ * @author <a href="http://twitter.com/aloyer">@aloyer</a>
+ */
+@RunWith(SanityTagChecker.class)
+public class CoffeeMachineTagCheckTest {
+
+    @SanityTagChecker.TagDictionaryProvider
+    public static TagDictionary tagDictionary() {
+        return new TagDictionary()
+                .declareTag("@wip")
+                .declareTag("@protocol")
+                .declareTag("@notification")
+                .declareTag("@message")
+                .declareTag("@runningOut")
+                .declareTag("@coffee")
+                .declareTag("@tea")
+                .declareTag("@chocolate")
+                .declareTag("@sugar")
+                .declareTag("@noSugar")
+                .declareTag("@takeOrder")
+                .declareTag("@payment")
+                .declareTag("@reporting")
+                .declareTag("@manual")
+                ;
+    }
+
+    @SanityTagChecker.FeaturesProvider
+    public static Features features() {
+        String basedir = new TestSettings().getBaseDir();
+        return loadFeaturesFromSourceDirectory(new File(basedir, "src/main/resources/samples/coffeemachine"));
+    }
+}
+```
+
+
