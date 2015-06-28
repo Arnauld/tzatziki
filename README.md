@@ -1,7 +1,7 @@
 tzatziki
 --------
 
-* [Getting started]
+* [Getting started](#getting-started)
   * [Maven dependency](#maven-dependency)
   * [First generate the execution report](#first-generate-the-execution-report)
   * [Generate a report based on the execution file](#generate-a-report-based-on-the-execution-file)
