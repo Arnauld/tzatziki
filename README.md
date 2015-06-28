@@ -18,6 +18,9 @@ tzatziki
   * [Add a sanity check on tags](#add-a-sanity-check-on-tags)
 
 
+A complete example of a pdf report generated using tzatziki can be found here [Sample PDF](doc/sample-yamex-report.pdf)
+
+
 ## Getting started
 
 ### Maven dependency
