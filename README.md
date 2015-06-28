@@ -13,6 +13,7 @@ tzatziki
   * [Ditaa support](#ditaa-support)
   * [Math LateX support](#math-latex-support)
   * [A Full example](#a-full-example)
+* [A feature file](#a-feature-file)
 * [Test settings](#test-settings)
 * [Tag Dictionary](#tag-dictionary)
   * [Add a sanity check on tags](#add-a-sanity-check-on-tags)
@@ -195,6 +196,20 @@ is rendered as:
 
 ![Warning block](doc/images/warning-block.png)
 
+```
+  #{icon=info-circle, icon-color=#00b200}
+  #G> In our system we support Limit Orders with various time in force parameters.
+  #G> Fill-or-Kill (FoK), Immediate-or-Cancel (IoC) works the same way as for Market Orders.
+  #G> Good-Till Date or Good-Till-Cancel and Day Orders are valid until specified time
+  #G> requested by investor and cancelled after that.
+```
+
+is rendered as:
+
+![Info block](doc/images/info-block.png)
+
+
+
 List of available icons can be found here: [Font-Awesome](http://fortawesome.github.io/Font-Awesome/icons/)
 
 ### Syntax highlighting
@@ -306,6 +321,116 @@ is rendered as:
     ```
 
     Under the Price/Time algorithm, the first `j` limit orders are filled in full, and the remaining lots are assigned to the `(j+1)`-th limit order (if `j < n`)
+```
+
+## A Feature File
+
+Due to cucumber issue while parsing markdown (`*` is a bullet in markdown but considered as a step in cucumber);
+the easiest way to include markdown within your scenario is to comment them.
+Double comment (`##`) can then be used to comment out information that won't be rendered in the final report.
+
+You can note several extensions within the markdown:
+
+* [Icon based block](#icon-based-block)
+   ```
+       #{icon=info-circle, icon-color=#00b200}
+       #G> In our system we support Limit Orders with various time in force parameters.
+       #G> Fill-or-Kill (FoK), Immediate-or-Cancel (IoC) works the same way as for Market Orders.
+       #G> Good-Till Date or Good-Till-Cancel and Day Orders are valid until specified time
+       #G> requested by investor and cancelled after that.
+   ```
+* [Syntax highlighting](#syntax-highlighting)
+   ```
+       #```cucumber
+       #  Given an order book containing two sell orders: 15@10.4 by B1 and 150@11.9 by B2
+       #  When a buy order is placed 20@10.4 by BBuyer
+       #  Then the buy order should remain in the order book with the remaining quantity of 5@10.4
+       #  But an execution should have been triggered: [B1->BBuyer 15@10.4]
+       #```
+   ```
+* [Ditaa support](#ditaa-support)
+* [Math LateX support](#math-latex-support)
+
+```gherkin
+Feature: Limit Order
+
+#  A limit order is an order to buy or sell a contract at a specific price or better.
+#
+#  A **buy** limit order can only be executed at the **limit price or lower**, and
+#  a **sell** limit order can only be executed at the **limit price or higher**.
+#
+#  Use of a Limit order helps ensure that the customer will not receive an execution
+#  at a price less favorable than the limit price. Use of a Limit order, however,
+#  does not guarantee an execution.
+#
+#  * A buy limit order for FFLY at $125 will buy shares of FFLY at $125 or less.
+#  * A sell limit order for FFLY at $125 will sell shares of FFLY for $125 or more.
+#  * A limit order must have a Time in Force (TIF) value
+#
+#{icon=info-circle, icon-color=#00b200}
+#G> In our system we support Limit Orders with various time in force parameters.
+#G> Fill-or-Kill (FoK), Immediate-or-Cancel (IoC) works the same way as for Market Orders.
+#G> Good-Till Date or Good-Till-Cancel and Day Orders are valid until specified time
+#G> requested by investor and cancelled after that.
+
+  @limitOrder @placeOrder
+  Scenario: Place a Buy Limit Order
+
+    Given an empty order book
+    When a limit order is placed to buy 150 FFLY at 10.4€
+    Then the order book should be updated with this new order
+
+  @orderBook @bestPrices @limitOrder @stopOrder
+  Scenario: Best ask price - limit orders and stop orders
+
+    #{icon=warning, icon-color=dark-red}
+    #G>  Stop order should not be taken into account for best price.
+    #
+
+    Given an empty order book
+    And the following orders have been placed:
+      | instrument | order type  | way  | qty | price |
+      | FFLY       | Stop Order  | Sell | 150 | 10.1  |
+      | FFLY       | Limit Order | Sell | 150 | 11.9  |
+      | FFLY       | Limit Order | Sell | 15  | 10.4  |
+      | FFLY       | Limit Order | Buy  | 15  | 10.0  |
+    Then the order book's best ask price should be 10.4€
+
+  @orderBook @matchingPrinciple @limitOrder
+  Scenario: Matching a Buy order partially - exact same price
+
+    #
+    # Order book contains already two sell orders.
+    #
+    # The buy order triggered is not fully fulfilled, thus remains in the order book but with only the missing quantity.
+    #
+    # But an execution is triggered for the partial fulfillment
+    #
+    # **Alternate scenario?**
+    #
+    #{width:100%}
+    #```cucumber
+    #  Given an order book containing two sell orders: 15@10.4 by B1 and 150@11.9 by B2
+    #  When a buy order is placed 20@10.4 by BBuyer
+    #  Then the buy order should remain in the order book with the remaining quantity of 5@10.4
+    #  But an execution should have been triggered: [B1->BBuyer 15@10.4]
+    #```
+
+    Given an empty order book
+    And the following orders have been placed:
+      | Broker | order type  | way  | qty | price |
+      | B1     | Limit Order | Sell | 15  | 10.4  |
+      | B2     | Limit Order | Sell | 150 | 11.9  |
+    When a limit order is placed to buy 20 FFLY at 10.4€ by "Broker-A"
+
+    Then the order book should be composed of the following orders:
+      | Broker   | order type  | way  | qty | price |
+      | Broker-A | Limit Order | Buy  | 5   | 10.4  |
+      | B2       | Limit Order | Sell | 150 | 11.9  |
+    And the following execution should have been triggered:
+      | seller broker | buyer broker | qty | price |
+      | B1            | Broker-A     | 15  | 10.4  |
+
 ```
 
 ## Test settings
