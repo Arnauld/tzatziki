@@ -115,8 +115,10 @@ public abstract class ExecutionReport implements Formatter, Reporter {
         log.debug("examples: {}", examples.getName());
         currentStep = null;
 
-        ScenarioOutlineExec outlineExec = (ScenarioOutlineExec) currentStepContainer;
-        outlineExec.declareExamples(converter.convertExamples(examples));
+        currentFeature
+                .lastOutline()
+                .get()
+                .declareExamples(converter.convertExamples(examples));
     }
 
     @Override

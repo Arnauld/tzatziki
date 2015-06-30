@@ -1,7 +1,9 @@
 package tzatziki.analysis.exec.model;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import tzatziki.analysis.exec.tag.Tags;
 
 import static tzatziki.analysis.exec.model.StepExec.statusPassed;
 
@@ -37,5 +39,12 @@ public class ScenarioExec extends StepContainer {
             return opt.get().result().status();
         else
             return Status.Passed;
+    }
+
+    public Optional<ScenarioExec> recursiveCopy(Predicate<Tags> matching) {
+        if(matching.apply(Tags.from(tags().toList()))) {
+            return Optional.of(recursiveCopy());
+        }
+        return Optional.absent();
     }
 }

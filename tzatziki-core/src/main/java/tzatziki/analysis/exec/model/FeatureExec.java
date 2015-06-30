@@ -1,5 +1,6 @@
 package tzatziki.analysis.exec.model;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
@@ -66,6 +67,10 @@ public class FeatureExec {
         return backgroundExec;
     }
 
+    public Optional<ScenarioOutlineExec> lastOutline() {
+        return stepContainers().filter(ScenarioOutlineExec.class).last();
+    }
+
     public FeatureExec declareScenario(ScenarioExec scenarioExec) {
         stepContainerList.add(scenarioExec);
         return this;
@@ -108,14 +113,16 @@ public class FeatureExec {
         return new Predicate<StepContainer>() {
             @Override
             public boolean apply(StepContainer stepContainer) {
-                if (!matching.apply(Tags.from(stepContainer.tags().toList())))
-                    return true;
-
                 if (stepContainer instanceof ScenarioExec) {
-                    featureExec.declareScenario(((ScenarioExec) stepContainer).recursiveCopy());
+                    Optional<ScenarioExec> scenarioExec = ((ScenarioExec) stepContainer).recursiveCopy(matching);
+                    if (scenarioExec.isPresent())
+                        featureExec.declareScenario(scenarioExec.get());
                 }
+
                 if (stepContainer instanceof ScenarioOutlineExec) {
-                    featureExec.declareScenarioOutline(((ScenarioOutlineExec) stepContainer).recursiveCopy());
+                    Optional<ScenarioOutlineExec> outlineExec = ((ScenarioOutlineExec) stepContainer).recursiveCopy(matching);
+                    if (outlineExec.isPresent())
+                        featureExec.declareScenarioOutline(outlineExec.get());
                 }
                 return true;
             }

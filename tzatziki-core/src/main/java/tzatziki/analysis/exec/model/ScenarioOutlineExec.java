@@ -1,8 +1,11 @@
 package tzatziki.analysis.exec.model;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
+import tzatziki.analysis.exec.tag.Tags;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -39,10 +42,7 @@ public class ScenarioOutlineExec extends StepContainer {
     }
 
     public ScenarioOutlineExec recursiveCopy() {
-        ScenarioOutlineExec copy = new ScenarioOutlineExec(keyword, name);
-        FluentIterable.from(examplesList).allMatch(copyExamplesTo(copy));
-        recursiveCopy(copy);
-        return copy;
+        return recursiveCopy(Predicates.<Tags>alwaysTrue()).get();
     }
 
     private static Predicate<? super ExamplesExec> copyExamplesTo(final ScenarioOutlineExec outlineExec) {
@@ -61,5 +61,28 @@ public class ScenarioOutlineExec extends StepContainer {
             sum.addAndGet(examples.rowCount());
         }
         return sum.get();
+    }
+
+    public Optional<ScenarioOutlineExec> recursiveCopy(final Predicate<Tags> matching) {
+
+        ScenarioOutlineExec copy = new ScenarioOutlineExec(keyword, name);
+        examples()
+                .filter(new Predicate<ExamplesExec>() {
+                    @Override
+                    public boolean apply(ExamplesExec input) {
+                        return matching.apply(combineTags(input));
+                    }
+                })
+                .allMatch(copyExamplesTo(copy));
+
+        if (copy.examples().isEmpty())
+            return Optional.absent();
+
+        super.recursiveCopy(copy);
+        return Optional.of(copy);
+    }
+
+    private Tags combineTags(ExamplesExec input) {
+        return Tags.from(input.tags().toList()).completeWith(tags().toList());
     }
 }

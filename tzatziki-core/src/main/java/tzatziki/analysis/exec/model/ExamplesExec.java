@@ -45,6 +45,10 @@ public class ExamplesExec {
         return name;
     }
 
+    public FluentIterable<String> tags() {
+        return FluentIterable.from(tags);
+    }
+
     public FluentIterable<ExamplesRow> rows() {
         return FluentIterable.from(examplesRows);
     }

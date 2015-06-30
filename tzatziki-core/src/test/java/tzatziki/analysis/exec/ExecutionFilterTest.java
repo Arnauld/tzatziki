@@ -43,6 +43,11 @@ public class ExecutionFilterTest {
         assertThat(scenarioAccepted).isEqualTo(8);
     }
 
+    @Test
+    public void should_filter_outline() {
+
+    }
+
     private static void assertThatScenarioAreValid(FluentIterable<ScenarioExec> filtered, FluentIterable<ScenarioExec> ref) {
         for (ScenarioExec scenarioExec : filtered) {
             assertThat(ref.anyMatch(sameAs(scenarioExec))).isTrue();

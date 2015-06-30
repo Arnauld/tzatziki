@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
+import org.junit.runner.notification.Failure;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,10 +34,8 @@ public class JsonEmitterReportTest {
         Result result = new JUnitCore().run(Runner1.class);
         assertThat(result.getFailures()).isEmpty();
 
-        File output = new File("target/report/jsonEmitterReport/exec.json");
-        Reader reader = new InputStreamReader(new FileInputStream(output), "UTF8");
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonNode = mapper.readValue(reader, JsonNode.class);
+        String pathname = "target/report/jsonEmitterReport/embedding-triggered/exec.json";
+        JsonNode jsonNode = readJsonNode(pathname);
         JsonNode whenNode = jsonNode.get("features").get(0).get("stepContainerList").get(0).get("steps").get(1);
 
         assertThat(whenNode.get("keyword").asText()).isEqualTo("When ");
@@ -45,10 +44,44 @@ public class JsonEmitterReportTest {
 
     }
 
+    private JsonNode readJsonNode(String pathname) throws IOException {
+        File output = new File(pathname);
+        Reader reader = new InputStreamReader(new FileInputStream(output), "UTF8");
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(reader, JsonNode.class);
+    }
+
     @RunWith(Cucumber.class)
-    @CucumberOptions(format = "tzatziki.analysis.exec.gson.JsonEmitterReport:target/report/jsonEmitterReport")
+    @CucumberOptions(
+            format = "tzatziki.analysis.exec.gson.JsonEmitterReport:target/report/jsonEmitterReport/embedding-triggered",
+            features = "classpath:tzatziki/analysis/exec/gson/steps-w-embedding.feature"
+    )
     public static class Runner1 {
     }
+
+    @Test
+    public void interleaved_comments_within_scenario_should_be_handled_correctly() throws IOException {
+        Result result = new JUnitCore().run(Runner2.class);
+        for (Failure failure : result.getFailures()) {
+            failure.getException().printStackTrace();
+        }
+        assertThat(result.getFailures()).isEmpty();
+
+        String pathname = "target/report/jsonEmitterReport/comments-description/exec.json";
+        JsonNode jsonNode = readJsonNode(pathname);
+
+        JsonNode whenNode = jsonNode.get("features").get(0).get("stepContainerList").get(0).get("steps").get(0).get("comments").get(0);
+    }
+
+    @RunWith(Cucumber.class)
+    @CucumberOptions(
+            format = "tzatziki.analysis.exec.gson.JsonEmitterReport:target/report/jsonEmitterReport/comments-description",
+            features = "classpath:tzatziki/analysis/exec/gson/comments-n-description-interleaved.feature"
+    )
+    public static class Runner2 {
+    }
+
+
 
     public static class Steps {
         private float[] values;

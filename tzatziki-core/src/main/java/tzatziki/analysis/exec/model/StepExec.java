@@ -114,8 +114,11 @@ public class StepExec extends EmbeddingAndWriteContainer {
 
     public StepExec recursiveCopy() {
         StepExec copy = new StepExec(keyword, name);
-        copy.resultExec = resultExec.recursiveCopy();
-        copy.matchExec = matchExec.recursiveCopy();
+
+        // in case of outline result and match are nulls
+        copy.resultExec = resultExec != null ? resultExec.recursiveCopy() : null;
+        copy.matchExec = matchExec != null ? matchExec.recursiveCopy() : null;
+
         copy.comments.addAll(comments);
         copy.docString = docString;
         copy.dataTable = dataTable; // clone?
