@@ -21,7 +21,7 @@ A complete example of a pdf report generated using tzatziki can be found here [S
 
 ### Maven dependency
 
-Last released version: `0.13.2`
+Last released version: `0.14.0`
 
 **For pdf reporting:**
 
