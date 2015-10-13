@@ -10,7 +10,7 @@
 
     <groupId>org.technbolts.tzatziki</groupId>
     <artifactId>tzatziki</artifactId>
-    <version>0.15.0-snapshot</version>
+    <version>0.15.1</version>
     <packaging>pom</packaging>
 
     <modules>
