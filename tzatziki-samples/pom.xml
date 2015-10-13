@@ -5,7 +5,8 @@
     <parent>
         <groupId>org.technbolts.tzatziki</groupId>
         <artifactId>tzatziki</artifactId>
-        <version>0.15.1</version>
+        <version>0.15.2-snapshot
+</version>
         <relativePath>..</relativePath>
     </parent>
 
