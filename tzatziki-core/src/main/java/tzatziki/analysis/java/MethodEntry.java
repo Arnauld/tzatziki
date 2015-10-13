@@ -37,7 +37,7 @@ public class MethodEntry extends Describable {
         return FluentIterable.from(patterns).transform(new Function<KeywordBasedPattern, String>() {
             @Override
             public String apply(KeywordBasedPattern input) {
-                return input.getKeyword();
+                return input.getPattern();
             }
         });
     }
