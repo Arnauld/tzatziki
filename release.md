@@ -19,7 +19,7 @@ bash-3.2$ docker run -i -t jamesdbloom/docker-java6-maven /bin/bash
 First check for **snapshot** dependencies:
 
 ```bash
-    fgrep SNAPSHOT **/pom.xml
+    fgrep -i SNAPSHOT **/pom.xml
 ```
 
 [Maven Release Plugin: The Final Nail in the Coffin](http://axelfontaine.com/blog/final-nail.html)
