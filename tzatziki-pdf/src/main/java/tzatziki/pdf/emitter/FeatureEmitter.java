@@ -94,7 +94,7 @@ public class FeatureEmitter implements Emitter<FeatureExec> {
 
     private ScenarioOutlineWithResolved resolveOutlineWithScenario(Iterator<StepContainer> containers, ScenarioOutlineExec outline) {
         ScenarioOutlineWithResolved outlineWithResolved = new ScenarioOutlineWithResolved(outline);
-        for (int i = 1; i < outline.rowCount(); i++) {
+        for (int i = 0; i < outline.exampleRowCount(); i++) {
             outlineWithResolved.declareScenario((ScenarioExec) containers.next());
         }
         return outlineWithResolved;

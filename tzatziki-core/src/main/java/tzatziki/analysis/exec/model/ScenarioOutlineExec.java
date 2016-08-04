@@ -41,6 +41,12 @@ public class ScenarioOutlineExec extends StepContainer {
         return FluentIterable.from(examplesList);
     }
 
+    private static int HEADER_SZ = 1;
+
+    public FluentIterable<ExamplesExec> exampleRows() {
+        return FluentIterable.from(examplesList).skip(HEADER_SZ);
+    }
+
     public ScenarioOutlineExec recursiveCopy() {
         return recursiveCopy(Predicates.<Tags>alwaysTrue()).get();
     }
@@ -55,10 +61,10 @@ public class ScenarioOutlineExec extends StepContainer {
         };
     }
 
-    public int rowCount() {
+    public int exampleRowCount() {
         final AtomicInteger sum = new AtomicInteger();
         for (ExamplesExec examples : examples()) {
-            sum.addAndGet(examples.rowCount());
+            sum.addAndGet(examples.rowCount() - HEADER_SZ);
         }
         return sum.get();
     }

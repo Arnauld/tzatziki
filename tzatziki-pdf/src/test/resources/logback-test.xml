@@ -7,6 +7,7 @@
     </appender>
 
     <logger name="gutenberg" level="info"/>
+    <logger name="tzatziki.pdf" level="debug"/>
 
     <root level="info">
         <appender-ref ref="STDOUT"/>
