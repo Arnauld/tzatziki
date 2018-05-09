@@ -31,7 +31,7 @@ Feature: Making Even more Money
     # Represents the default daily activity
     # Basic statistics usage
 
-  @reporting
+  @reporting @noDrink
   Scenario: Statistics collect basic usage
 
     # **Report is queried** and generated on-the-fly.
@@ -46,7 +46,7 @@ Feature: Making Even more Money
     Total: 3.00€
     """
 
-  @reporting
+  @reporting @noDrink
   Scenario: Statistics collect basic usage
 
     When I order a "Coffee" with 5 sugar

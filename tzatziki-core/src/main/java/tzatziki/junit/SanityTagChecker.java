@@ -1,18 +1,5 @@
 package tzatziki.junit;
 
-import com.google.common.collect.Lists;
-import org.junit.Assert;
-import org.junit.runner.Description;
-import org.junit.runner.notification.RunNotifier;
-import org.junit.runners.ParentRunner;
-import org.junit.runners.model.FrameworkMethod;
-import org.junit.runners.model.InitializationError;
-import tzatziki.analysis.step.Feature;
-import tzatziki.analysis.step.FeatureParser;
-import tzatziki.analysis.step.Features;
-import tzatziki.analysis.tag.TagDictionary;
-import tzatziki.analysis.tag.TagDictionaryLoader;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -23,7 +10,28 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
+
+import org.junit.Assert;
+import org.junit.runner.Description;
+import org.junit.runner.notification.RunNotifier;
+import org.junit.runners.ParentRunner;
+import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.InitializationError;
+
+import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
+
+import tzatziki.analysis.check.CheckAllTagsExist;
+import tzatziki.analysis.check.CucumberPart;
+import tzatziki.analysis.check.TagChecker;
+import tzatziki.analysis.step.Feature;
+import tzatziki.analysis.step.FeatureParser;
+import tzatziki.analysis.step.Features;
+import tzatziki.analysis.tag.TagDictionary;
+import tzatziki.analysis.tag.TagDictionaryLoader;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -44,6 +52,8 @@ public class SanityTagChecker extends ParentRunner<FeatureTagRunner> {
         List<Throwable> errors = Lists.newArrayList();
         List<FrameworkMethod> dictionnaryMethods = providerMethods(errors, TagDictionaryProvider.class, TagDictionary.class);
         List<FrameworkMethod> featuresMethods = providerMethods(errors, FeaturesProvider.class, Features.class);
+        Optional<FrameworkMethod> checkerMethod = providerMethod(errors, TagCheckerProvider.class, TagChecker.class);
+        Optional<FrameworkMethod> scopeMethod = providerMethod(errors, CheckScopeProvider.class, Set.class);
 
         if (!errors.isEmpty()) {
             throw new InitializationError(errors);
@@ -58,13 +68,17 @@ public class SanityTagChecker extends ParentRunner<FeatureTagRunner> {
             }
         }
 
+        // default to initial implementation behavior
+        TagChecker checker = invokeOptionalFrameworkMethod(checkerMethod, new CheckAllTagsExist());
+        Set<CucumberPart> scope = invokeOptionalFrameworkMethod(scopeMethod, EnumSet.allOf(CucumberPart.class));
+
         Class<?> testClass = getTestClass().getJavaClass();
         List<FeatureTagRunner> children = Lists.newArrayList();
         for (FrameworkMethod method : featuresMethods) {
             try {
                 Features features = (Features) method.invokeExplosively(null);
                 for (Feature feature : features.features()) {
-                    FeatureTagRunner runner = new FeatureTagRunner(testClass, feature, tagDictionary);
+                    FeatureTagRunner runner = new FeatureTagRunner(testClass, feature, tagDictionary, checker, scope);
                     children.add(runner);
                 }
             } catch (Throwable err) {
@@ -73,7 +87,41 @@ public class SanityTagChecker extends ParentRunner<FeatureTagRunner> {
         }
         return children;
     }
+    
+    @SuppressWarnings("unchecked")
+    private <T> T invokeOptionalFrameworkMethod(Optional<FrameworkMethod> providerMethod, T defaultResult) throws InitializationError {
+        // avoid transform of Optional for readability
+        T result = null;
+        try {
+            if (providerMethod.isPresent()) {
+                result = (T) providerMethod.get().invokeExplosively(null);
+            }
+        } catch (Throwable err) {
+            throw new InitializationError(err);
+        }
+        if (result == null) {
+            // default to initial implementation behavior
+            result = defaultResult;
+        }
+        return result;
+    }
 
+    private Optional<FrameworkMethod> providerMethod(List<Throwable> errors,
+            Class<? extends Annotation> annotationClass,
+            Class<?> returnType) throws InitializationError {
+        List<FrameworkMethod> annotatedMethods = getTestClass().getAnnotatedMethods(annotationClass);
+
+        if (annotatedMethods.size() > 1) {
+            throw new InitializationError("Too many methods annotated with " + annotationClass.getSimpleName() + " found");
+        }
+        
+        for (FrameworkMethod method : annotatedMethods) {
+            validatePublicStatic(method, returnType, errors);
+        }
+        
+        return Optional.fromNullable(annotatedMethods.isEmpty() ? null : annotatedMethods.get(0));
+    }
+    
     private List<FrameworkMethod> providerMethods(List<Throwable> errors,
                                                   Class<? extends Annotation> annotationClass,
                                                   Class<?> returnType) throws InitializationError {
@@ -148,7 +196,7 @@ public class SanityTagChecker extends ParentRunner<FeatureTagRunner> {
             super(message);
         }
     }
-
+    
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
     @Documented
@@ -160,4 +208,18 @@ public class SanityTagChecker extends ParentRunner<FeatureTagRunner> {
     @Documented
     public @interface FeaturesProvider {
     }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    @Documented
+    public @interface TagCheckerProvider {
+    }
+    
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    @Documented
+    public @interface CheckScopeProvider {
+    }
+    
+   
 }
