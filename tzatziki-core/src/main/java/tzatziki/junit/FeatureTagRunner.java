@@ -1,20 +1,24 @@
 package tzatziki.junit;
 
-import com.google.common.collect.Lists;
-import org.junit.Assert;
+import static org.junit.runner.Description.createTestDescription;
+
+import java.util.List;
+import java.util.Set;
+
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
+
+import com.google.common.collect.Lists;
+
+import tzatziki.analysis.check.CucumberPart;
+import tzatziki.analysis.check.TagChecker;
 import tzatziki.analysis.step.Feature;
 import tzatziki.analysis.step.Scenario;
 import tzatziki.analysis.step.ScenarioOutline;
 import tzatziki.analysis.tag.TagDictionary;
-
-import java.util.List;
-
-import static org.junit.runner.Description.createTestDescription;
 
 /**
  * @author <a href="http://twitter.com/aloyer">@aloyer</a>
@@ -23,25 +27,34 @@ public class FeatureTagRunner extends ParentRunner<FeatureTagRunner.TagCheck> {
 
     private final Feature feature;
     private final TagDictionary tagDictionary;
+    private final TagChecker tagChecker;
     private final List<TagCheck> children;
     private Description description;
+    private Set<CucumberPart> scopeToTest;
 
-    public FeatureTagRunner(Class<?> klazz, Feature feature, TagDictionary tagDictionary) throws InitializationError {
+    public FeatureTagRunner(Class<?> klazz, Feature feature, TagDictionary tagDictionary, TagChecker tagChecker, Set<CucumberPart> scopeToTest) throws InitializationError {
         super(klazz);
         this.feature = feature;
         this.tagDictionary = tagDictionary;
+        this.tagChecker = tagChecker;
+        this.scopeToTest = scopeToTest;
         this.children = initChildren();
     }
 
     private List<TagCheck> initChildren() {
         List<TagCheck> children = Lists.newArrayList();
-        children.add(new TagCheck(createTestDescription(feature.uri(), feature.name()), feature.getTags(), tagDictionary));
+        if (scopeToTest.contains(CucumberPart.Feature)) {
+            children.add(new TagCheck(createTestDescription(feature.uri(), feature.name()), feature.getTags(), tagDictionary, tagChecker));
+        }
 
-        for (Scenario scenario : feature.scenario())
-            children.add(new TagCheck(createTestDescription(feature.uri(), scenario.getVisualName()), scenario.getTags(), tagDictionary));
-        for (ScenarioOutline outline : feature.scenarioOutlines())
-            children.add(new TagCheck(createTestDescription(feature.uri(), outline.getVisualName()), outline.getTags(), tagDictionary));
-
+        if (scopeToTest.contains(CucumberPart.Scenario)) {
+            for (Scenario scenario : feature.scenario())
+                children.add(new TagCheck(createTestDescription(feature.uri(), scenario.getVisualName()), scenario.getTags(), tagDictionary, tagChecker));
+        }
+        if (scopeToTest.contains(CucumberPart.ScenarioOutline)) {
+            for (ScenarioOutline outline : feature.scenarioOutlines())
+                children.add(new TagCheck(createTestDescription(feature.uri(), outline.getVisualName()), outline.getTags(), tagDictionary, tagChecker));
+        }
         return children;
     }
 
@@ -70,17 +83,18 @@ public class FeatureTagRunner extends ParentRunner<FeatureTagRunner.TagCheck> {
     protected void runChild(TagCheck child, RunNotifier notifier) {
         runLeaf(child, child.getDescription(), notifier);
     }
-
+    
     public static class TagCheck extends Statement {
-
         private final Description description;
         private final List<String> tags;
         private final TagDictionary dictionary;
+        private final TagChecker checker;
 
-        public TagCheck(Description description, List<String> tags, TagDictionary dictionary) {
+        public TagCheck(Description description, List<String> tags, TagDictionary dictionary, TagChecker checker) {
             this.description = description;
             this.tags = tags;
             this.dictionary = dictionary;
+            this.checker = checker;
         }
 
         public Description getDescription() {
@@ -89,13 +103,7 @@ public class FeatureTagRunner extends ParentRunner<FeatureTagRunner.TagCheck> {
 
         @Override
         public void evaluate() throws Throwable {
-            List<String> unknown = Lists.newArrayList();
-            for (String tag : tags) {
-                if (!dictionary.containsTag(tag))
-                    unknown.add(tag);
-            }
-            if (!unknown.isEmpty())
-                Assert.fail("Unknown tag(s): " + unknown);
+            checker.evaluate(dictionary, tags);
         }
     }
 }

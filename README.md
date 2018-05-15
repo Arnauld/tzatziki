@@ -596,4 +596,38 @@ public class CoffeeMachineTagCheckTest {
 }
 ```
 
+### Check extension
+Default check ensures all tags exist in the dictionary. If you want to
+assess that you cover a full perimeter you can use a distinct TagChecker
+
+```java
+
+    @SanityTagChecker.TagDictionaryProvider
+    public static TagDictionary tagDictionary() {
+        return new TagDictionary()
+                .declareTag("@coffee")
+                .declareTag("@tea")
+                .declareTag("@chocolate")
+                .declareTag("@orangeJuice")
+                .declareTag("@noDrink")
+                ;
+    }
+
+    @SanityTagChecker.FeaturesProvider
+    public static Features features() {
+        String basedir = new TestSettings().getBaseDir();
+        return loadFeaturesFromSourceDirectory(new File(basedir, "src/main/resources/samples/coffeemachine"));
+    }
+    
+    @SanityTagChecker.TagCheckerProvider
+    public static TagChecker checker() {
+        return new CheckAtLeastOneTagsExist();
+    }
+
+    @SanityTagChecker.CheckScopeProvider
+    public static Set<CucumberPart> scope() {
+        return EnumSet.of(CucumberPart.Scenario);
+    }
+```
+
 

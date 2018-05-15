@@ -1,16 +1,23 @@
 package tzatziki.junit;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.File;
+import java.util.EnumSet;
+import java.util.Set;
+
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
+import org.junit.runner.notification.Failure;
+
 import tzatziki.TestSettings;
+import tzatziki.analysis.check.CheckAtLeastOneTagsExist;
+import tzatziki.analysis.check.CucumberPart;
+import tzatziki.analysis.check.TagChecker;
 import tzatziki.analysis.step.Features;
 import tzatziki.analysis.tag.TagDictionary;
-
-import java.io.File;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class SanityTagCheckerTest {
 
@@ -151,6 +158,7 @@ public class SanityTagCheckerTest {
                     .declareTag("@tea")
                     .declareTag("@chocolate")
                     .declareTag("@orangeJuice")
+                    .declareTag("@noDrink")
                     .declareTag("@sugar")
                     .declareTag("@noSugar")
                     .declareTag("@extraHot")
@@ -171,6 +179,44 @@ public class SanityTagCheckerTest {
     private static Features coffeeMachineFeatures() {
         String basedir = new TestSettings().getBaseDir();
         return SanityTagChecker.loadFeaturesFromSourceDirectory(new File(basedir, "src/test/resources/tzatziki/junit/coffeemachine"));
+    }
+
+    @RunWith(SanityTagChecker.class)
+    public static class MissingTypologyTags {
+        @SanityTagChecker.TagDictionaryProvider
+        public static TagDictionary tagDictionary() {
+            return new TagDictionary()
+	            .declareTag("@coffee")
+	            .declareTag("@tea")
+	            .declareTag("@chocolate")
+	            .declareTag("@orangeJuice");
+        }
+
+        @SanityTagChecker.FeaturesProvider
+        public static Features features() {
+            return coffeeMachineFeatures();
+        }
+
+        @SanityTagChecker.TagCheckerProvider
+        public static TagChecker checker() {
+            return new CheckAtLeastOneTagsExist();
+        }
+
+        @SanityTagChecker.CheckScopeProvider
+        public static Set<CucumberPart> scope() {
+            return EnumSet.of(CucumberPart.Scenario);
+        }
+    }
+
+    @Test
+    public void should_fail_when_not_using_typology_tag() {
+        JUnitCore unitCore = new JUnitCore();
+        Result result = unitCore.run(MissingTypologyTags.class);
+        assertThat(result.getFailures()).isNotEmpty();
+        assertThat(result.wasSuccessful()).isFalse();
+        for (Failure failure : result.getFailures()) {
+			assertThat(failure.getMessage()).contains("@noDrink");
+		}
     }
 
 

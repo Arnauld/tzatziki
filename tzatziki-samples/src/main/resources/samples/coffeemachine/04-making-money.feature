@@ -39,7 +39,7 @@ Feature: Making Money
     Total: 3.00€
     """
 
-  @reporting
+  @reporting @noDrink
   Scenario: Statistics collect no usage
 
     #```ditaa
