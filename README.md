@@ -21,7 +21,7 @@ A complete example of a pdf report generated using tzatziki can be found here [S
 
 ### Maven dependency
 
-Last released version: `0.15.1`
+Last released version: `0.16.0`
 
 **For pdf reporting:**
 
@@ -618,7 +618,7 @@ assess that you cover a full perimeter you can use a distinct TagChecker
         String basedir = new TestSettings().getBaseDir();
         return loadFeaturesFromSourceDirectory(new File(basedir, "src/main/resources/samples/coffeemachine"));
     }
-    
+
     @SanityTagChecker.TagCheckerProvider
     public static TagChecker checker() {
         return new CheckAtLeastOneTagsExist();
@@ -629,5 +629,3 @@ assess that you cover a full perimeter you can use a distinct TagChecker
         return EnumSet.of(CucumberPart.Scenario);
     }
 ```
-
-
