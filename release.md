@@ -4,10 +4,8 @@ Release
 ## Jdk6 Compilation
 
 ```
-apps/boot2docker
-
-bash-3.2$ docker pull jamesdbloom/docker-java6-maven
-bash-3.2$ docker run -i -t jamesdbloom/docker-java6-maven /bin/bash
+$ docker pull jamesdbloom/docker-java6-maven
+$ docker run --rm -v $(pwd)/:/wk -w /wk -it jamesdbloom/docker-java6-maven /bin/bash
 [ root@4291b084fd0c:/local/git ]$ export LC_ALL="C.UTF-8"
 [ root@4291b084fd0c:/local/git ]$ export LANG="$LC_ALL"
 [ root@4291b084fd0c:/local/git ]$ git clone https://github.com/Arnauld/tzatziki.git
@@ -35,4 +33,3 @@ First check for **snapshot** dependencies:
     git commit -m "gutenberg 1.0.2-snapshot"
     git push
 ```
-
