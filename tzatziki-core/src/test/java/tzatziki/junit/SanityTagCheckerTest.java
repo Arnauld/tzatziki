@@ -158,6 +158,7 @@ public class SanityTagCheckerTest {
                     .declareTag("@tea")
                     .declareTag("@chocolate")
                     .declareTag("@orangeJuice")
+                    .declareTag("@noDrink")
                     .declareTag("@sugar")
                     .declareTag("@noSugar")
                     .declareTag("@extraHot")
